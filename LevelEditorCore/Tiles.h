@@ -3,9 +3,11 @@
 
 //Describes the possible Types for Tiles
 typedef enum {
-	UNKOWN,
-	NONE,
-	BACKGROUND,
+	_UNKOWN,
+	GRAPHIC_NONE,
+	LOGIC_NONE,
+	GRAPHIC_BACKGROUND,
+	LOGIC_BACKGROUND,
 	MAXCOUNT_OF_TYPES
 }TILETYPES;
 
