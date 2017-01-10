@@ -9,10 +9,15 @@ GameObj* createGameObjectHandle() {
 	return new GameObj;  //c++ feature;
 }
 
-void     initializeGameObj(GameObj* obj) {
+void     initializeGameObj(GameObj* obj, char*Title,int width, int height) {
+	
+	if (SDL_Init(SDL_INIT_EVERYTHING) == -1) {
+
+	}
+	
 	obj->CurrentStateIndex = -1;
 
-	obj->Window = SDL_CreateWindow("Test Fenster", 20, 20, 400, 400, SDL_WINDOW_SHOWN);
+	obj->Window = SDL_CreateWindow(Title, 20, 20, width, height, SDL_WINDOW_SHOWN);
 	if (obj->Window == NULL);//Error
 
 	obj->Renderer = SDL_CreateRenderer(obj->Window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);

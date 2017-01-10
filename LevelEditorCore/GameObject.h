@@ -18,7 +18,7 @@ struct GameObj
 
 //Creates GameObject in Memory
 GameObj* createGameObjectHandle();
-void     initializeGameObj(GameObj*);
+void     initializeGameObj(GameObj*,char*Title,int width,int height);
 
 void setActiveState(int index);
 
