@@ -17,3 +17,6 @@ void     initializeGameObj(GameObj*);
 
 void registerState(GameObj*, State);
 void deleteState(GameObj*, State);
+
+
+
