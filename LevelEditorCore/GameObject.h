@@ -1,22 +1,27 @@
 #pragma once
 #include "LevelEditor.h"
-#include "GameState.h"
+#include <SDL2\SDL.h>
+#include <vector>
 
-typedef struct GameObjectHandle
+
+struct GameState;
+struct GameObj
 {
-	State*		 CurrentState;
-	ManagedArray StateCollection;
+	int						 CurrentStateIndex;
+	std::vector<GameState*> Collection;
 
+	SDL_Window*				Window;
+	SDL_Renderer*			Renderer;
 	
-}GameObj;
+};
 
 
 //Creates GameObject in Memory
 GameObj* createGameObjectHandle();
 void     initializeGameObj(GameObj*);
 
-void registerState(GameObj*, State);
-void deleteState(GameObj*, State);
+void registerState(GameObj*, GameState*);
+void deleteState(GameObj*, GameState*);
 
 
 

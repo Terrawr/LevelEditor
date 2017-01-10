@@ -1,8 +1,9 @@
 #include <stdlib.h>
 #include <SDL2\SDL.h>
+#include <vector>
 
-#include "MenuState.h"
 #include "GameState.h"
+#include "GameObject.h"
 
 int gQuit = SDL_FALSE;
 
@@ -17,26 +18,19 @@ int main(int argc, char* argv[]) {
 		//Error
 	}
 
-	State States[4];
-
-	States[0].Update = MenuUpdate;
-	States[0].Render = MenuRender;
-	States[0].Input = MenuInput;
-
-	///...
-	///States[1].Update = GameUpdate;
-	///...
-	///...
-	///State[3].Update = IntroUpdate;
+	GameObj*  Root = createGameObjectHandle();
+	initializeGameObj(Root);
+	
 
 	while (!gQuit) {
-	
-		for (int i = 0; i < 4; i++)
+
+		for (auto State : Root->Collection)
 		{
-			States[i].Update();
-			States[i].Input();
-			States[i].Render();
+			State->Update(Root);
+			State->Input(Root);
+			State->Render(Root);
 		}
+	
 	}
 
 

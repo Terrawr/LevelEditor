@@ -3,7 +3,7 @@
 //Initialize an Managed Array
 Array* InitializeAndCreateArray(Iterator startadress, int size, int capacity, int type, int typesize, char* type_name) {
 	if (startadress == NULL) {
-		Array * ar = (Array*)malloc(sizeof(Array) + capacity);
+		Array * ar = (Array*)malloc(sizeof(Array) + capacity*typesize);
 
 		ar->CurrentCapacity = capacity;
 		if (size <= capacity)

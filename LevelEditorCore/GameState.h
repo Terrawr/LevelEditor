@@ -1,14 +1,21 @@
 #pragma once
 #include "LevelEditor.h"
+#include <vector>
 
+struct GameState;
+struct GameObj;
 //Functionpointer description
-typedef void changeState(struct GameState*);
-typedef void toProcess(struct GameState*, struct GameObject*);
 
-typedef struct GameState {
-	char*			Name;
-	int				ID;
-	ManagedArray	InternalStates; //TODO(jojo): Necessary? or maybe different?
+#define CHANGESTATE(name) void name()
+#define TOPROCESS(name) void name(GameObj*)
+
+typedef CHANGESTATE(changeState);
+typedef TOPROCESS(toProcess);
+
+struct GameState {
+	char*					Name;
+	int						ID;
+	std::vector<GameState*>	InternalStates; //TODO(jojo): Necessary? or maybe different?
 
 	//Must be coded for each State seperatly
 	changeState* onEnter;
@@ -21,4 +28,4 @@ typedef struct GameState {
 	toProcess*  Input;
 	toProcess*  Render;
 
-}State;
+};
