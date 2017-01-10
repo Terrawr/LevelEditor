@@ -2,13 +2,15 @@
 #include "LevelEditor.h"
 #include <SDL.h>
 #include <vector>
-
+#include <queue>
 
 struct GameState;
+struct Command;
 struct GameObj
 {
 	int						 CurrentStateIndex;
 	std::vector<GameState*>  Collection;
+	std::queue<Command>		 HolyCommands;
 
 	SDL_Window*				Window;
 	SDL_Renderer*			Renderer;
@@ -22,7 +24,7 @@ void     initializeGameObj(GameObj*,char*Title,int width,int height);
 
 void setActiveState(int index);
 
-void registerState(GameObj*, GameState*);
+void registerState(GameObj* obj, GameState*);
 void deleteState(GameObj*, GameState*);
 
 

@@ -16,7 +16,9 @@ TOPROCESS(SplashInput) {
 	while (SDL_PollEvent(&e))
 	{
 		if (e.type == SDL_QUIT)
-			exit(-1);
+		{
+
+		}
 	}
 }
 

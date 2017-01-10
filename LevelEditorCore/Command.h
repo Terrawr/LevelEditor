@@ -1,12 +1,11 @@
 #pragma once
 #include "LevelEditor.h"
+#include <functional>
 
-
-typename void** AnyFunction;
-
+struct GameObj;
 typedef struct COMMANDDESCRICPTION {
 
 	int				Type;
-	AnyFunction		CommandCallback;
+	std::function<void(GameObj*, float delta)>	action;
 
 }Command;
