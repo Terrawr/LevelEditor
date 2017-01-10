@@ -1,5 +1,6 @@
 #pragma once
 #include "../Array/Array.h"
+#include "../Stack/Stack.h
 
 //
 typedef struct COORDINATES {

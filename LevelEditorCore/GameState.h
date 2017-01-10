@@ -6,8 +6,9 @@ typedef void changeState(struct GameState*);
 typedef void toProcess(struct GameState*, struct GameObject*);
 
 typedef struct GameState {
-	char* Name;
-	int	  ID;
+	char*			Name;
+	int				ID;
+	ManagedArray	InternalStates; //TODO(jojo): Necessary? or maybe different?
 
 	//Must be coded for each State seperatly
 	changeState* onEnter;
