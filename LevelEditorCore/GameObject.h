@@ -8,9 +8,10 @@ struct GameState;
 struct Command;
 struct GameObj
 {
+	bool					 isRunning = false;
 	int						 CurrentStateIndex;
 	std::vector<GameState*>  Collection;
-	std::queue<Command>		 HolyCommands;
+	std::queue<Command*>		 HolyCommands;
 
 	SDL_Window*				Window;
 	SDL_Renderer*			Renderer;

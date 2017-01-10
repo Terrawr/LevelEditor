@@ -2,10 +2,25 @@
 #include "LevelEditor.h"
 #include <functional>
 
+typedef void ActionReference(GameObj*, float delta);
 struct GameObj;
-typedef struct COMMANDDESCRICPTION {
+struct Command {
 
 	int				Type;
-	std::function<void(GameObj*, float delta)>	action;
+	ActionReference*	action;
 
-}Command;
+};
+void test(GameObj* obj, float t) 
+{ 
+	printf("Callbackfunction of a Command!!!\n");
+	SDL_DestroyRenderer(obj->Renderer);
+	obj->Renderer = NULL;
+	SDL_DestroyWindow(obj->Window); 
+	obj->Window = NULL;
+};
+Command* createCommand(ActionReference* action, int type) {
+	Command* tmp = new Command;
+	tmp->action = action;
+	tmp->Type = type;
+	return tmp;
+};

@@ -20,29 +20,24 @@ int main(int argc, char* argv[])
 	SplashScreen.Update = SplashUpdate;
 	SplashScreen.Input = SplashInput;
 	SplashScreen.Render = SplashRender;
-
-	GameState SplashScreen2;
-	SplashScreen2.Update = SplashUpdate2;
-	SplashScreen2.Input = SplashInput2;
-	SplashScreen2.Render = SplashRender2;
+	SplashScreen.onEnter = SplashonEnter;
+	SplashScreen.onExit = SplashonExit;
 
 	registerState(Root, &SplashScreen);
-	registerState(Root, &SplashScreen2);
 	Root->CurrentStateIndex = 0;
 
-	while (!gQuit) {
+	while (!Root->isRunning) {
 
-		Root->Collection[Root->CurrentStateIndex]->Input(Root);
-		Root->Collection[Root->CurrentStateIndex]->Update(Root);
-		Root->Collection[Root->CurrentStateIndex]->Render(Root);
-
-		if (Root->CurrentStateIndex == 0)
-			Root->CurrentStateIndex = 1;
-		else
-			Root->CurrentStateIndex = 0;
+		if (!Root->Collection[Root->CurrentStateIndex]->isActive)
+			Root->Collection[Root->CurrentStateIndex]->onEnter(Root);
+		Root->Collection[Root->CurrentStateIndex]->Input(Root,0.016f);
+		Root->Collection[Root->CurrentStateIndex]->Update(Root, 0.016f);
+		Root->Collection[Root->CurrentStateIndex]->Render(Root, 0.016f);
 	
 	}
 
+	getchar();
+	getchar();
 
 	return 0;
 }
