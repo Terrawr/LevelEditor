@@ -13,24 +13,24 @@ typedef struct ElementMetaData {
 	int				type;
 	int				typesize;
 	char*			type_name;
-	Data			ReferenceTableToData; //You Iterator through this here!!!!
+	Data			ReferenceTableToData; //You Iterate through this here!!!!
 }Element;
 
 typedef struct ManagedArray {
 	Iterator BeginIter,
-		EndIter,
-		CursorIter;
+			 EndIter,
+			 CursorIter;
 
 	int    CurrentCapacity;  //private Max Offset
 
 	int    ArraySize;		//public Max Offset. May not exceed CurrentCapacity
 	int    CurrentUse;		//Offset to the latest added Element
 
-	Element ManagedData;			//contains the actuall data stored as Pointer of Pointer of Void ( void** )
+	Element ManagedData;	//contains the actuall data stored as Pointer of Pointer of Void ( void** )
 }Array;
 
 //Initialize an Managed Array
-Array* InitilaizeArray(Iterator startadress, int size, int capacity, int type, int typesize, char* type_name);
+Array* InitializeAndCreateArray(Iterator startadress, int size, int capacity, int type, int typesize, char* type_name);
 void   DestroyArray(Array* ar);
 
 Array* resize(Array*, int size);
@@ -58,15 +58,15 @@ Iterator array_at(int index);
 void     array_insertIterator(Iterator insertionPoint, Data data);
 
 //Returns the first Iterator ReadOnly
-inline Iterator begin(Array* ar);
+Iterator begin(Array* ar);
 //Returns the R/W Iterator of the Cursor;
-inline Iterator current(Array*ar);
+ Iterator current(Array*ar);
 //returns the previous iterator relative to the cursor
-inline Iterator previous(Array*ar);
+ Iterator previous(Array*ar);
 //returns the next iterator relative to the cursor
-inline Iterator next(Array* ar);
+ Iterator next(Array* ar);
 //Returns the current last iterator. ReadOnly
-inline Iterator end(Array* ar);
+ Iterator end(Array* ar);
 
 /*
 * @Name: find

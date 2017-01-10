@@ -1,7 +1,7 @@
 #include "Array.h"
 
 //Initialize an Managed Array
-Array* InitilaizeArray(Iterator startadress, int size, int capacity, int type, int typesize, char* type_name) {
+Array* InitializeAndCreateArray(Iterator startadress, int size, int capacity, int type, int typesize, char* type_name) {
 	if (startadress == NULL) {
 		Array * ar = (Array*)malloc(sizeof(Array) + capacity);
 
@@ -78,15 +78,15 @@ void     array_insertIterator(Iterator insertionPoint, Data data) {
 }
 
 //Returns the first Iterator ReadOnly
-inline Iterator begin(Array* ar) { return ar->BeginIter; };
+ Iterator begin(Array* ar) { return ar->BeginIter; };
 //Returns the R/W Iterator of the Cursor;
-inline Iterator current(Array*ar) { return ar->CursorIter; }
+ Iterator current(Array*ar) { return ar->CursorIter; }
 //returns the previous iterator relative to the cursor
-inline Iterator previous(Array*ar) { return --ar->CursorIter; }
+ Iterator previous(Array*ar) { return --ar->CursorIter; }
 //returns the next iterator relative to the cursor
-inline Iterator next(Array* ar) { return ++ar->CursorIter; }
+ Iterator next(Array* ar) { return ++ar->CursorIter; }
 //Returns the current last iterator. ReadOnly
-inline Iterator end(Array* ar) { return ar->EndIter; }
+ Iterator end(Array* ar) { return ar->EndIter; }
 
 /*
 * @Name: find
