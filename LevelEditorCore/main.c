@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <SDL2\SDL.h>
 
+#include "MenuState.h"
+#include "GameState.h"
 
 int gQuit = SDL_FALSE;
 
@@ -15,10 +17,26 @@ int main(int argc, char* argv[]) {
 		//Error
 	}
 
+	State States[4];
+
+	States[0].Update = MenuUpdate;
+	States[0].Render = MenuRender;
+	States[0].Input = MenuInput;
+
+	///...
+	///States[1].Update = GameUpdate;
+	///...
+	///...
+	///State[3].Update = IntroUpdate;
+
 	while (!gQuit) {
-		void processInput();
-		void UpdateWorld();
-		void DrawWorld();
+	
+		for (int i = 0; i < 4; i++)
+		{
+			States[i].Update();
+			States[i].Input();
+			States[i].Render();
+		}
 	}
 
 
