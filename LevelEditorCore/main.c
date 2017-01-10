@@ -1,5 +1,5 @@
 // "name" of that game? 
-//any ideas?
+//any ideas??
 
 #include <stdlib.h>
 #include <SDL2\SDL.h>
