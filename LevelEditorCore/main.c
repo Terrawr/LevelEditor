@@ -1,3 +1,6 @@
+// "name" of that game? 
+//any ideas?
+
 #include <stdlib.h>
 #include <SDL2\SDL.h>
 
