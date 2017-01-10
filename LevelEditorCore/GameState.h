@@ -7,10 +7,11 @@ struct GameObj;
 //Functionpointer description
 
 #define CHANGESTATE(name) void name()
-#define TOPROCESS(name) void name(GameObj*)
+#define TOPROCESS(name) void name(GameObj* obj)
 
 typedef CHANGESTATE(changeState);
 typedef TOPROCESS(toProcess);
+
 
 struct GameState {
 	char*					Name;

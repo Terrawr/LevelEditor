@@ -8,7 +8,7 @@ struct GameState;
 struct GameObj
 {
 	int						 CurrentStateIndex;
-	std::vector<GameState*> Collection;
+	std::vector<GameState*>  Collection;
 
 	SDL_Window*				Window;
 	SDL_Renderer*			Renderer;
@@ -19,6 +19,8 @@ struct GameObj
 //Creates GameObject in Memory
 GameObj* createGameObjectHandle();
 void     initializeGameObj(GameObj*);
+
+void setActiveState(int index);
 
 void registerState(GameObj*, GameState*);
 void deleteState(GameObj*, GameState*);

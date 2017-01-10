@@ -39,6 +39,9 @@
     <ClInclude Include="SplashScreen.h">
       <Filter>Header Files\GameDepended</Filter>
     </ClInclude>
+    <ClInclude Include="Splashscreen2.h">
+      <Filter>Header Files\GameDepended</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

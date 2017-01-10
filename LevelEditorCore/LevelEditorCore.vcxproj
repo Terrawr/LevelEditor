@@ -132,6 +132,7 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="LevelEditor.h" />
     <ClInclude Include="SplashScreen.h" />
+    <ClInclude Include="Splashscreen2.h" />
     <ClInclude Include="Tiles.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
