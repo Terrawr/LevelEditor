@@ -18,7 +18,9 @@ typedef TOPROCESS(toProcess);
 struct GameState {
 	char*					Name;
 	int						ID;
-	bool						isActive = false;
+	bool					isInitialized = false;;
+	bool					isActive = false;
+	bool					isOnPause = false;
 	std::vector<GameState*>	InternalStates; //TODO(jojo): Necessary? or maybe different?
 
 	//Must be coded for each State seperatly

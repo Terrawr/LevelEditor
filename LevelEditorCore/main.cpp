@@ -23,8 +23,16 @@ int main(int argc, char* argv[])
 		auto timePoint1(std::chrono::high_resolution_clock::now());
 
 		if (!Root->Collection.empty()) {
-			if (!Root->Collection[Root->CurrentStateIndex]->isActive)
+
+			if (!Root->Collection[Root->CurrentStateIndex]->isInitialized)
 				Root->Collection[Root->CurrentStateIndex]->onEnter(Root);
+
+			if (!Root->Collection[Root->CurrentStateIndex]->isActive)
+				Root->Collection[Root->CurrentStateIndex]->onResume(Root);
+
+			if (!Root->Collection[Root->CurrentStateIndex]->isOnPause)
+				Root->Collection[Root->CurrentStateIndex]->onPause(Root);
+
 			Root->Collection[Root->CurrentStateIndex]->Input(Root, lastFrameTime);
 			Root->Collection[Root->CurrentStateIndex]->Update(Root, lastFrameTime);
 			Root->Collection[Root->CurrentStateIndex]->Render(Root, lastFrameTime);
