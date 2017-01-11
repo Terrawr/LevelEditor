@@ -30,12 +30,14 @@ void initializeGameObj(GameObj* obj, char*Title,int width, int height) {
 		//Error
 	}
 
-	obj->Renderer = SDL_CreateRenderer(obj->Window, -1, SDL_RENDERER_ACCELERATED);
+	obj->Renderer = SDL_CreateRenderer(obj->Window, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
 	if (obj->Renderer == NULL) {
 		//error
 	}
 
 	obj->CurrentStateIndex = -1;
+	obj->Width = width;
+	obj->Height = height;
 }
 
 void registerState(GameObj* obj, GameState* state) {

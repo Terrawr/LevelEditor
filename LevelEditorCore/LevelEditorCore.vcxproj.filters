@@ -57,6 +57,9 @@
     <ClInclude Include="RessourceManager.h">
       <Filter>Header Files\GameIndependend</Filter>
     </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files\GameIndependend</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

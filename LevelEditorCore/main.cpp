@@ -8,6 +8,7 @@
 
 #include "SplashScreen.h"
 #include "Splashscreen2.h"
+#include "EditorState.h"
 
 int gQuit = SDL_FALSE;
 
@@ -15,7 +16,21 @@ int gQuit = SDL_FALSE;
 int main(int argc, char* argv[]) 
 {
 	GameObj*  Root = createGameObjectHandle();
-	initializeGameObj(Root,"LevelEditor",800,600);
+	initializeGameObj(Root,"LevelEditor", 1440,786);
+
+
+	GameState LevelEditor;
+	LevelEditor.onEnter = EditorOnEnterState;
+	LevelEditor.onExit = EditorOnExitState;
+	LevelEditor.onPause= EditorOnPauseState;
+	LevelEditor.onResume = EditorOnResumeState;
+
+	LevelEditor.Update = EditorUpdate;
+	LevelEditor.Render = EditorRender;
+	LevelEditor.Input = EditorInput;
+	
+	registerState(Root, &LevelEditor);
+	Root->CurrentStateIndex = 0;
 
 	float lastFrameTime = 0;
 	while (!Root->isRunning) {
@@ -27,10 +42,10 @@ int main(int argc, char* argv[])
 			if (!Root->Collection[Root->CurrentStateIndex]->isInitialized)
 				Root->Collection[Root->CurrentStateIndex]->onEnter(Root);
 
-			if (!Root->Collection[Root->CurrentStateIndex]->isActive)
+			if (Root->Collection[Root->CurrentStateIndex]->isActive)
 				Root->Collection[Root->CurrentStateIndex]->onResume(Root);
 
-			if (!Root->Collection[Root->CurrentStateIndex]->isOnPause)
+			if (Root->Collection[Root->CurrentStateIndex]->isOnPause)
 				Root->Collection[Root->CurrentStateIndex]->onPause(Root);
 
 			Root->Collection[Root->CurrentStateIndex]->Input(Root, lastFrameTime);

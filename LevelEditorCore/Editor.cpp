@@ -3,6 +3,8 @@
 #include "GameObject.h"
 #include <string>
 
+//Structs
+
 
 //Globals
 
@@ -11,21 +13,22 @@
 ///State Initialization/////////////////
 CHANGESTATE(EditorOnEnterState) {
 
+	obj->Collection[obj->CurrentStateIndex]->isInitialized = true;
 }
 
 ///State destruction/////////////////
 CHANGESTATE(EditorOnExitState) {
-
+	obj->Collection[obj->CurrentStateIndex]->isInitialized = false;
 }
 
 ///State pausing/////////////////
 CHANGESTATE(EditorOnPauseState) {
-
+	obj->Collection[obj->CurrentStateIndex]->isActive = false;
 }
 
 ///State unpausing/////////////////
 CHANGESTATE(EditorOnResumeState) {
-
+	obj->Collection[obj->CurrentStateIndex]->isOnPause = false;
 }
 
 

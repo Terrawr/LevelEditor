@@ -141,6 +141,7 @@
     <ClInclude Include="RessourceManager.h" />
     <ClInclude Include="SplashScreen.h" />
     <ClInclude Include="Splashscreen2.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Tiles.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -51,7 +51,7 @@ CHANGESTATE(SplashonEnter) {
 	rect.x = 50;
 	rect.y = 100;
 
-	obj->Collection[obj->CurrentStateIndex]->isActive = true;
+	obj->Collection[obj->CurrentStateIndex]->isInitialized = true;
 }
 CHANGESTATE(SplashonExit) {
 	printf("Exit State\n");
@@ -97,9 +97,29 @@ TOPROCESS(SplashUpdate) {
 		}break;
 		}
 	}
-/*
-	rect.x += (dx * delta) * speedx;
-	rect.y += (dy * delta) * speedy;*/
+
+	rect.x += (dx * 0.016) * speedx;
+	rect.y += (dy * 0.016) * speedy;
+
+	/* collide with edges of screen */
+	if (rect.x < 0) {
+		rect.x = 0;
+		speedx = -speedx;
+		dx += speedx;
+	}
+	else if (rect.x > obj->Width - rect.w) {
+		rect.x = obj->Width - rect.w;
+		speedx = -speedx;
+	}
+	if (rect.y < 0) {
+		rect.y = 0;
+		speedy = -speedy;
+		dy += speedy;
+	}
+	else if (rect.y > obj->Height - rect.h) {
+		rect.y = obj->Height - rect.h;
+		speedy = -speedy;
+	}
 	
 
 }
@@ -239,25 +259,7 @@ TOPROCESS(SplashInput) {
 
 	
 
-	/* collide with edges of screen */
-	if (rect.x < 0) {
-		rect.x = 0;
-		speedx = -speedx;
-		dx += speedx;
-	}
-	else if (rect.x > 800 - rect.w) {
-		rect.x = 800 - rect.w;
-		speedx = -speedx;
-	}
-	if (rect.y < 0) {
-		rect.y = 0;
-		speedy = -speedy;
-		dy += speedy;
-	}
-	else if (rect.y > 600 - rect.h) {
-		rect.y = 600 - rect.h;
-		speedy = -speedy;
-	}
+	
 }
 
 
