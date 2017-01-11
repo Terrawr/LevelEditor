@@ -13,11 +13,11 @@ struct GameObj
 	std::vector<GameState*>  Collection;
 	std::queue<Command*>		 HolyCommands;
 
+	int						Width, Height;
+	int						MouseX, MouseY;
+
 	SDL_Window*				Window;
 	SDL_Renderer*			Renderer;
-
-	int						Width, Height;
-	
 };
 
 
