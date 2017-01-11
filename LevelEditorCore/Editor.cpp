@@ -1,5 +1,6 @@
 //Includes
 #include "GameState.h"
+#include "GameObject.h"
 #include <string>
 
 
@@ -35,6 +36,14 @@ TOPROCESS(EditorUpdate) {
 }
 
 TOPROCESS(EditorInput) {
+	SDL_Event e;
+	while (SDL_PollEvent(&e))
+	{
+		if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE)
+		{
+			obj->isRunning = true;
+		}
+	}
 
 }
 

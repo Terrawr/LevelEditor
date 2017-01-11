@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
 			Root->Collection[Root->CurrentStateIndex]->Input(Root, lastFrameTime);
 			Root->Collection[Root->CurrentStateIndex]->Update(Root, lastFrameTime);
 			Root->Collection[Root->CurrentStateIndex]->Render(Root, lastFrameTime);
-		} else{
+		} else {
 			SDL_Event e;
 			while (SDL_PollEvent(&e))
 			{
