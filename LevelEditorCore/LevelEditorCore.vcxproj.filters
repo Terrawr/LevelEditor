@@ -19,6 +19,12 @@
     <Filter Include="Header Files\GameDepended">
       <UniqueIdentifier>{05ac3f3a-0533-436d-b433-c7b99a0b27b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameDepended\GameStates">
+      <UniqueIdentifier>{9794ddee-f553-405a-9a1c-e291154b557f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameStates">
+      <UniqueIdentifier>{d912501b-184d-4027-92a2-1f4f4793b33e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Command.h">
@@ -37,10 +43,10 @@
       <Filter>Header Files\GameIndependend</Filter>
     </ClInclude>
     <ClInclude Include="SplashScreen.h">
-      <Filter>Header Files\GameDepended</Filter>
+      <Filter>Header Files\GameDepended\GameStates</Filter>
     </ClInclude>
     <ClInclude Include="Splashscreen2.h">
-      <Filter>Header Files\GameDepended</Filter>
+      <Filter>Header Files\GameDepended\GameStates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -51,7 +57,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SplashScreen.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GameStates</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

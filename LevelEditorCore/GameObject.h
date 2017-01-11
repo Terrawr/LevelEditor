@@ -15,6 +15,8 @@ struct GameObj
 
 	SDL_Window*				Window;
 	SDL_Renderer*			Renderer;
+
+	int						Width, Height;
 	
 };
 

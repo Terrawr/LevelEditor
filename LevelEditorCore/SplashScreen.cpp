@@ -3,31 +3,45 @@
 #include "Command.h"
 #include "SplashScreen.h"
 
-#define DELTATIME 0.032f
+
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+#define DELTATIME 1.f
 SDL_Rect rect;
 
 int dy = 100, dx = 100, speedx = 1,speedy = 1;
+int directx, directy;
 
 static void moveright(GameObj* obj, float dt) {
 
-	rect.x += (int) (80.f * dt);
+
+	rect.x += (int) (speedx * dt);
 
 };
 static void moveleft(GameObj* obj, float dt) {
 
-	rect.x -= (int)(80.f * dt);
+	rect.x -= (int) (speedx * dt);
 
 };
 static void moveup(GameObj* obj, float dt) {
 
-	rect.y -= (int)(80.f * dt);
+	rect.y -= (int) (speedy * dt);
 
 };
 static void movedown(GameObj* obj, float dt) {
 
-	rect.y += (int)(80.f * dt);
+	rect.y += (int) (speedy * dt);
 
 };
+
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+//////////Implemention of the public Interface///////////////////////
 
 CHANGESTATE(SplashonEnter) {
 	printf("Enter State\n");
@@ -83,6 +97,9 @@ TOPROCESS(SplashUpdate) {
 		}break;
 		}
 	}
+/*
+	rect.x += (dx * delta) * speedx;
+	rect.y += (dy * delta) * speedy;*/
 	
 
 }
@@ -114,32 +131,77 @@ TOPROCESS(SplashInput) {
 		{
 			switch (e.key.keysym.sym)
 			{
-				case SDLK_ESCAPE: {
-					Command* cmd = createCommand(test, EXIT);
-					obj->HolyCommands.push(cmd);
+			case SDLK_ESCAPE: {
+				Command* cmd = createCommand(test, EXIT);
+				obj->HolyCommands.push(cmd);
 
-				}break;
+			}break;
+			case SDLK_d: {
+				directx = 1;
+
+
+			}break;
+			case SDLK_a: {
+				Command* cmd = createCommand(moveleft, MOVELEFT);
+				obj->HolyCommands.push(cmd);
+
+			}break;
+			case SDLK_w: {
+				Command* cmd = createCommand(moveup, MOVEUP);
+				obj->HolyCommands.push(cmd);
+
+			}break;
+			case SDLK_s: {
+				Command* cmd = createCommand(movedown, MOVEDOWN);
+				obj->HolyCommands.push(cmd);
+
+			}break;
+
+
+
+			}
+			if (e.type == SDL_KEYUP)
+			{
+				switch (e.key.keysym.sym)
+				{
+					/*	case SDLK_ESCAPE: {
+							Command* cmd = createCommand(test, EXIT);
+							obj->HolyCommands.push(cmd);
+
+						}break;*/
 				case SDLK_d: {
-					Command* cmd = createCommand(moveright, MOVERIGHT);
-					obj->HolyCommands.push(cmd);
+					directx = 0;
+
 
 				}break;
-				case SDLK_a: {
-					Command* cmd = createCommand(moveleft, MOVELEFT);
-					obj->HolyCommands.push(cmd);
+					/*	case SDLK_a: {
+							Command* cmd = createCommand(moveleft, MOVELEFT);
+							obj->HolyCommands.push(cmd);
 
-				}break;
-				case SDLK_w: {
-					Command* cmd = createCommand(moveup, MOVEUP);
-					obj->HolyCommands.push(cmd);
+						}break;
+						case SDLK_w: {
+							Command* cmd = createCommand(moveup, MOVEUP);
+							obj->HolyCommands.push(cmd);
 
-				}break;
-				case SDLK_s: {
-					Command* cmd = createCommand(movedown, MOVEDOWN);
-					obj->HolyCommands.push(cmd);
+						}break;
+						case SDLK_s: {
+							Command* cmd = createCommand(movedown, MOVEDOWN);
+							obj->HolyCommands.push(cmd);
 
-				}break;
+						}break;
+		*/
 
+
+				}
+
+				
+			}
+
+			if (directx == 1)
+			{
+				/*Command* cmd = createCommand(moveright, MOVERIGHT);
+				obj->HolyCommands.push(cmd);*/
+				rect.x += 1;
 			}
 		}
 	}
@@ -176,8 +238,7 @@ TOPROCESS(SplashInput) {
 		obj->HolyCommands.push(cmd);
 	}
 
-	rect.x += (dx * delta) * speedx;
-	rect.y += (dy * delta) * speedy;
+	
 
 	/* collide with edges of screen */
 	if (rect.x < 0) {
