@@ -1,7 +1,10 @@
 #include "GameObject.h"
-
+#include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+
+static int screenwidth = 0;
+static int screenheight = 0;
 
 //GameObj* createGameObjectHandle() {
 //	GameObj* tmp = (GameObj*) malloc(sizeof(GameObj));
@@ -10,6 +13,30 @@
 
 GameObj* createGameObjectHandle() {
 	return new GameObj;  //c++ feature;
+}
+
+void GetResolution()
+{
+	int i;
+
+	SDL_DisplayMode currentscreen;
+
+
+	// Get current display mode of all displays.
+	for (i = 0; i < SDL_GetNumVideoDisplays(); ++i) {
+
+		int should_be_zero = SDL_GetCurrentDisplayMode(i, &currentscreen);
+
+		if (should_be_zero != 0)
+			// In case of error...
+			SDL_Log("Could not get display mode for video display #%d: %s", i, SDL_GetError());
+
+		else
+			// On success, print the current display mode.
+			SDL_Log("Display #%d: current display mode is %dx%dpx @ %dhz.", i, currentscreen.w, currentscreen.h, currentscreen.refresh_rate);
+
+		screenheight = currentscreen.h;
+		screenwidth = currentscreen.w;
 }
 
 void initializeGameObj(GameObj* obj, char*Title,int width, int height) {
