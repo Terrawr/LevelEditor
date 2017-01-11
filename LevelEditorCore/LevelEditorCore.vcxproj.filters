@@ -25,6 +25,9 @@
     <Filter Include="Source Files\GameStates">
       <UniqueIdentifier>{d912501b-184d-4027-92a2-1f4f4793b33e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameIndependend\Editor">
+      <UniqueIdentifier>{b8db6235-202b-49fb-aa10-724207f25fa8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Command.h">
@@ -51,6 +54,9 @@
     <ClInclude Include="EditorState.h">
       <Filter>Header Files\GameDepended\GameStates</Filter>
     </ClInclude>
+    <ClInclude Include="RessourceManager.h">
+      <Filter>Header Files\GameIndependend</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -64,6 +70,9 @@
     </ClCompile>
     <ClCompile Include="Editor.cpp">
       <Filter>Source Files\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="RessourceManager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -139,7 +139,6 @@ TOPROCESS(SplashInput) {
 			case SDLK_d: {
 				directx = 1;
 
-
 			}break;
 			case SDLK_a: {
 				Command* cmd = createCommand(moveleft, MOVELEFT);

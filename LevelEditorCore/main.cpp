@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <SDL.h>
 #include <vector>
+#include <chrono>
 
 #include "GameState.h"
 #include "GameObject.h"
@@ -15,29 +16,38 @@ int main(int argc, char* argv[])
 {
 	GameObj*  Root = createGameObjectHandle();
 	initializeGameObj(Root,"LevelEditor",800,600);
-	
-	GameState SplashScreen;
-	SplashScreen.Update = SplashUpdate;
-	SplashScreen.Input = SplashInput;
-	SplashScreen.Render = SplashRender;
-	SplashScreen.onEnter = SplashonEnter;
-	SplashScreen.onExit = SplashonExit;
 
-	registerState(Root, &SplashScreen);
-	Root->CurrentStateIndex = 0;
-
+	float lastFrameTime = 0;
 	while (!Root->isRunning) {
 
-		if (!Root->Collection[Root->CurrentStateIndex]->isActive)
-			Root->Collection[Root->CurrentStateIndex]->onEnter(Root);
-		Root->Collection[Root->CurrentStateIndex]->Input(Root,0.016f);
-		Root->Collection[Root->CurrentStateIndex]->Update(Root, 0.016f);
-		Root->Collection[Root->CurrentStateIndex]->Render(Root, 0.016f);
+		auto timePoint1(std::chrono::high_resolution_clock::now());
+
+		if (!Root->Collection.empty()) {
+			if (!Root->Collection[Root->CurrentStateIndex]->isActive)
+				Root->Collection[Root->CurrentStateIndex]->onEnter(Root);
+			Root->Collection[Root->CurrentStateIndex]->Input(Root, lastFrameTime);
+			Root->Collection[Root->CurrentStateIndex]->Update(Root, lastFrameTime);
+			Root->Collection[Root->CurrentStateIndex]->Render(Root, lastFrameTime);
+		} else{
+			SDL_Event e;
+			while (SDL_PollEvent(&e))
+			{
+				if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE)
+				{
+					Root->isRunning = true;
+				}
+			}
+		}
+
+		auto timePoint2(std::chrono::high_resolution_clock::now());
+		auto elapsedTime(timePoint2 - timePoint1);
+		float ft{ std::chrono::duration_cast<std::chrono::duration<float, std::milli>>(
+			elapsedTime)
+			.count() };
+		lastFrameTime = ft;
 	
 	}
 
-	getchar();
-	getchar();
 
 	return 0;
 }

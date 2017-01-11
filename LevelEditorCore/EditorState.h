@@ -3,6 +3,8 @@
 
 CHANGESTATE(EditorOnEnterState);
 CHANGESTATE(EditorOnExitState);
+CHANGESTATE(EditorOnPauseState);
+CHANGESTATE(EditorOnResumeState);
 
 TOPROCESS(EditorUpdate);
 TOPROCESS(EditorInput);

@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <vector>
 #include <queue>
+#include "RessourceManager.h"
 
 struct GameState;
 struct Command;
@@ -11,7 +12,10 @@ struct GameObj
 	bool					 isRunning = false;
 	int						 CurrentStateIndex;
 	std::vector<GameState*>  Collection;
-	std::queue<Command*>		 HolyCommands;
+	std::queue<Command*>	 HolyCommands;
+
+	RessourceManager		Assets;
+
 
 	int						Width, Height;
 	int						MouseX, MouseY;

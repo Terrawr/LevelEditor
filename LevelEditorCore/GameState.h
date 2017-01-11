@@ -2,13 +2,15 @@
 #include "LevelEditor.h"
 #include <vector>
 
+//forward Declaration of structs to prevent circular dependencies
 struct GameState;
 struct GameObj;
+
 //Functionpointer description
-
 #define CHANGESTATE(name) void name(GameObj* obj)
-#define TOPROCESS(name) void name(GameObj* obj, float delta)
+#define TOPROCESS(name) void name(GameObj* obj, float elapsedTime_Lag)
 
+//creating Functionpointer types
 typedef CHANGESTATE(changeState);
 typedef TOPROCESS(toProcess);
 
