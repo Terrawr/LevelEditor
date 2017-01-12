@@ -7,6 +7,10 @@
 #include <string>
 #include <fstream>
 
+
+static int leftButtonMouse = 1;
+static int rightButtonMouse = 1;
+
 //Structs
 
 
@@ -14,6 +18,7 @@
 static SDL_Texture* OldTarget;
 static Texture TileMapArea;;
 static SDL_Rect ButtonPosition[128];
+
 
 
 //Implementation
@@ -26,8 +31,6 @@ CHANGESTATE(EditorOnEnterState) {
 	if (createBlank(&TileMapArea, obj->Width - (obj->Width /100 * 45), obj->Height - (obj->Height / 100 * 20),SDL_TEXTUREACCESS_TARGET) == false) {
 		printf("Try again :P\n");
 	}
-
-	
 }
 
 ///State destruction/////////////////
@@ -60,8 +63,27 @@ TOPROCESS(EditorInput) {
 		{
 			obj->isRunning = true;
 		}
-	}
+		SDL_Event e;
+		while (SDL_PollEvent(&e))
+		{
+			if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE)
+			{
+				obj->isRunning = true;
+			}
+		//SDL_Mouse MotionAndButtons:
+			if (e.button.button == SDL_BUTTON_LEFT)
+			{
+				leftButtonMouse = 1;
+			}
+			if (e.button.button == SDL_BUTTON_RIGHT)
+			{
+				rightButtonMouse = 1;
+			}
+			obj->MouseX = e.motion.x;
+			obj->MouseY = e.motion.y;
+		}
 
+	}
 }
 
 TOPROCESS(EditorRender) {
@@ -69,15 +91,6 @@ TOPROCESS(EditorRender) {
 	SDL_RenderClear(obj->Renderer);
 
 	render(&TileMapArea, 20, obj->Height - TileMapArea.mHeight - 20, NULL , 0, NULL, SDL_FLIP_NONE);
-	SDL_Rect a = { 0,0, 50,50 };
-	//////
-
-	SDL_SetRenderDrawColor(obj->Renderer, 0xff, 0x11, 0xff, SDL_ALPHA_OPAQUE);
-	SDL_RenderFillRect(obj->Renderer, &a);
 	
-
-
-	//////
-
 	SDL_RenderPresent(obj->Renderer);
 }

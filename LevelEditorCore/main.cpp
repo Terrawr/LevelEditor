@@ -20,6 +20,7 @@ int main(int argc, char* argv[])
 
 
 	GameState LevelEditor;
+
 	LevelEditor.onEnter = EditorOnEnterState;
 	LevelEditor.onExit = EditorOnExitState;
 	LevelEditor.onPause= EditorOnPauseState;
@@ -61,6 +62,9 @@ int main(int argc, char* argv[])
 				}
 			}
 		}
+
+		SDL_RenderPresent;
+
 
 		auto timePoint2(std::chrono::high_resolution_clock::now());
 		auto elapsedTime(timePoint2 - timePoint1);
