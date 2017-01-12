@@ -36,6 +36,8 @@ int main(int argc, char* argv[])
 	registerState(Root, &LevelEditor);
 	Root->CurrentStateIndex = 0;
 
+	
+
 	float lastFrameTime = 0;
 	while (!Root->isRunning) {
 
