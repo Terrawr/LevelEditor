@@ -37,6 +37,7 @@ void getScreenResolution()
 
 		screenheight = currentscreen.h;
 		screenwidth = currentscreen.w;
+	}
 }
 
 void initializeGameObj(GameObj* obj, char*Title,int width, int height) {
