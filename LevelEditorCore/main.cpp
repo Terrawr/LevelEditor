@@ -20,6 +20,7 @@ int main(int argc, char* argv[])
 
 
 	GameState LevelEditor;
+
 	LevelEditor.onEnter = EditorOnEnterState;
 	LevelEditor.onExit = EditorOnExitState;
 	LevelEditor.onPause= EditorOnPauseState;
@@ -60,6 +61,12 @@ int main(int argc, char* argv[])
 					Root->isRunning = true;
 				}
 			}
+		}
+
+		SDL_RenderPresent;
+
+		for (;;) {
+			SDL_RenderCopyEx(Root->Renderer, Huhn, NULL, Destination[i]);
 		}
 
 		auto timePoint2(std::chrono::high_resolution_clock::now());
