@@ -15,7 +15,7 @@ GameObj* createGameObjectHandle() {
 	return new GameObj;  //c++ feature;
 }
 
-void GetResolution()
+void getScreenResolution()
 {
 	int i;
 
