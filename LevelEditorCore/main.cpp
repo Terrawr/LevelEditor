@@ -10,6 +10,8 @@
 #include "Splashscreen2.h"
 #include "EditorState.h"
 
+//resources in folder
+
 int gQuit = SDL_FALSE;
 
 
