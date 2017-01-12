@@ -12,12 +12,7 @@ static int leftButtonMouse = 1;
 static int rightButtonMouse = 1;
 
 //Structs
-////SUPER DUPER WICHTIGER GIT TEST
-////SUPER DUPER WICHTIGER GIT TEST
-////SUPER DUPER WICHTIGER GIT TEST
-////SUPER DUPER WICHTIGER GIT TEST
 
-////SUPER DUPER WICHTIGER GIT TEST
 
 //Globals
 static SDL_Texture* OldTarget;
