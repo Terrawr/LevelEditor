@@ -11,7 +11,7 @@
 static int leftButtonMouse = 1;
 static int rightButtonMouse = 1;
 
-//Structs
+//Structs 
 
 
 //Globals
