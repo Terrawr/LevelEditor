@@ -70,7 +70,7 @@ TOPROCESS(EditorInput) {
 			{
 				obj->isRunning = true;
 			}
-		SDL_MosuseMotionAndButtons:
+		//SDL_Mouse MotionAndButtons:
 			if (e.button.button == SDL_BUTTON_LEFT)
 			{
 				leftButtonMouse = 1;
@@ -81,8 +81,9 @@ TOPROCESS(EditorInput) {
 			}
 			obj->MouseX = e.motion.x;
 			obj->MouseY = e.motion.y;
-	}
+		}
 
+	}
 }
 
 TOPROCESS(EditorRender) {
