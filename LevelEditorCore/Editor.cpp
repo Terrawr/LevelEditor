@@ -1,19 +1,40 @@
 //Includes
 #include "GameState.h"
 #include "GameObject.h"
-#include <string>
 
+#include "Texture.h"
+
+#include <string>
+#include <fstream>
 //Structs
 
 
 //Globals
+static SDL_Texture* OldTarget;
+static Texture TileMapArea;;
+static SDL_Rect ButtonPosition[128];
 
+static std::fstream Buttons("Button.pos", std::ios_base::out);
 
 //Implementation
 ///State Initialization/////////////////
 CHANGESTATE(EditorOnEnterState) {
 
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = true;
+
+	initilizeTexture(&TileMapArea, obj->Renderer);
+	if (createBlank(&TileMapArea, obj->Width - (obj->Width /100 * 45), obj->Height - (obj->Height / 100 * 20),SDL_TEXTUREACCESS_TARGET) == false) {
+		printf("Try again :P\n");
+	}
+
+	for (int i = 0; i < 128; i++)
+	{
+		Buttons>>ButtonPosition[i].h;
+
+		Buttons >> ButtonPosition[i].w;
+		Buttons >> ButtonPosition[i].h;
+		Buttons >> ButtonPosition[i].h;
+	}
 }
 
 ///State destruction/////////////////
@@ -51,5 +72,19 @@ TOPROCESS(EditorInput) {
 }
 
 TOPROCESS(EditorRender) {
+	SDL_SetRenderDrawColor(obj->Renderer, 0xff, 0xff, 0xff,SDL_ALPHA_OPAQUE);
+	SDL_RenderClear(obj->Renderer);
 
+	render(&TileMapArea, 20, obj->Height - TileMapArea.mHeight - 20, NULL , 0, NULL, SDL_FLIP_NONE);
+	SDL_Rect a = { 0,0, 50,50 };
+	//////
+
+	SDL_SetRenderDrawColor(obj->Renderer, 0xff, 0x11, 0xff, SDL_ALPHA_OPAQUE);
+	SDL_RenderFillRect(obj->Renderer, &a);
+	
+
+
+	//////
+
+	SDL_RenderPresent(obj->Renderer);
 }

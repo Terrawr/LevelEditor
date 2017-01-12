@@ -7,7 +7,7 @@
 
 //Initializes variables
 //
-void initilizeTexture(texture* t, struct SDL_Renderer* render)
+void initilizeTexture(Texture* t, struct SDL_Renderer* render)
 {
 	//Initialize
 	t->mRenderer = render;
@@ -19,13 +19,13 @@ void initilizeTexture(texture* t, struct SDL_Renderer* render)
 }
 
 //Deallocates memory
-void destroyTexture(texture* t)
+void destroyTexture(Texture* t)
 {
 	freeTexture(t);
 }
 
 //Loads image at specified path
-bool loadFromFile(texture* t, char* path)
+bool loadFromFile(Texture* t, char* path)
 {
 	//Get rid of preexisting texture
 	freeTexture(t);
@@ -111,7 +111,7 @@ SDL_bool loadFromRenderedText(std::string textureText, SDL_Color textColor);
 #endif
 
 //Creates blank texture
-bool createBlank(texture* t, int width, int height, SDL_TextureAccess access) {
+bool createBlank(Texture* t, int width, int height, SDL_TextureAccess access) {
 	//Create uninitialized texture
 	t->mTexture = SDL_CreateTexture(t->mRenderer, SDL_PIXELFORMAT_RGBA8888, access, width, height);
 	if (t->mTexture == NULL)
@@ -128,7 +128,7 @@ bool createBlank(texture* t, int width, int height, SDL_TextureAccess access) {
 }
 
 //Deallocates texture
-void freeTexture(texture* t) {
+void freeTexture(Texture* t) {
 	//Free texture if it exists
 	if (t->mTexture != NULL)
 	{
@@ -142,26 +142,26 @@ void freeTexture(texture* t) {
 }
 
 //Set color modulation
-void setColor(texture* t, Uint8 red, Uint8 green, Uint8 blue)
+void setColor(Texture* t, Uint8 red, Uint8 green, Uint8 blue)
 {
 	//Modulate texture rgb
 	SDL_SetTextureColorMod(t->mTexture, red, green, blue);
 }
 
 //Set blending
-void setBlendMode(texture*t, SDL_BlendMode blending) {
+void setBlendMode(Texture*t, SDL_BlendMode blending) {
 	//Set blending function
 	SDL_SetTextureBlendMode(t->mTexture, blending);
 }
 
 //Set alpha modulation
-void setAlpha(texture* t, Uint8 alpha) {
+void setAlpha(Texture* t, Uint8 alpha) {
 	//Modulate texture alpha
 	SDL_SetTextureAlphaMod(t->mTexture, alpha);
 }
 
 //Renders texture at given point
-void render(texture* t, int x, int y, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
+void render(Texture* t, int x, int y, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
 	//Set rendering space and render to screen
 	SDL_Rect renderQuad = { x, y, t->mWidth, t->mHeight };
 
@@ -173,25 +173,25 @@ void render(texture* t, int x, int y, SDL_Rect* clip, double angle, SDL_Point* c
 	}
 
 	//Render to screen
-	//SDL_RenderCopyEx(t->mRenderer, t->mTexture, clip, &renderQuad, angle, center, flip);
+	SDL_RenderCopyEx(t->mRenderer, t->mTexture, clip, &renderQuad, angle, center, flip);
 }
 
 //Set self as render target
-void setAsRenderTarget(texture* t) {
+void setAsRenderTarget(Texture* t) {
 	//Make self render target
 	SDL_SetRenderTarget(t->mRenderer, t->mTexture);
 }
 
 //Gets image dimensions
-int getWidth(texture* t) {
+int getWidth(Texture* t) {
 	return t->mWidth;
 }
-int getHeight(texture* t) {
+int getHeight(Texture* t) {
 	return t->mHeight;
 }
 
 //Pixel manipulators
-SDL_bool lockTexture(texture* t) {
+SDL_bool lockTexture(Texture* t) {
 	SDL_bool success = SDL_TRUE;
 
 	//Texture is already locked
@@ -213,7 +213,7 @@ SDL_bool lockTexture(texture* t) {
 	return success;
 }
 
-SDL_bool unlockTexture(texture* t)
+SDL_bool unlockTexture(Texture* t)
 {
 	SDL_bool success = SDL_TRUE;
 
@@ -233,10 +233,10 @@ SDL_bool unlockTexture(texture* t)
 
 	return success;
 }
-void* getPixels(texture* t) {
+void* getPixels(Texture* t) {
 	return t->mPixels;
 }
-void copyPixels(texture* t, void* pixels) {
+void copyPixels(Texture* t, void* pixels) {
 	//Texture is locked
 	if (t->mPixels != NULL)
 	{
@@ -245,11 +245,11 @@ void copyPixels(texture* t, void* pixels) {
 	}
 }
 
-int getPitch(texture* t)
+int getPitch(Texture* t)
 {
 	return t->mPitch;
 }
-Uint32 getPixel32(texture* t, unsigned int x, unsigned int y)
+Uint32 getPixel32(Texture* t, unsigned int x, unsigned int y)
 {
 	//Convert the pixels to 32 bit
 	Uint32 *pixels = (Uint32*)t->mPixels;
