@@ -14,7 +14,6 @@ static SDL_Texture* OldTarget;
 static Texture TileMapArea;;
 static SDL_Rect ButtonPosition[128];
 
-static std::fstream Buttons("Button.pos", std::ios_base::out);
 
 //Implementation
 ///State Initialization/////////////////
@@ -27,14 +26,7 @@ CHANGESTATE(EditorOnEnterState) {
 		printf("Try again :P\n");
 	}
 
-	for (int i = 0; i < 128; i++)
-	{
-		Buttons>>ButtonPosition[i].h;
-
-		Buttons >> ButtonPosition[i].w;
-		Buttons >> ButtonPosition[i].h;
-		Buttons >> ButtonPosition[i].h;
-	}
+	
 }
 
 ///State destruction/////////////////
