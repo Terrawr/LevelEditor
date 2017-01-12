@@ -18,6 +18,7 @@ int gQuit = SDL_FALSE;
 int main(int argc, char* argv[]) 
 {
 	GameObj*  Root = createGameObjectHandle();
+
 	initializeGameObj(Root,"LevelEditor", 1440,786);
 
 
@@ -34,6 +35,8 @@ int main(int argc, char* argv[])
 	
 	registerState(Root, &LevelEditor);
 	Root->CurrentStateIndex = 0;
+
+	
 
 	float lastFrameTime = 0;
 	while (!Root->isRunning) {
@@ -65,7 +68,6 @@ int main(int argc, char* argv[])
 			}
 		}
 
-		SDL_RenderPresent;
 
 
 		auto timePoint2(std::chrono::high_resolution_clock::now());

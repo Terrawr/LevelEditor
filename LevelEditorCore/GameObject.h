@@ -7,6 +7,7 @@
 
 struct GameState;
 struct Command;
+struct RessourceManager;
 struct GameObj
 {
 	bool					 isRunning = false;

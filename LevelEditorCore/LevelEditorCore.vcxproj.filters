@@ -28,6 +28,9 @@
     <Filter Include="Header Files\GameIndependend\Editor">
       <UniqueIdentifier>{b8db6235-202b-49fb-aa10-724207f25fa8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameIndependend\UserInterface">
+      <UniqueIdentifier>{872e8dd4-131e-496e-a57d-5807e3f84b25}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Command.h">
@@ -60,6 +63,9 @@
     <ClInclude Include="Texture.h">
       <Filter>Header Files\GameIndependend</Filter>
     </ClInclude>
+    <ClInclude Include="UserInterface.h">
+      <Filter>Header Files\GameIndependend\UserInterface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -78,6 +84,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
