@@ -15,7 +15,7 @@ GameObj* createGameObjectHandle() {
 	return new GameObj;  //c++ feature;
 }
 
-void GetResolution()
+void getScreenResolution()
 {
 	int i;
 
@@ -37,6 +37,7 @@ void GetResolution()
 
 		screenheight = currentscreen.h;
 		screenwidth = currentscreen.w;
+	}
 }
 
 void initializeGameObj(GameObj* obj, char*Title,int width, int height) {
