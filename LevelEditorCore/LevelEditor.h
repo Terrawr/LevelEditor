@@ -69,6 +69,18 @@ typedef uint8* MemoryAdress;
 //
 typedef struct COORDINATES {
 
-	int x, y;
+	float x, y;
 
 } Point,Vector2D;
+
+typedef struct RECTANGLESHAPE {
+
+	Vector2D Position;
+	Vector2D Size;
+
+}Box,Rect;
+
+typedef struct CIRCLESHAPE {
+	Vector2D Position;
+	float	 Radius;
+};

@@ -25,15 +25,15 @@ extern "C" {
 	void destroyTexture(texture*);
 
 	//Loads image at specified path
-	SDL_bool loadFromFile(texture* t, char* path);
+	bool loadFromFile(texture* t, char* path);
 
 #ifdef _SDL_TTF_H
 	//Creates image from font string
-	SDL_bool loadFromRenderedText(std::string textureText, SDL_Color textColor);
+	bool loadFromRenderedText(std::string textureText, SDL_Color textColor);
 #endif
 
 	//Creates blank texture
-	SDL_bool createBlank(texture* t, int width, int height, SDL_TextureAccess);
+	bool createBlank(texture* t, int width, int height, SDL_TextureAccess);
 
 	//Deallocates texture
 	void freeTexture(texture* t);
