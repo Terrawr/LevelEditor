@@ -53,6 +53,8 @@ void initializeGameObj(GameObj* obj, char*Title,int width, int height) {
 		//error
 	}
 
+	getScreenResolution();
+
 	obj->Window = SDL_CreateWindow(Title, 20, 20, width, height, SDL_WINDOW_SHOWN);
 	if (obj->Window == NULL){
 		//Error
