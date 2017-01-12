@@ -65,9 +65,6 @@ int main(int argc, char* argv[])
 
 		SDL_RenderPresent;
 
-		for (;;) {
-			SDL_RenderCopyEx(Root->Renderer, Huhn, NULL, Destination[i]);
-		}
 
 		auto timePoint2(std::chrono::high_resolution_clock::now());
 		auto elapsedTime(timePoint2 - timePoint1);

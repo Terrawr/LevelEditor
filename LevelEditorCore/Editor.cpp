@@ -7,6 +7,10 @@
 #include <string>
 #include <fstream>
 
+
+static int leftButtonMouse = 1;
+static int rightButtonMouse = 1;
+
 //Structs
 ////SUPER DUPER WICHTIGER GIT TEST
 
@@ -59,6 +63,24 @@ TOPROCESS(EditorInput) {
 		{
 			obj->isRunning = true;
 		}
+		SDL_Event e;
+		while (SDL_PollEvent(&e))
+		{
+			if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE)
+			{
+				obj->isRunning = true;
+			}
+		SDL_MosuseMotionAndButtons:
+			if (e.button.button == SDL_BUTTON_LEFT)
+			{
+				leftButtonMouse = 1;
+			}
+			if (e.button.button == SDL_BUTTON_RIGHT)
+			{
+				rightButtonMouse = 1;
+			}
+			obj->MouseX = e.motion.x;
+			obj->MouseY = e.motion.y;
 	}
 
 }
