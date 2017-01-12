@@ -16,6 +16,7 @@ static Texture TileMapArea;;
 static SDL_Rect ButtonPosition[128];
 
 
+
 //Implementation
 ///State Initialization/////////////////
 CHANGESTATE(EditorOnEnterState) {
