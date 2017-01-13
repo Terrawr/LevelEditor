@@ -7,11 +7,14 @@ void registerState(GameObj* obj, GameState* state) {
 }
 void deleteState(GameObj* obj, GameState* state) {
 
-	obj->Collection.erase(
-		std::find(
-			std::begin(obj->Collection),
-			std::end(obj->Collection),
-			state));
+	auto stateIter = std::find(
+		std::begin(obj->Collection),
+		std::end(obj->Collection),
+		state);
+
+	obj->Collection.erase(stateIter);
+	//Frees state because when create with createGameStateObject() malloc were used
+	free(state);
 }
 
 
@@ -20,6 +23,11 @@ GameState* createGameStateObjectAt(GameObj* obj) {
 	registerState(obj, state);
 
 	return state;
+}
+
+
+void destroyObjectInstanceOf_GameState(GameObj* obj, GameState* state) {
+	deleteState(obj, state);
 }
 
 void initializeGameState(GameState* obj, const std::string& Name, int ID, changeState* OnEnter,
