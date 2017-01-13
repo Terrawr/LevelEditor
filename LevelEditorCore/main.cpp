@@ -21,19 +21,9 @@ int main(int argc, char* argv[])
 	GameObj*  Root = createGameObjectHandle();
 	initializeGameObj(Root,"LevelEditor", 1440,786);
 
-
-	GameState* LevelEditor = createGameState_ObjectInstance(Root);
-	initializeGameState(LevelEditor, "LevelEditor", -1, 
-		EditorOnEnterState,
-		EditorOnExitState,
-		EditorOnPauseState,
-		EditorOnResumeState,
-		EditorUpdate,
-		EditorRender,
-		EditorInput);
-
+	///FIRST STATE
 	GameState* IntroScreen = createGameState_ObjectInstance(Root);
-	initializeGameState(IntroScreen, "IntroScreen", -1, 
+	initializeGameState(IntroScreen, "IntroScreen", -1,
 		IntroOnEnterState,
 		IntroOnExitState,
 		IntroOnPauseState,
@@ -41,9 +31,22 @@ int main(int argc, char* argv[])
 		IntroUpdate,
 		IntroRender,
 		IntroInput);
+	///SECOND STATE
+	GameState* LevelEditor = createGameState_ObjectInstance(Root);
+	initializeGameState(LevelEditor, "LevelEditor", -1,
+		EditorOnEnterState,
+		EditorOnExitState,
+		EditorOnPauseState,
+		EditorOnResumeState,
+		EditorUpdate,
+		EditorRender,
+		EditorInput);
+	///THIRD STATE
+	///FOURTH STATE
+	///FIFTH STATE
 
 	//registerState(Root, test);
-	Root->CurrentStateIndex = 1;
+	Root->CurrentStateIndex = 0;
 
 	
 
@@ -72,7 +75,7 @@ int main(int argc, char* argv[])
 			{
 				if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE)
 				{
-					Root->isRunning = true;
+					//Root->isRunning = true;
 				}
 			}
 		}
