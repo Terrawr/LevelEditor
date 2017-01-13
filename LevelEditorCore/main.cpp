@@ -23,6 +23,7 @@ int main(int argc, char* argv[])
 
 
 	GameState LevelEditor;
+	GameState Intro;
 
 	LevelEditor.onEnter = EditorOnEnterState;
 	LevelEditor.onExit = EditorOnExitState;
@@ -32,6 +33,7 @@ int main(int argc, char* argv[])
 	LevelEditor.Update = EditorUpdate;
 	LevelEditor.Render = EditorRender;
 	LevelEditor.Input = EditorInput;
+
 	
 	registerState(Root, &LevelEditor);
 	Root->CurrentStateIndex = 0;

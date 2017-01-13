@@ -1,6 +1,5 @@
 #pragma once
 #include <SDL.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -29,7 +28,7 @@ extern "C" {
 
 #ifdef _SDL_TTF_H
 	//Creates image from font string
-	bool loadFromRenderedText(std::string textureText, SDL_Color textColor);
+	bool loadFromRenderedText(Texture* t,std::string textureText, SDL_Color textColor);
 #endif
 
 	//Creates blank texture
