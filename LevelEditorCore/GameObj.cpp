@@ -70,14 +70,3 @@ void initializeGameObj(GameObj* obj, char*Title,int width, int height) {
 	obj->Height = screenheight;
 }
 
-void registerState(GameObj* obj, GameState* state) {
-	obj->Collection.push_back(state);
-}
-void deleteState(GameObj* obj, GameState* state) {
-	
-	obj->Collection.erase(
-		std::find(
-			std::begin(obj->Collection),
-			std::end(obj->Collection),
-			state));
-}

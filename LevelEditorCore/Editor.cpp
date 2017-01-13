@@ -25,6 +25,8 @@ static int directx, directy;
 
 //Implementation
 ///State Initialization/////////////////
+//Hier initialisierst du ALLE deine VARIABLEN
+//NUR HIER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 CHANGESTATE(EditorOnEnterState) {
 
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = true;
@@ -60,7 +62,7 @@ CHANGESTATE(EditorOnResumeState) {
 
 
 
-
+//HIER KOMMT DEINE GAMELOGIC REIN BZW DEINE USERINTERFACE LOGIC ODER WAS AUCH IMMER AN LOGIC
 TOPROCESS(EditorUpdate) {
 	rect.x += (dx * 0.016) * speedx;
 	rect.y += (dy * 0.016) * speedy;
@@ -113,6 +115,7 @@ TOPROCESS(EditorUpdate) {
 
 }
 
+//HIER NIMMST DIE BENUTZTER EINGABE ENTGEGEN UND VERARBEITES SDL EVENTS
 TOPROCESS(EditorInput) {
 	SDL_Event e;
 	while (SDL_PollEvent(&e))
@@ -145,6 +148,7 @@ TOPROCESS(EditorInput) {
 
 }
 
+//HIER ZEICHNEST DU NUR HIER!!!!!
 TOPROCESS(EditorRender) {
 
 	///////////////////////START DRAWING ON TEXTURE////////////////////////////
