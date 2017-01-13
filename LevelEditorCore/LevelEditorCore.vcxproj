@@ -128,6 +128,7 @@
   <ItemGroup>
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="GameObj.cpp" />
+    <ClCompile Include="GameStateInterface.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RessourceManager.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
