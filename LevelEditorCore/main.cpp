@@ -9,6 +9,7 @@
 #include "SplashScreen.h"
 #include "Splashscreen2.h"
 #include "EditorState.h"
+#include "IntroScreen.h"
 
 //resources in folder updated
 
@@ -23,6 +24,7 @@ int main(int argc, char* argv[])
 
 
 	GameState LevelEditor;
+	GameState IntroScreen;
 
 	LevelEditor.onEnter = EditorOnEnterState;
 	LevelEditor.onExit = EditorOnExitState;
@@ -32,9 +34,21 @@ int main(int argc, char* argv[])
 	LevelEditor.Update = EditorUpdate;
 	LevelEditor.Render = EditorRender;
 	LevelEditor.Input = EditorInput;
+
+	IntroScreen.onEnter = IntroOnEnterState;
+	IntroScreen.onExit = IntroOnExitState;
+	IntroScreen.onPause = IntroOnPauseState;
+	IntroScreen.onResume = IntroOnResumeState;
+
+	IntroScreen.Update = IntroUpdate;
+	IntroScreen.Render = IntroRender;
+	IntroScreen.Input = IntroInput;
 	
 	registerState(Root, &LevelEditor);
 	Root->CurrentStateIndex = 0;
+
+	registerState(Root, &IntroScreen);
+	Root->CurrentStateIndex = 1;
 
 	
 
