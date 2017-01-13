@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Texture.h"
 /*
 Contains all functions and structs necessary for our
 internal User interface.
@@ -15,4 +15,23 @@ TODO(jojo):
 +implementing 
 */
 
+struct UI_INTERFACEDESCRIPTION;
+
+#define UI_PUBLICFUNCTION(name) void name(UI_INTERFACEDESCRIPTION*,float deltatime)
+typedef UI_PUBLICFUNCTION(uiPublic);
+
+typedef struct UI_INTERFACEDESCRIPTION {
+
+	Texture*		DrawingContext;
+	int				ID;
+
+	uiPublic*		Render;
+	uiPublic*		Update;
+	uiPublic*		Input;
+
+
+}UI;
+
+
+void initializeUserInterface();
 

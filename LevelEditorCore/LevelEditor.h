@@ -84,3 +84,6 @@ typedef struct CIRCLESHAPE {
 	Vector2D Position;
 	float	 Radius;
 };
+
+
+bool checkCollision(SDL_Rect a, SDL_Rect b);
