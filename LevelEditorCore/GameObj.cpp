@@ -3,8 +3,8 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
-static int screenwidth = 0;
-static int screenheight = 0;
+static int screenwidth = 800;
+static int screenheight = 480;
 
 //GameObj* createGameObjectHandle() {
 //	GameObj* tmp = (GameObj*) malloc(sizeof(GameObj));
@@ -53,7 +53,9 @@ void initializeGameObj(GameObj* obj, char*Title,int width, int height) {
 		//error
 	}
 
-	obj->Window = SDL_CreateWindow(Title, 20, 20, width, height, SDL_WINDOW_SHOWN);
+	getScreenResolution();
+
+	obj->Window = SDL_CreateWindow(Title, 0, 0, screenwidth, screenheight, SDL_WINDOW_SHOWN);
 	if (obj->Window == NULL){
 		//Error
 	}

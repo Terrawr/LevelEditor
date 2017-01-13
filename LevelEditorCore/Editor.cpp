@@ -1,7 +1,7 @@
 //Includes
 #include "GameState.h"
 #include "GameObject.h"
-
+#include "UserInterface.h"
 #include "Texture.h"
 
 #include <string>
@@ -15,7 +15,7 @@ static int rightButtonMouse = 1;
 
 
 //Globals
-static SDL_Texture* OldTarget;
+static Texture* OldTarget;
 static Texture TileMapArea;;
 static SDL_Rect ButtonPosition[128];
 
@@ -31,6 +31,12 @@ CHANGESTATE(EditorOnEnterState) {
 	if (createBlank(&TileMapArea, obj->Width - (obj->Width /100 * 45), obj->Height - (obj->Height / 100 * 20),SDL_TEXTUREACCESS_TARGET) == false) {
 		printf("Try again :P\n");
 	}
+
+	//Load all Ressources here
+	initilizeTexture( OldTarget, obj->Renderer);
+	loadFromFile(OldTarget, "D:\\LevelEditor\\LevelEditor\\resources\\resources.png");
+	loadTexture(obj, OldTarget, "AltesZiel");
+	//
 }
 
 ///State destruction/////////////////
@@ -90,7 +96,7 @@ TOPROCESS(EditorRender) {
 	SDL_SetRenderDrawColor(obj->Renderer, 0xff, 0xff, 0xff,SDL_ALPHA_OPAQUE);
 	SDL_RenderClear(obj->Renderer);
 
-	render(&TileMapArea, 20, obj->Height - TileMapArea.mHeight - 20, NULL , 0, NULL, SDL_FLIP_NONE);
+	render(getTexture(obj,"AltesZiel"), 20, obj->Height - TileMapArea.mHeight - 20, NULL , 0, NULL, SDL_FLIP_NONE);
 	
 	SDL_RenderPresent(obj->Renderer);
 }
