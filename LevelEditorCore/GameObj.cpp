@@ -35,8 +35,8 @@ void getScreenResolution()
 			// On success, print the current display mode.
 			SDL_Log("Display #%d: current display mode is %dx%dpx @ %dhz.", i, currentscreen.w, currentscreen.h, currentscreen.refresh_rate);
 
-		screenheight = currentscreen.h;
-		screenwidth = currentscreen.w;
+		screenheight = currentscreen.h/2;
+		screenwidth = currentscreen.w/2;
 	}
 }
 
@@ -55,19 +55,19 @@ void initializeGameObj(GameObj* obj, char*Title,int width, int height) {
 
 	getScreenResolution();
 
-	obj->Window = SDL_CreateWindow(Title, 0, 0, screenwidth, screenheight, SDL_WINDOW_SHOWN);
+	obj->Window = SDL_CreateWindow(Title, 110, 110, screenwidth, screenheight, SDL_WINDOW_SHOWN);
 	if (obj->Window == NULL){
 		//Error
 	}
 
-	obj->Renderer = SDL_CreateRenderer(obj->Window, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
+	obj->Renderer = SDL_CreateRenderer(obj->Window, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_TARGETTEXTURE);
 	if (obj->Renderer == NULL) {
 		//error
 	}
 
 	obj->CurrentStateIndex = -1;
-	obj->Width = width;
-	obj->Height = height;
+	obj->Width = screenwidth;
+	obj->Height = screenheight;
 }
 
 void registerState(GameObj* obj, GameState* state) {
