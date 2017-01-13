@@ -66,6 +66,9 @@
     <ClInclude Include="UserInterface.h">
       <Filter>Header Files\GameIndependend\UserInterface</Filter>
     </ClInclude>
+    <ClInclude Include="IntroScreen.h">
+      <Filter>Header Files\GameDepended\GameStates</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -90,6 +93,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameStateInterface.cpp">
+      <Filter>Source Files\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="intro.cpp">
       <Filter>Source Files\GameStates</Filter>
     </ClCompile>
   </ItemGroup>
