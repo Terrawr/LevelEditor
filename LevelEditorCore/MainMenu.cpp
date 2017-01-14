@@ -143,7 +143,7 @@ TOPROCESS(MainMenuInput) {
 			obj->isRunning = true;
 
 		}
-		if (e.key.keysym.sym == SDLK_RETURN) {
+		if (e.key.keysym.sym == SDLK_1) {
 			MainMenuOnExitState(obj);
 			SDL_FlushEvents(SDL_USEREVENT, SDL_LASTEVENT);
 			while (SDL_PollEvent(&e));

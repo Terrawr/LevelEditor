@@ -33,16 +33,6 @@ int main(int argc, char* argv[])
 		IntroRender,
 		IntroInput);
 	///SECOND STATE
-	GameState* LevelEditor = createGameState_ObjectInstance(Root);
-	initializeGameState(LevelEditor, "LevelEditor", -1,
-		EditorOnEnterState,
-		EditorOnExitState,
-		EditorOnPauseState,
-		EditorOnResumeState,
-		EditorUpdate,
-		EditorRender,
-		EditorInput);
-	///THIRD STATE
 	GameState* MainMenu = createGameState_ObjectInstance(Root);
 	initializeGameState(MainMenu, "MainMenu", -1,
 		MainMenuOnEnterState,
@@ -52,6 +42,16 @@ int main(int argc, char* argv[])
 		MainMenuUpdate,
 		MainMenuRender,
 		MainMenuInput);
+	///THIRD STATE
+	GameState* LevelEditor = createGameState_ObjectInstance(Root);
+	initializeGameState(LevelEditor, "LevelEditor", -1,
+		EditorOnEnterState,
+		EditorOnExitState,
+		EditorOnPauseState,
+		EditorOnResumeState,
+		EditorUpdate,
+		EditorRender,
+		EditorInput);
 	///FOURTH STATE
 	///FIFTH STATE
 
@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
 	while (!Root->isRunning) {
 
 		auto timePoint1(std::chrono::high_resolution_clock::now());
-
+		SDL_Log(".....CurrentState %d\n", Root->CurrentStateIndex);
 		if (!Root->Collection.empty()) {
 
 			if (!Root->Collection[Root->CurrentStateIndex]->isInitialized)

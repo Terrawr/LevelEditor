@@ -49,6 +49,8 @@ CHANGESTATE(EditorOnEnterState) {
 CHANGESTATE(EditorOnExitState) {
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = false;
 	destroyTexture(&TileMapArea);
+
+
 	obj->CurrentStateIndex--;
 }
 

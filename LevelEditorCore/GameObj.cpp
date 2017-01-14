@@ -58,8 +58,8 @@ void initializeGameObj(GameObj* obj, char*Title,int width, int height) {
 	}
 
 	getScreenResolution();
-	obj->Width = screenwidth /*/ 2*/;
-	obj->Height = screenheight /*/ 2*/;
+	obj->Width = screenwidth / 2;
+	obj->Height = screenheight / 2;
 
 	obj->Window = SDL_CreateWindow(Title, 0, 0, obj->Width, obj->Height, SDL_WINDOW_SHOWN);
 	if (obj->Window == NULL){
