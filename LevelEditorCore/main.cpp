@@ -22,8 +22,11 @@ int main(int argc, char* argv[])
 	GameObj*  Root = createGameObjectHandle();
 	initializeGameObj(Root,"LevelEditor", 1440,786);
 
+
+	//The Order of initilization is IMPORTANT. I changed it. First Screen, now your Menu and then some demo
+
 	///FIRST STATE
-	GameState* IntroScreen = createGameState_ObjectInstance(Root);
+	GameState* IntroScreen = createGameState_ObjectInstance(Root); //<---- INTRO
 	initializeGameState(IntroScreen, "IntroScreen", -1,
 		IntroOnEnterState,
 		IntroOnExitState,
@@ -33,7 +36,7 @@ int main(int argc, char* argv[])
 		IntroRender,
 		IntroInput);
 	///SECOND STATE
-	GameState* MainMenu = createGameState_ObjectInstance(Root);
+	GameState* MainMenu = createGameState_ObjectInstance(Root); //<----- MENU
 	initializeGameState(MainMenu, "MainMenu", -1,
 		MainMenuOnEnterState,
 		MainMenuOnExitState,
@@ -43,7 +46,7 @@ int main(int argc, char* argv[])
 		MainMenuRender,
 		MainMenuInput);
 	///THIRD STATE
-	GameState* LevelEditor = createGameState_ObjectInstance(Root);
+	GameState* LevelEditor = createGameState_ObjectInstance(Root); //<---- APPLICATION or SOMETHING ELSE
 	initializeGameState(LevelEditor, "LevelEditor", -1,
 		EditorOnEnterState,
 		EditorOnExitState,
@@ -55,7 +58,6 @@ int main(int argc, char* argv[])
 	///FOURTH STATE
 	///FIFTH STATE
 
-	//registerState(Root, test);
 	Root->CurrentStateIndex = 0;
 
 	
@@ -64,7 +66,7 @@ int main(int argc, char* argv[])
 	while (!Root->isRunning) {
 
 		auto timePoint1(std::chrono::high_resolution_clock::now());
-		SDL_Log(".....CurrentState %d\n", Root->CurrentStateIndex);
+		SDL_Log(".....CurrentState %d\n", Root->CurrentStateIndex); //<---- added this so you can see on your CONSOLE which state you are currently in. Thats the reason i remove fullscreen mode everytime you putt it back to see the console ;P 
 		if (!Root->Collection.empty()) {
 
 			if (!Root->Collection[Root->CurrentStateIndex]->isInitialized)
@@ -85,7 +87,7 @@ int main(int argc, char* argv[])
 			{
 				if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE)
 				{
-					//Root->isRunning = true;
+					Root->isRunning = true;
 				}
 			}
 		}
