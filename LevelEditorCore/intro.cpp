@@ -11,8 +11,8 @@
 
 #define FADE_SPEED 0.07f
 
-static int leftButtonMouse = 1;
-static int rightButtonMouse = 1;
+static int leftButtonMouse = 0;
+static int rightButtonMouse = 0;
 static int alpha = 0;
 static int alphaCalc = 0;
 static int TimeCount = 0;

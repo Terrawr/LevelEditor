@@ -18,6 +18,6 @@ typedef struct TILEMETAINFORMATION {
 	int TileType;				//TileType
 	int LayerIndex;				//Describes in which layer the Tile should be drawn
 	SDL_Texture* TileSheet;		//ImageSource
-	SDl_Rect*    TypeClip;		//Area & Coord within the ImageSource
+	SDL_Rect*    TypeClip;		//Area & Coord within the ImageSource
 
 }Tile;

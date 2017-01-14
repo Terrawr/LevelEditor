@@ -131,6 +131,7 @@
     <ClCompile Include="GameStateInterface.cpp" />
     <ClCompile Include="intro.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="RessourceManager.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="IntroScreen.h" />
     <ClInclude Include="LevelEditor.h" />
+    <ClInclude Include="mainmenu.h" />
     <ClInclude Include="RessourceManager.h" />
     <ClInclude Include="SplashScreen.h" />
     <ClInclude Include="Splashscreen2.h" />

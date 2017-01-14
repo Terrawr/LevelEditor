@@ -8,8 +8,8 @@
 #include <fstream>
 
 
-static int leftButtonMouse = 1;
-static int rightButtonMouse = 1;
+static int leftButtonMouse = 0;
+static int rightButtonMouse = 0;
 
 //Structs 
 
