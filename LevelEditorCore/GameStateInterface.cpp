@@ -18,7 +18,7 @@ void deleteState(GameObj* obj, GameState* state) {
 }
 
 
-GameState* createGameStateObjectAt(GameObj* obj) {
+GameState* createGameState_ObjectInstance(GameObj* obj) {
 	GameState* state = (GameState*)malloc(sizeof(GameState));
 	registerState(obj, state);
 
@@ -37,5 +37,19 @@ void initializeGameState(GameState* obj, const std::string& Name, int ID, change
 	toProcess* Update,
 	toProcess* Render,
 	toProcess* Input) {
+
+	obj->onEnter = OnEnter;
+	obj->onExit = OnExit;
+	obj->onPause = OnPause;
+	obj->onResume = OnResume;
+
+	obj->Update = Update;
+	obj->Render = Render;
+	obj->Input = Input;
+
+	obj->ID = ID;
+	obj->Name =(char*) Name.c_str();
+	obj->isInitialized = false;
+
 
 }

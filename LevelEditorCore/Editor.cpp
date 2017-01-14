@@ -48,6 +48,8 @@ CHANGESTATE(EditorOnEnterState) {
 ///State destruction/////////////////
 CHANGESTATE(EditorOnExitState) {
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = false;
+	destroyTexture(&TileMapArea);
+	obj->CurrentStateIndex--;
 }
 
 ///State pausing/////////////////
@@ -124,25 +126,23 @@ TOPROCESS(EditorInput) {
 		{
 			obj->isRunning = true;
 		}
-		SDL_Event e;
-		while (SDL_PollEvent(&e))
-		{
-			if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE)
-			{
-				obj->isRunning = true;
-			}
-		//SDL_Mouse MotionAndButtons:
-			if (e.button.button == SDL_BUTTON_LEFT)
-			{
-				leftButtonMouse = 1;
-			}
-			if (e.button.button == SDL_BUTTON_RIGHT)
-			{
-				rightButtonMouse = 1;
-			}
-			obj->MouseX = e.motion.x;
-			obj->MouseY = e.motion.y;
+		if (e.key.keysym.sym == SDLK_BACKSPACE) {
+			EditorOnExitState(obj);
+			SDL_FlushEvents(SDL_USEREVENT, SDL_LASTEVENT);
+			while (SDL_PollEvent(&e));
 		}
+		//SDL_Mouse MotionAndButtons:
+		if (e.button.button == SDL_BUTTON_LEFT)
+		{
+			leftButtonMouse = 1;
+		}
+		if (e.button.button == SDL_BUTTON_RIGHT)
+		{
+			rightButtonMouse = 1;
+		}
+		obj->MouseX = e.motion.x;
+		obj->MouseY = e.motion.y;
+		
 
 	}
 

@@ -19,36 +19,34 @@ int gQuit = SDL_FALSE;
 int main(int argc, char* argv[]) 
 {
 	GameObj*  Root = createGameObjectHandle();
-
 	initializeGameObj(Root,"LevelEditor", 1440,786);
 
+	///FIRST STATE
+	GameState* IntroScreen = createGameState_ObjectInstance(Root);
+	initializeGameState(IntroScreen, "IntroScreen", -1,
+		IntroOnEnterState,
+		IntroOnExitState,
+		IntroOnPauseState,
+		IntroOnResumeState,
+		IntroUpdate,
+		IntroRender,
+		IntroInput);
+	///SECOND STATE
+	GameState* LevelEditor = createGameState_ObjectInstance(Root);
+	initializeGameState(LevelEditor, "LevelEditor", -1,
+		EditorOnEnterState,
+		EditorOnExitState,
+		EditorOnPauseState,
+		EditorOnResumeState,
+		EditorUpdate,
+		EditorRender,
+		EditorInput);
+	///THIRD STATE
+	///FOURTH STATE
+	///FIFTH STATE
 
-	GameState LevelEditor;
-	GameState IntroScreen;
-
-	LevelEditor.onEnter = EditorOnEnterState;
-	LevelEditor.onExit = EditorOnExitState;
-	LevelEditor.onPause= EditorOnPauseState;
-	LevelEditor.onResume = EditorOnResumeState;
-
-	LevelEditor.Update = EditorUpdate;
-	LevelEditor.Render = EditorRender;
-	LevelEditor.Input = EditorInput;
-
-	IntroScreen.onEnter = IntroOnEnterState;
-	IntroScreen.onExit = IntroOnExitState;
-	IntroScreen.onPause = IntroOnPauseState;
-	IntroScreen.onResume = IntroOnResumeState;
-
-	IntroScreen.Update = IntroUpdate;
-	IntroScreen.Render = IntroRender;
-	IntroScreen.Input = IntroInput;
-	
-	registerState(Root, &LevelEditor);
+	//registerState(Root, test);
 	Root->CurrentStateIndex = 0;
-
-	registerState(Root, &IntroScreen);
-	Root->CurrentStateIndex = 1;
 
 	
 
@@ -77,7 +75,7 @@ int main(int argc, char* argv[])
 			{
 				if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE)
 				{
-					Root->isRunning = true;
+					//Root->isRunning = true;
 				}
 			}
 		}

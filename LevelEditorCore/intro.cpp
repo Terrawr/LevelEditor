@@ -40,6 +40,7 @@ static Texture Fade;
 CHANGESTATE(IntroOnEnterState) {
 
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = true;
+	SDL_SetRenderDrawColor(obj->Renderer, 0x00, 0x00, 0x00, SDL_ALPHA_OPAQUE);
 
 
 	//Load all Ressources here
@@ -70,7 +71,9 @@ CHANGESTATE(IntroOnEnterState) {
 ///State destruction/////////////////
 CHANGESTATE(IntroOnExitState) {
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = false;
-
+	obj->Collection[obj->CurrentStateIndex]->isActive = false;
+	obj->Collection[obj->CurrentStateIndex]->isOnPause = true;
+	printf("ONEXIT NOW---\n");
 	obj->CurrentStateIndex++;
 	SDL_DestroyTexture(Banner);
 	SDL_DestroyTexture(Copyright);
@@ -135,26 +138,24 @@ TOPROCESS(IntroInput) {
 		if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE)
 		{
 			obj->isRunning = true;
+			
 		}
-		SDL_Event e;
-		while (SDL_PollEvent(&e))
+		if (e.key.keysym.sym == SDLK_RETURN) {
+			IntroOnExitState(obj);
+			SDL_FlushEvents(SDL_USEREVENT, SDL_LASTEVENT);
+			while (SDL_PollEvent(&e));
+		}
+		//SDL_Mouse MotionAndButtons:
+		if (e.button.button == SDL_BUTTON_LEFT)
 		{
-			if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE)
-			{
-				obj->isRunning = true;
-			}
-			//SDL_Mouse MotionAndButtons:
-			if (e.button.button == SDL_BUTTON_LEFT)
-			{
-				leftButtonMouse = 1;
-			}
-			if (e.button.button == SDL_BUTTON_RIGHT)
-			{
-				rightButtonMouse = 1;
-			}
-			obj->MouseX = e.motion.x;
-			obj->MouseY = e.motion.y;
+			leftButtonMouse = 1;
 		}
+		if (e.button.button == SDL_BUTTON_RIGHT)
+		{
+			rightButtonMouse = 1;
+		}
+		obj->MouseX = e.motion.x;
+		obj->MouseY = e.motion.y;
 
 	}
 

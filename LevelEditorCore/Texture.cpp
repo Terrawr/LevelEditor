@@ -1,9 +1,11 @@
 #include "Texture.h"
 #include <stdio.h>
 #include <memory.h>
+#include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 
-
+#include <string>
 
 //Initializes variables
 //
@@ -107,7 +109,39 @@ bool loadFromFile(Texture* t, char* path)
 
 #ifdef _SDL_TTF_H
 //Creates image from font string
-SDL_bool loadFromRenderedText(std::string textureText, SDL_Color textColor);
+bool loadFromRenderedText(Texture* t,TTF_Font* font, std::string textureText, SDL_Color textColor) {
+	//Get rid of preexisting texture
+	freeTexture(t);
+
+	//Render text surface
+	SDL_Surface* textSurface = TTF_RenderText_Solid(font, textureText.c_str(), textColor);
+	if (textSurface != NULL)
+	{
+		//Create texture from surface pixels
+		t->mTexture = SDL_CreateTextureFromSurface(t->mRenderer, textSurface);
+		if (t->mTexture == NULL)
+		{
+			printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
+		}
+		else
+		{
+			//Get image dimensions
+			t->mWidth = textSurface->w;
+			t->mHeight = textSurface->h;
+		}
+
+		//Get rid of old surface
+		SDL_FreeSurface(textSurface);
+	}
+	else
+	{
+		printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
+	}
+
+
+	//Return success
+	return (t->mTexture != NULL);
+}
 #endif
 
 //Creates blank texture
