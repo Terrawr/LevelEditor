@@ -10,6 +10,7 @@
 #include "Splashscreen2.h"
 #include "EditorState.h"
 #include "IntroScreen.h"
+#include "mainmenu.h"
 
 //resources in folder updated
 
@@ -42,6 +43,15 @@ int main(int argc, char* argv[])
 		EditorRender,
 		EditorInput);
 	///THIRD STATE
+	GameState* MainMenu = createGameState_ObjectInstance(Root);
+	initializeGameState(MainMenu, "MainMenu", -1,
+		MainMenuOnEnterState,
+		MainMenuOnExitState,
+		MainMenuOnPauseState,
+		MainMenuOnResumeState,
+		MainMenuUpdate,
+		MainMenuRender,
+		MainMenuInput);
 	///FOURTH STATE
 	///FIFTH STATE
 
