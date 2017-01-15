@@ -100,31 +100,31 @@ TOPROCESS(IntroUpdate) {
 
 		if (alpha < SDL_ALPHA_OPAQUE)
 		{
-			alphaCalc += FADE_SPEED * elapsedTime_Lag;
+			alphaCalc += (int)FADE_SPEED * (int)elapsedTime_Lag;
 			alpha = alphaCalc;
 		}
 
 		if (alpha >= SDL_ALPHA_OPAQUE)
 		{
 			alpha = SDL_ALPHA_OPAQUE;
-			alphaCalc = (float)SDL_ALPHA_OPAQUE;
+			alphaCalc = (int)(float)SDL_ALPHA_OPAQUE;
 		}
 	
-		TimeCount += elapsedTime_Lag;
+		TimeCount += (int)elapsedTime_Lag;
 
 		if (TimeCount > 4000)
 		{
 
 			if (alpha < SDL_ALPHA_OPAQUE)
 			{
-				alphaCalc -= FADE_SPEED * elapsedTime_Lag;
+				alphaCalc -= (int)FADE_SPEED * (int)elapsedTime_Lag;
 				alpha = alphaCalc;
 			}
 
 			if (alpha >= SDL_ALPHA_OPAQUE)
 			{
 				alpha = SDL_ALPHA_OPAQUE;
-				alphaCalc = (float)SDL_ALPHA_OPAQUE;
+				alphaCalc = (int)(float)SDL_ALPHA_OPAQUE;
 			}
 		}
 

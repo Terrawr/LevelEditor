@@ -68,10 +68,10 @@ CHANGESTATE(EditorOnResumeState) {
 
 //HIER KOMMT DEINE GAMELOGIC REIN BZW DEINE USERINTERFACE LOGIC ODER WAS AUCH IMMER AN LOGIC
 TOPROCESS(EditorUpdate) {
-	rect.x += (dx * (elapsedTime_Lag / 1000.f)) * speedx;
-	rect.y += (dy * (elapsedTime_Lag / 1000.f)) * speedy;
-	rect2.x += (dx2 * 0.018) * speed2x;
-	rect2.y += (dy2 * 0.018) * speed2y;
+	rect.x += (int)  (dx * (elapsedTime_Lag / 1000.f)) * speedx;
+	rect.y += (int)  (dy * (elapsedTime_Lag / 1000.f)) * speedy;
+	rect2.x += (int) (dx2 * 0.018) * speed2x;
+	rect2.y += (int) (dy2 * 0.018) * speed2y;
 
 	SDL_Log("FrameTime[s]: %f | FrameTime[ms]: %f | FPS: %f \n", (elapsedTime_Lag/1000.f), (elapsedTime_Lag ), ( 1000.f / elapsedTime_Lag ));
 

@@ -83,7 +83,7 @@ typedef struct RECTANGLESHAPE {
 typedef struct CIRCLESHAPE {
 	Vector2D Position;
 	float	 Radius;
-};
+}Circle;
 
 inline RECTANGLESHAPE createRectShape(float x, float y, float w, float h) {
 	RECTANGLESHAPE tmp;

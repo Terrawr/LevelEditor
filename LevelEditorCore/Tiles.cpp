@@ -35,7 +35,7 @@ void loadTileSet(const std::string& location,TileSet* Set) {
 		Set->TileTypes.insert(TileType);
 		Set->TileSetMetaInformaton.insert(
 			std::make_pair(TileType,
-				createRectShape(tileX, tileY, tileW, tileH)
+				createRectShape((float)tileX, (float)tileY, (float)tileW, (float)tileH)
 			));
 	}
 
