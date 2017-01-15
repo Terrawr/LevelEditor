@@ -135,6 +135,7 @@
     <ClCompile Include="RessourceManager.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Tiles.cpp" />
     <ClCompile Include="UserInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
