@@ -2,14 +2,15 @@
 #include "GameState.h"
 #include "GameObject.h"
 #include "UserInterface.h"
-
+#include "Texture.h"
 #include "SDL_image.h"
-#include <SDL_ttf.h>
 #include "Texture.h"
 
 #include <string>
 #include <fstream>
-#include "Texture.h"
+
+#define msToWait 50
+
 
 //Structs 
 
@@ -17,10 +18,8 @@
 //Globals
 static int leftButtonMouse = 0;
 static int rightButtonMouse = 0;
-static int MouseX = 0;
-static int MouseY = 0;
+static int elapsedTime = 0;
 
-int countertime = 0;
 static SDL_Texture* Background = nullptr;
 static SDL_Texture* Frame = nullptr;
 static SDL_Texture* FrameChosen = nullptr;
@@ -38,8 +37,13 @@ static SDL_Rect LoadGame_Rect;
 static SDL_Rect LevelEditor_Rect;
 static SDL_Rect Exit_Rect;
 
-static Texture harald;
-static TTF_Font* font;
+static int MouseOnNewGame = 0; // 0 = Mouse not on this Tile, 1 = Mouse on this Tile
+static int MouseOnLoadGame = 0; // 0 = Mouse not on this Tile, 1 = Mouse on this Tile
+static int MouseOnLevelEditor = 0; // 0 = Mouse not on this Tile, 1 = Mouse on this Tile
+static int MouseOnExit = 0; // 0 = Mouse not on this Tile, 1 = Mouse on this Tile
+
+
+
 
 
 
@@ -55,56 +59,60 @@ CHANGESTATE(MainMenuOnEnterState) {
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = true;
 	SDL_SetRenderDrawColor(obj->Renderer, 0x00, 0x00, 0x00, SDL_ALPHA_OPAQUE);
 
-	SDL_Color col = { 255,255,255,SDL_ALPHA_OPAQUE };
 	//Load all Ressources here
-	initilizeTexture(&harald, obj->Renderer);
-	loadFromRenderedText(&harald, font, "Ich bin harald", col);
 
 
-	TextureBackground = IMG_Load("..\\resources\\background.png");
+	/*TextureBackground = IMG_Load("..\\resources\\background.png");*/
 	Background = SDL_CreateTextureFromSurface(obj->Renderer, TextureBackground);
 	Background_Rect.x = 0;
 	Background_Rect.y = 0;
-	Background_Rect.w = 1600;
-	Background_Rect.h = 900;
+	Background_Rect.w = obj->Width;
+	Background_Rect.h = obj->Height;
 
-	TextureFrame = IMG_Load("...\\resources\\resources.png");
+	TextureFrame = IMG_Load("..\\resources\\resources.png");
 	Frame = SDL_CreateTextureFromSurface(obj->Renderer, TextureFrame);
 	FrameChosen = SDL_CreateTextureFromSurface(obj->Renderer, TextureFrame);
 	FrameClicked = SDL_CreateTextureFromSurface(obj->Renderer, TextureFrame);
+
+	//Adresses on res.png
 	Frame_Rect.x = 180;
 	Frame_Rect.y = 150;
 	Frame_Rect.w = 270;
 	Frame_Rect.h = 90;
+	
 	FrameChosen_Rect.x = 180;
 	FrameChosen_Rect.y = 240;
 	FrameChosen_Rect.w = 270;
 	FrameChosen_Rect.h = 90;
+
 	FrameClicked_Rect.x = 180;
 	FrameClicked_Rect.y = 330;
 	FrameClicked_Rect.w = 270;
 	FrameClicked_Rect.h = 90;
 
-	CreateNewGame_Rect.x = 665;
-	CreateNewGame_Rect.y = 380;
-	CreateNewGame_Rect.w = 270;
-	CreateNewGame_Rect.h = 90;
+	//Tileadresses on window
+	CreateNewGame_Rect.w = 0.16875 * obj->Width;
+	CreateNewGame_Rect.h = 0.1 * obj->Height;
+	CreateNewGame_Rect.x = 0.415625 * obj->Width;
+	CreateNewGame_Rect.y = 0.42222222* obj->Height;
 
-	LoadGame_Rect.x = 665;
-	LoadGame_Rect.x = 480;
-	LoadGame_Rect.w = 270;
-	LoadGame_Rect.h = 90;
+	
+	LoadGame_Rect.w = 0.16875 * obj->Width;
+	LoadGame_Rect.h = 0.1 * obj->Height;
+	LoadGame_Rect.x = 0.415625 * obj->Width;
+	LoadGame_Rect.y = 0.5333 * obj->Height;
 
-	LevelEditor_Rect.x = 665;
-	LevelEditor_Rect.y = 580;
-	LevelEditor_Rect.w = 270;
-	LevelEditor_Rect.h = 90;
+	
+	LevelEditor_Rect.w = 0.16875 * obj->Width;
+	LevelEditor_Rect.h = 0.1 * obj->Height;
+	LevelEditor_Rect.x = 0.415625 * obj->Width;
+	LevelEditor_Rect.y = 0.64444 * obj->Height;
 
-	Exit_Rect.x = 665;
-	Exit_Rect.y = 680;
-	Exit_Rect.w = 270;
-	Exit_Rect.h = 90;
-
+	
+	Exit_Rect.w = 0.16875 * obj->Width;
+	Exit_Rect.h = 0.1 * obj->Height;
+	Exit_Rect.x = 0.415625 * obj->Width;
+	Exit_Rect.y = 0.75555 * obj->Height;
 
 
 }
@@ -115,7 +123,6 @@ CHANGESTATE(MainMenuOnExitState) {
 	obj->Collection[obj->CurrentStateIndex]->isActive = false;
 	obj->Collection[obj->CurrentStateIndex]->isOnPause = true;
 	SDL_Log("----ON EXIT NOW----\n");
-
 	obj->CurrentStateIndex--;
 
 }
@@ -138,12 +145,36 @@ CHANGESTATE(MainMenuOnResumeState) {
 TOPROCESS(MainMenuUpdate) {
 	SDL_Log("----UPDATE LOGIC NOW----\n");
 	///should never be empty unless you plan to do nothing in your state!!!
-
-	countertime += elapsedTime_Lag;
-
-	if (countertime == 100) {
-		countertime = 0;
+	
+	if (leftButtonMouse == 1)
+	{
+		elapsedTime += elapsedTime_Lag;
 	}
+	if (elapsedTime >= 300)
+	{
+		leftButtonMouse = 0;
+		elapsedTime = 0;
+	}
+
+	if (obj->MouseX >= CreateNewGame_Rect.x && obj->MouseX <= (CreateNewGame_Rect.x + CreateNewGame_Rect.w) && obj->MouseY >= CreateNewGame_Rect.y && obj->MouseY <= (CreateNewGame_Rect.y + CreateNewGame_Rect.h))
+		MouseOnNewGame = 1;
+	else
+		MouseOnNewGame = 0;
+
+	if (obj->MouseX >= LoadGame_Rect.x && obj->MouseX <= (LoadGame_Rect.x + LoadGame_Rect.w) && obj->MouseY >= LoadGame_Rect.y && obj->MouseY <= (LoadGame_Rect.y + LoadGame_Rect.h))
+		MouseOnLoadGame = 1;
+	else
+		MouseOnLoadGame = 0;
+
+	if (obj->MouseX >= LevelEditor_Rect.x && obj->MouseX <= (LevelEditor_Rect.x + LevelEditor_Rect.w) && obj->MouseY >= LevelEditor_Rect.y && obj->MouseY <= (LevelEditor_Rect.y + LevelEditor_Rect.h))
+		MouseOnLevelEditor = 1;
+	else
+		MouseOnLevelEditor = 0;
+
+	if (obj->MouseX >= Exit_Rect.x && obj->MouseX <= (Exit_Rect.x + Exit_Rect.w) && obj->MouseY >= Exit_Rect.y && obj->MouseY <= (Exit_Rect.y + Exit_Rect.h))
+		MouseOnExit = 1;
+	else
+		MouseOnExit = 0;
 
 
 }
@@ -151,6 +182,7 @@ TOPROCESS(MainMenuUpdate) {
 //HIER NIMMST DIE BENUTZTER EINGABE ENTGEGEN UND VERARBEITES SDL EVENTS
 TOPROCESS(MainMenuInput) {
 	SDL_Log("----UPDATE USERINPUT NOW----\n");
+	
 	SDL_Event e;
 	while (SDL_PollEvent(&e))
 	{
@@ -175,7 +207,7 @@ TOPROCESS(MainMenuInput) {
 		}
 		//Correct this. Apparently the version before were wrong. this 
 		//Updates the X und Y Coordinate each Frame.
-		SDL_GetMouseState(&obj->MouseX, &obj->MouseX);
+		SDL_GetMouseState(&obj->MouseX, &obj->MouseY);
 
 	}
 
@@ -186,49 +218,43 @@ TOPROCESS(MainMenuRender) {
 	SDL_Log("----UPDATE DRAWING NOW----\n");
 	SDL_RenderClear(obj->Renderer);
 
+	SDL_RenderCopy(obj->Renderer, Background, NULL, &Background_Rect);
 	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &CreateNewGame_Rect);
 	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &LoadGame_Rect);
 	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &LevelEditor_Rect);
 	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &Exit_Rect);
-	
-	render(&harald, 100, 100, NULL, 0, NULL, SDL_RendererFlip::SDL_FLIP_NONE);
-	SDL_RenderCopy(obj->Renderer, harald.mTexture, NULL, NULL);
 
-	/// This seems to be part of the logic and shoud not be in the Render function.
-	/// of course the SDL_RenderCopy call must remain here but the conditions when 
-	/// to draw what should be known BEFORE you start rendering.
-	if (MouseX >= CreateNewGame_Rect.x && MouseX <= (CreateNewGame_Rect.x + CreateNewGame_Rect.w))
+	if (MouseOnNewGame == 1)
 	{
-		if (MouseY >= CreateNewGame_Rect.y && MouseY <= (CreateNewGame_Rect.y + CreateNewGame_Rect.h))
-		{
-			if(leftButtonMouse == 0)
-				SDL_RenderCopy(obj->Renderer, FrameChosen, &FrameChosen_Rect, &CreateNewGame_Rect);
-			if(leftButtonMouse == 1)
-				SDL_RenderCopy(obj->Renderer, FrameClicked, &FrameClicked_Rect, &CreateNewGame_Rect);
-		}
-		if (MouseY >= LoadGame_Rect.y && MouseY <= (LoadGame_Rect.y + LoadGame_Rect.h))
-		{
-			if(leftButtonMouse == 0)
-				SDL_RenderCopy(obj->Renderer, FrameChosen, &FrameChosen_Rect, &LoadGame_Rect);
-			if(leftButtonMouse == 1)
-				SDL_RenderCopy(obj->Renderer, FrameClicked, &FrameClicked_Rect, &LoadGame_Rect);
-		}
-		if (MouseY >= LevelEditor_Rect.y && MouseY <= (LevelEditor_Rect.y + LevelEditor_Rect.h))
-		{
-			if(leftButtonMouse == 0)
-				SDL_RenderCopy(obj->Renderer, FrameChosen, &LevelEditor_Rect, &LevelEditor_Rect);
-			if (leftButtonMouse == 1)
-				SDL_RenderCopy(obj->Renderer, FrameClicked, &FrameClicked_Rect, &LevelEditor_Rect);
-		}
-		if (MouseY >= Exit_Rect.y && MouseY <= (Exit_Rect.y + Exit_Rect.h))
-		{
-			if(leftButtonMouse == 0)
-				SDL_RenderCopy(obj->Renderer, FrameChosen, &Exit_Rect, &Exit_Rect);
-			if(leftButtonMouse == 1)
-				SDL_RenderCopy(obj->Renderer, FrameClicked, &FrameClicked_Rect, &Exit_Rect);
-		}
-
+		if (leftButtonMouse == 1)
+			SDL_RenderCopy(obj->Renderer, FrameClicked, &FrameClicked_Rect, &CreateNewGame_Rect);
+		else
+			SDL_RenderCopy(obj->Renderer, FrameChosen, &FrameChosen_Rect, &CreateNewGame_Rect);
 	}
+	if (MouseOnLoadGame == 1)
+	{
+		if(leftButtonMouse == 1)
+			SDL_RenderCopy(obj->Renderer, FrameClicked, &FrameClicked_Rect, &LoadGame_Rect);
+		else
+			SDL_RenderCopy(obj->Renderer, FrameChosen, &FrameChosen_Rect, &LoadGame_Rect);
+	}
+	if (MouseOnLevelEditor == 1)
+	{
+		if (leftButtonMouse == 1)
+			SDL_RenderCopy(obj->Renderer, FrameClicked, &FrameClicked_Rect, &LevelEditor_Rect);
+		else
+			SDL_RenderCopy(obj->Renderer, FrameChosen, &FrameChosen_Rect, &LevelEditor_Rect);
+	}
+	if (MouseOnExit == 1)
+	{
+		if (leftButtonMouse == 1)
+			SDL_RenderCopy(obj->Renderer, FrameClicked, &FrameClicked_Rect, &Exit_Rect);
+		else
+			SDL_RenderCopy(obj->Renderer, FrameChosen, &FrameChosen_Rect, &Exit_Rect);
+	}
+	
+	printf("%d %d %d %d", obj->MouseX, obj->MouseY, MouseOnNewGame, leftButtonMouse);
+
 
 	SDL_RenderPresent(obj->Renderer);
 }
