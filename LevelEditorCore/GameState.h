@@ -35,3 +35,20 @@ struct GameState {
 	toProcess*  Render;
 
 };
+
+//Create a new Instance of an GameState and register the same
+//Instance directly in the Gameobj. GameState still needs to
+// be initialized BEFORE use!!!! WARNING IS USING MALLOC
+GameState* createGameState_ObjectInstance(GameObj* obj);
+void	   destroyObjectInstanceOf_GameState(GameObj*, GameState* state);
+
+void initializeGameState(GameState* obj, const std::string& Name, int ID, changeState* OnEnter,
+	changeState* OnExit,
+	changeState* OnPause,
+	changeState* OnResume,
+	toProcess* Update,
+	toProcess* Render,
+	toProcess* Input);
+
+void registerState(GameObj* obj, GameState*);
+void deleteState(GameObj*, GameState*);

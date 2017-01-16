@@ -3,6 +3,8 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
+#include "SDL_opengl.h"
+
 static int screenwidth = 800;
 static int screenheight = 480;
 
@@ -35,8 +37,12 @@ void getScreenResolution()
 			// On success, print the current display mode.
 			SDL_Log("Display #%d: current display mode is %dx%dpx @ %dhz.", i, currentscreen.w, currentscreen.h, currentscreen.refresh_rate);
 
-		screenheight = currentscreen.h;
-		screenwidth = currentscreen.w;
+		//for fullscreen with 1 display
+		/*screenheight = currentscreen.h;
+		screenwidth = currentscreen.w;*/
+
+		screenheight = 900;
+		screenwidth = 1600;
 	}
 }
 
@@ -54,30 +60,70 @@ void initializeGameObj(GameObj* obj, char*Title,int width, int height) {
 	}
 
 	getScreenResolution();
+	/*obj->Height =  screenheight;
+	obj->Width =  screenwidth;*/
+	obj->Width = 1000;
+	obj->Height = 600;
 
-	obj->Window = SDL_CreateWindow(Title, 0, 0, screenwidth, screenheight, SDL_WINDOW_SHOWN);
+	obj->Window = SDL_CreateWindow(Title, 100, 100, obj->Width, obj->Height, SDL_WINDOW_SHOWN| SDL_WINDOW_OPENGL);
 	if (obj->Window == NULL){
 		//Error
 	}
 
-	obj->Renderer = SDL_CreateRenderer(obj->Window, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
+	obj->Renderer = SDL_CreateRenderer(obj->Window, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_TARGETTEXTURE);
 	if (obj->Renderer == NULL) {
 		//error
 	}
 
 	obj->CurrentStateIndex = -1;
-	obj->Width = width;
-	obj->Height = height;
+	
 }
 
-void registerState(GameObj* obj, GameState* state) {
-	obj->Collection.push_back(state);
+
+
+/// General function implementations going here please!!!
+bool checkCollision(SDL_Rect a, SDL_Rect b)
+{
+	//The sides of the rectangles
+	int leftA, leftB;
+	int rightA, rightB;
+	int topA, topB;
+	int bottomA, bottomB;
+
+	//Calculate the sides of rect A
+	leftA = a.x;
+	rightA = a.x + a.w;
+	topA = a.y;
+	bottomA = a.y + a.h;
+
+	//Calculate the sides of rect B
+	leftB = b.x;
+	rightB = b.x + b.w;
+	topB = b.y;
+	bottomB = b.y + b.h;
+
+	//If any of the sides from A are outside of B
+	if (bottomA <= topB)
+	{
+		return false;
+	}
+
+	if (topA >= bottomB)
+	{
+		return false;
+	}
+
+	if (rightA <= leftB)
+	{
+		return false;
+	}
+
+	if (leftA >= rightB)
+	{
+		return false;
+	}
+
+	//If none of the sides from A are outside B
+	return true;
 }
-void deleteState(GameObj* obj, GameState* state) {
-	
-	obj->Collection.erase(
-		std::find(
-			std::begin(obj->Collection),
-			std::end(obj->Collection),
-			state));
-}
+

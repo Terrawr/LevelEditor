@@ -32,8 +32,7 @@ void     initializeGameObj(GameObj*,char*Title,int width,int height);
 
 void setActiveState(int index);
 
-void registerState(GameObj* obj, GameState*);
-void deleteState(GameObj*, GameState*);
+
 
 
 

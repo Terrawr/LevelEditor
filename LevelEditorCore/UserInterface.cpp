@@ -1,1 +1,3 @@
 #include "UserInterface.h"
+
+//Globals
