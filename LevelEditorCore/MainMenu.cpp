@@ -109,7 +109,7 @@ CHANGESTATE(MainMenuOnExitState) {
 	obj->Collection[obj->CurrentStateIndex]->isActive = false;
 	obj->Collection[obj->CurrentStateIndex]->isOnPause = true;
 	SDL_Log("----ON EXIT NOW----\n");
-	obj->CurrentStateIndex++;
+	obj->CurrentStateIndex--;
 
 }
 
