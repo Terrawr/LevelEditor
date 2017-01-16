@@ -26,7 +26,6 @@ Tile createTile(int x, int y, int w, int h, int index, int type) {
 	return tmp;
 }
 
-
 void loadTileSet(const std::string& location,TileSet* Set,SDL_Renderer* renderer) {
 	std::fstream tileset(location.c_str(),std::ios_base::in|std::ios_base::out|std::ios_base::app); //<--read-only access
 	if (tileset.is_open()) {
@@ -68,7 +67,18 @@ void loadTileSet(const std::string& location,TileSet* Set,SDL_Renderer* renderer
 	return;
 }
 
-void renderSingleTile(Tile* tile, TileSet* Set, int x, int y) {
+void renderSingleTile(TileSet* Set,const std::string& TileType, int x, int y) {
+
+	Tile tmp = getTile(Set, TileType);
+	SDL_Rect DrawableArea = { x,y,
+							  tmp.TileWidth ,tmp.TileHeight };
+
+	render(Set->Tilesheet,
+		x,
+		y,
+		&DrawableArea, 0, NULL,
+		SDL_FLIP_NONE);
+
 
 }
 //Create a COPY of an TILE

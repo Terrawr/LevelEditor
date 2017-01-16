@@ -61,25 +61,94 @@ extern "C" {
 //#endif
 
 	//Creates blank texture
+	/** Creates a blank Texture with current RenderDrawColor as background color.
+	* \param *t saves the result. Must be initialised BEFORE calling this function.
+	* \param width is the ´width of the texture you want to create
+	* \param height is the height of the texture you want to create
+	* \param SDL_TextureAccess See SDL Documentation!!!!
+	*
+	* \returns true on success
+	*/
 	bool createBlank(Texture* t, int width, int height, SDL_TextureAccess);
 
 	//Deallocates texture
+	/** Clears the content of an texture by deleting it from the renderer
+	* \param *t texture you want to delete
+	*
+	* Frees memory by deleting the SDL_Texture* stored in Texture*.
+	*/
 	void freeTexture(Texture* t);
 
 	//Set color modulation
+	/**
+	*  \brief Set an additional color value used in render copy operations.
+	*
+	*  \param texture The texture to update.
+	*  \param r       The red color value multiplied into copy operations.
+	*  \param g       The green color value multiplied into copy operations.
+	*  \param b       The blue color value multiplied into copy operations.
+	*
+	*  \note This is Wrapperfunction!
+	*
+	*  \sa SDL_GetTextureColorMod()
+	*/
 	void setColor(Texture* t, Uint8 red, Uint8 green, Uint8 blue);
 
 	//Set blending
+	/**
+	*  \brief Set the blend mode used for texture copy operations.
+	*
+	*  \param t The texture to update.
+	*  \param blendMode ::SDL_BlendMode to use for texture blending.
+	*
+	*  \note If the blend mode is not supported, the closest supported mode is
+	*        chosen. This is Wrapperfunction!
+	*
+	*  \sa SDL_GetTextureBlendMode()
+	*/
 	void setBlendMode(Texture*t, SDL_BlendMode blending);
 
 	//Set alpha modulation
+	/**
+	*  \brief Set an additional alpha value used in render copy operations.
+	*
+	*  \param texture The texture to update.
+	*  \param alpha     The alpha value multiplied into copy operations.
+	*
+	*  \note This is a Wrapperfunction!
+	*
+	*  \sa SDL_GetTextureAlphaMod()
+	*/
 	void setAlpha(Texture* t, Uint8 alpha);
 
 	//Renders texture at given point
 	//struct texture* t, int x, int y, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE)
+	/**
+	*  \brief Copy a portion of the source texture to the current rendering target, rotating it by angle around the given center
+	*
+	*  \param renderer The renderer which should copy parts of a texture.
+	*  \param texture  The source texture.
+	*  \param clip     A pointer to the source rectangle, or NULL for the entire
+	*                   texture.
+	*  \param angle    An angle in degrees that indicates the rotation that will be applied to dstrect
+	*  \param center   A pointer to a point indicating the point around which dstrect will be rotated (if NULL, rotation will be done around dstrect.w/2, dstrect.h/2).
+	*  \param flip     An SDL_RendererFlip value stating which flipping actions should be performed on the texture
+	*
+	*  \note  This is a Wrapperfunction!
+	*/
 	void render(Texture* t, int x, int y, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip);
 
-	//Set self as render target
+	//Set t as render target
+	/**
+	* \brief Set a texture as the current rendering target.
+	*
+	* \param renderer The renderer.
+	* \param texture The targeted texture, which must be created with the SDL_TEXTUREACCESS_TARGET flag, or NULL for the default render target
+	*
+	* \note This is a Wrapperfunction
+	*
+	*  \sa SDL_GetRenderTarget()
+	*/
 	void setAsRenderTarget(Texture* t);
 
 	//Gets image dimensions
