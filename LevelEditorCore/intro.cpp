@@ -48,21 +48,25 @@ CHANGESTATE(IntroOnEnterState) {
 
 	TextureBanner = IMG_Load("..\\resources\\firstbanner.png");
 	Banner = SDL_CreateTextureFromSurface(obj->Renderer, TextureBanner);
-	Banner_Rect.x = 480;
-	Banner_Rect.y = 250;
-	Banner_Rect.w = 640;
-	Banner_Rect.h = 400;
+	Banner_Rect.w = 0.4 * obj->Width;
+	Banner_Rect.h = 0.4 * obj->Height;
+	Banner_Rect.x = (obj->Width / 2) - (Banner_Rect.w / 2);
+	Banner_Rect.y = (obj->Height / 2) - (Banner_Rect.h / 2);
+	
+	
 
 
 	TextureCopyright = IMG_Load("..\\resources\\copy.png");
 	Copyright = SDL_CreateTextureFromSurface(obj->Renderer, TextureCopyright);
-	Copy_Rect.x = 350;
-	Copy_Rect.y = 700;
-	Copy_Rect.w = 900;
-	Copy_Rect.h = 200;
-
+	Copy_Rect.x = 0;
+	Copy_Rect.y = 0.7 * obj->Height;
+	Copy_Rect.w = obj->Width;
+	Copy_Rect.h = 0.2 * obj->Height;
+	
 	initilizeTexture(&Fade, obj->Renderer);
 	loadFromFile(&Fade, "..\\resources\\firstbanner.png");
+	Fade.mWidth = Banner_Rect.w;
+	Fade.mHeight = Banner_Rect.h;
 
 
 	
@@ -78,6 +82,9 @@ CHANGESTATE(IntroOnExitState) {
 	SDL_DestroyTexture(Banner);
 	SDL_DestroyTexture(Copyright);
 	destroyTexture(&Fade);
+	alpha = 0;
+	alphaCalc = 0;
+	TimeCount = 0;
 }
 
 ///State pausing/////////////////
@@ -100,31 +107,31 @@ TOPROCESS(IntroUpdate) {
 
 		if (alpha < SDL_ALPHA_OPAQUE)
 		{
-			alphaCalc += (int)FADE_SPEED * (int)elapsedTime_Lag;
+			alphaCalc += FADE_SPEED * elapsedTime_Lag;
 			alpha = alphaCalc;
 		}
 
 		if (alpha >= SDL_ALPHA_OPAQUE)
 		{
 			alpha = SDL_ALPHA_OPAQUE;
-			alphaCalc = (int)(float)SDL_ALPHA_OPAQUE;
+			alphaCalc = (float)SDL_ALPHA_OPAQUE;
 		}
 	
-		TimeCount += (int)elapsedTime_Lag;
+		TimeCount += elapsedTime_Lag;
 
 		if (TimeCount > 4000)
 		{
 
 			if (alpha < SDL_ALPHA_OPAQUE)
 			{
-				alphaCalc -= (int)FADE_SPEED * (int)elapsedTime_Lag;
+				alphaCalc -= FADE_SPEED * elapsedTime_Lag;
 				alpha = alphaCalc;
 			}
 
 			if (alpha >= SDL_ALPHA_OPAQUE)
 			{
 				alpha = SDL_ALPHA_OPAQUE;
-				alphaCalc = (int)(float)SDL_ALPHA_OPAQUE;
+				alphaCalc = (float)SDL_ALPHA_OPAQUE;
 			}
 		}
 
