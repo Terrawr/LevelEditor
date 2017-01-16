@@ -33,13 +33,18 @@ typedef struct TILESETMETAINFORMATION
 {
 	std::set<std::string>		TileTypes; //<-- Because we never know how many different types of tiles a new map could contain we store all types provided by the user here as string
 	Texture						Tilesheet; //<-- The Actual image where all tiles a stored used for in one Map
-	std::map<std::string, Box>	TileSetMetaInformaton; //<-- Here we store all the information where and in which size the tiles are stored within the image aka our used tilesheet!!!
+	std::map<std::string, Tile>	TileSetMetaInformaton; //<-- Here we store all the information where and in which size the tiles are stored within the image aka our used tilesheet!!!
 
 
 
 }TileSet;
 
-/** Load an specific image containing 
+
+Tile createTile(int x, int y, int w, int h, int index, int type);
+/** Load an specific image containing several different Tiles
+
  */
-void loadTileSet(const std::string& location, TileSet* Set);
+void loadTileSet(const std::string& location, TileSet* Set,SDL_Renderer*);
+
+Tile getTile(TileSet* Set, const std::string& type);
 

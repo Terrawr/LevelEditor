@@ -48,8 +48,8 @@ CHANGESTATE(IntroOnEnterState) {
 
 	TextureBanner = IMG_Load("..\\resources\\firstbanner.png");
 	Banner = SDL_CreateTextureFromSurface(obj->Renderer, TextureBanner);
-	Banner_Rect.x = 480;
-	Banner_Rect.y = 250;
+	Banner_Rect.x = 0;
+	Banner_Rect.y = 0;
 	Banner_Rect.w = 640;
 	Banner_Rect.h = 400;
 
@@ -74,7 +74,11 @@ CHANGESTATE(IntroOnExitState) {
 	obj->Collection[obj->CurrentStateIndex]->isActive = false;
 	obj->Collection[obj->CurrentStateIndex]->isOnPause = true;
 	printf("ONEXIT NOW---\n");
+
+
 	obj->CurrentStateIndex++;
+
+
 	SDL_DestroyTexture(Banner);
 	SDL_DestroyTexture(Copyright);
 	destroyTexture(&Fade);
@@ -100,14 +104,14 @@ TOPROCESS(IntroUpdate) {
 
 		if (alpha < SDL_ALPHA_OPAQUE)
 		{
-			alphaCalc += (int)FADE_SPEED * (int)elapsedTime_Lag;
+			alphaCalc += FADE_SPEED * elapsedTime_Lag;
 			alpha = alphaCalc;
 		}
 
 		if (alpha >= SDL_ALPHA_OPAQUE)
 		{
 			alpha = SDL_ALPHA_OPAQUE;
-			alphaCalc = (int)(float)SDL_ALPHA_OPAQUE;
+			alphaCalc = (float)SDL_ALPHA_OPAQUE;
 		}
 	
 		TimeCount += (int)elapsedTime_Lag;
@@ -117,14 +121,14 @@ TOPROCESS(IntroUpdate) {
 
 			if (alpha < SDL_ALPHA_OPAQUE)
 			{
-				alphaCalc -= (int)FADE_SPEED * (int)elapsedTime_Lag;
+				alphaCalc -= FADE_SPEED * elapsedTime_Lag;
 				alpha = alphaCalc;
 			}
 
 			if (alpha >= SDL_ALPHA_OPAQUE)
 			{
 				alpha = SDL_ALPHA_OPAQUE;
-				alphaCalc = (int)(float)SDL_ALPHA_OPAQUE;
+				alphaCalc = (float)SDL_ALPHA_OPAQUE;
 			}
 		}
 

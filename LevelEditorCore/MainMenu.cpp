@@ -2,13 +2,14 @@
 #include "GameState.h"
 #include "GameObject.h"
 #include "UserInterface.h"
-#include "Texture.h"
+
 #include "SDL_image.h"
+#include <SDL_ttf.h>
 #include "Texture.h"
 
 #include <string>
 #include <fstream>
-
+#include "Texture.h"
 
 //Structs 
 
@@ -19,6 +20,7 @@ static int rightButtonMouse = 0;
 static int MouseX = 0;
 static int MouseY = 0;
 
+int countertime = 0;
 static SDL_Texture* Background = nullptr;
 static SDL_Texture* Frame = nullptr;
 static SDL_Texture* FrameChosen = nullptr;
@@ -36,7 +38,8 @@ static SDL_Rect LoadGame_Rect;
 static SDL_Rect LevelEditor_Rect;
 static SDL_Rect Exit_Rect;
 
-
+static Texture harald;
+static TTF_Font* font;
 
 
 
@@ -52,7 +55,10 @@ CHANGESTATE(MainMenuOnEnterState) {
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = true;
 	SDL_SetRenderDrawColor(obj->Renderer, 0x00, 0x00, 0x00, SDL_ALPHA_OPAQUE);
 
+	SDL_Color col = { 255,255,255,SDL_ALPHA_OPAQUE };
 	//Load all Ressources here
+	initilizeTexture(&harald, obj->Renderer);
+	loadFromRenderedText(&harald, font, "Ich bin harald", col);
 
 
 	TextureBackground = IMG_Load("..\\resources\\background.png");
@@ -109,7 +115,8 @@ CHANGESTATE(MainMenuOnExitState) {
 	obj->Collection[obj->CurrentStateIndex]->isActive = false;
 	obj->Collection[obj->CurrentStateIndex]->isOnPause = true;
 	SDL_Log("----ON EXIT NOW----\n");
-	obj->CurrentStateIndex++;
+
+	obj->CurrentStateIndex--;
 
 }
 
@@ -131,6 +138,12 @@ CHANGESTATE(MainMenuOnResumeState) {
 TOPROCESS(MainMenuUpdate) {
 	SDL_Log("----UPDATE LOGIC NOW----\n");
 	///should never be empty unless you plan to do nothing in your state!!!
+
+	countertime += elapsedTime_Lag;
+
+	if (countertime == 100) {
+		countertime = 0;
+	}
 
 
 }
@@ -177,6 +190,9 @@ TOPROCESS(MainMenuRender) {
 	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &LoadGame_Rect);
 	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &LevelEditor_Rect);
 	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &Exit_Rect);
+	
+	render(&harald, 100, 100, NULL, 0, NULL, SDL_RendererFlip::SDL_FLIP_NONE);
+	SDL_RenderCopy(obj->Renderer, harald.mTexture, NULL, NULL);
 
 	/// This seems to be part of the logic and shoud not be in the Render function.
 	/// of course the SDL_RenderCopy call must remain here but the conditions when 

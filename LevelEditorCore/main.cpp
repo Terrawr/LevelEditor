@@ -26,25 +26,25 @@ int main(int argc, char* argv[])
 	//The Order of initilization is IMPORTANT. I changed it. First Screen, now your Menu and then some demo
 
 	///FIRST STATE
-	GameState* IntroScreen = createGameState_ObjectInstance(Root); //<---- INTRO
-	initializeGameState(IntroScreen, "IntroScreen", -1,
-		IntroOnEnterState,
-		IntroOnExitState,
-		IntroOnPauseState,
-		IntroOnResumeState,
-		IntroUpdate,
-		IntroRender,
-		IntroInput);
-	///SECOND STATE
-	GameState* MainMenu = createGameState_ObjectInstance(Root); //<----- MENU
-	initializeGameState(MainMenu, "MainMenu", -1,
-		MainMenuOnEnterState,
-		MainMenuOnExitState,
-		MainMenuOnPauseState,
-		MainMenuOnResumeState,
-		MainMenuUpdate,
-		MainMenuRender,
-		MainMenuInput);
+	//GameState* IntroScreen = createGameState_ObjectInstance(Root); //<---- INTRO
+	//initializeGameState(IntroScreen, "IntroScreen", -1,
+	//	IntroOnEnterState,
+	//	IntroOnExitState,
+	//	IntroOnPauseState,
+	//	IntroOnResumeState,
+	//	IntroUpdate,
+	//	IntroRender,
+	//	IntroInput);
+	/////SECOND STATE
+	//GameState* MainMenu = createGameState_ObjectInstance(Root); //<----- MENU
+	//initializeGameState(MainMenu, "MainMenu", -1,
+	//	MainMenuOnEnterState,
+	//	MainMenuOnExitState,
+	//	MainMenuOnPauseState,
+	//	MainMenuOnResumeState,
+	//	MainMenuUpdate,
+	//	MainMenuRender,
+	//	MainMenuInput);
 	///THIRD STATE
 	GameState* LevelEditor = createGameState_ObjectInstance(Root); //<---- APPLICATION or SOMETHING ELSE
 	initializeGameState(LevelEditor, "LevelEditor", -1,
@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
 	while (!Root->isRunning) {
 
 		auto timePoint1(std::chrono::high_resolution_clock::now());
-		SDL_Log(".....CurrentState %d\n", Root->CurrentStateIndex); //<---- added this so you can see on your CONSOLE which state you are currently in. Thats the reason i remove fullscreen mode everytime you putt it back to see the console ;P 
+		//SDL_Log(".....CurrentState %d\n", Root->CurrentStateIndex); //<---- added this so you can see on your CONSOLE which state you are currently in. Thats the reason i remove fullscreen mode everytime you putt it back to see the console ;P 
 		if (!Root->Collection.empty()) {
 
 			if (!Root->Collection[Root->CurrentStateIndex]->isInitialized)

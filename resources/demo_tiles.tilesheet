@@ -1,0 +1,5 @@
+..\\resources\\demo_tiles.bmp
+water 0 0 0 0 50 50
+lava 1 0 50 0 50 50
+grass 2 0 0 50 50 50
+ground 3 0 50 50 50 50

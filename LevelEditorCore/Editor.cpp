@@ -3,9 +3,11 @@
 #include "GameObject.h"
 #include "UserInterface.h"
 #include "Texture.h"
-
+#include "Tiles.h"
 #include <string>
 #include <fstream>
+
+
 
 
 static int leftButtonMouse = 0;
@@ -15,13 +17,7 @@ static int rightButtonMouse = 0;
 
 
 //Globals
-static Texture* OldTarget;
-static Texture TileMapArea;;
-static SDL_Rect ButtonPosition[128];
-static SDL_Rect rect,rect2;
-
-static int dy = 100, dx = 100, dy2 = 100, dx2 = 100, speedx = 1, speedy = 1, speed2x = 1, speed2y = 1;
-static int directx, directy;
+static TileSet SetOfTiles;
 
 //Implementation
 ///State Initialization/////////////////
@@ -31,27 +27,15 @@ CHANGESTATE(EditorOnEnterState) {
 
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = true;
 
-	initilizeTexture(&TileMapArea, obj->Renderer);
-	SDL_SetRenderDrawColor(obj->Renderer, 0x00, 0x00, 0x00, SDL_ALPHA_OPAQUE);
-	if (createBlank(&TileMapArea, 
-		obj->Width - (obj->Width /100 * 50),
-		obj->Height - (obj->Height / 100 * 50),
-		SDL_TEXTUREACCESS_TARGET) == false) {
-		printf("Try again :P\n");
-	}
-	rect = { 0,0,50,50 };
-	rect2 = rect;
 	//Load all Ressources here
 	//
+	loadTileSet("..\\resources\\demo_tiles.tilesheet", &SetOfTiles,obj->Renderer);
 }
 
 ///State destruction/////////////////
 CHANGESTATE(EditorOnExitState) {
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = false;
-	destroyTexture(&TileMapArea);
 
-
-	obj->CurrentStateIndex--;
 }
 
 ///State pausing/////////////////
@@ -68,55 +52,12 @@ CHANGESTATE(EditorOnResumeState) {
 
 //HIER KOMMT DEINE GAMELOGIC REIN BZW DEINE USERINTERFACE LOGIC ODER WAS AUCH IMMER AN LOGIC
 TOPROCESS(EditorUpdate) {
-	rect.x += (int)  (dx * (elapsedTime_Lag / 1000.f)) * speedx;
-	rect.y += (int)  (dy * (elapsedTime_Lag / 1000.f)) * speedy;
-	rect2.x += (int) (dx2 * 0.018) * speed2x;
-	rect2.y += (int) (dy2 * 0.018) * speed2y;
+	
 
-	SDL_Log("FrameTime[s]: %f | FrameTime[ms]: %f | FPS: %f \n", (elapsedTime_Lag/1000.f), (elapsedTime_Lag ), ( 1000.f / elapsedTime_Lag ));
+	//SDL_Log("FrameTime[s]: %f | FrameTime[ms]: %f | FPS: %f \n", (elapsedTime_Lag/1000.f), (elapsedTime_Lag ), ( 1000.f / elapsedTime_Lag ));
 
 
-	/* collide with edges of screen */
-	if (rect.x < 0) {
-		rect.x = 0;
-		speedx = -speedx;
-		dx += speedx;
-	}
-	else if (rect.x > TileMapArea.mWidth - rect.w) {
-		rect.x = TileMapArea.mWidth - rect.w;
-		speedx = -speedx;
-	}
-	if (rect.y < 0) {
-		rect.y = 0;
-		speedy = -speedy;
-		dy += speedy;
-	}
-	else if (rect.y > TileMapArea.mHeight - rect.h) {
-		rect.y = TileMapArea.mHeight - rect.h;
-		speedy = -speedy;
-	}
-;
 
-	/* collide with edges of screen */
-	if (rect2.x < 0) {
-		rect2.x = 0;
-		speed2x = -speed2x;
-		dx2 += speed2x;
-	}
-	else if (rect2.x > obj->Width - TileMapArea.mWidth) {
-		rect2.x = obj->Width - TileMapArea.mWidth;
-		speed2x = -speed2x;
-			
-	}
-	if (rect2.y < 0) {
-		rect2.y = 0;
-		speed2y = -speed2y;
-		dy2 += speed2y;
-	}
-	else if (rect2.y > obj->Height - TileMapArea.mHeight) {
-		rect2.y = obj->Height - TileMapArea.mHeight;
-		speed2y = -speed2y;
-	}
 
 }
 
@@ -143,37 +84,48 @@ TOPROCESS(EditorInput) {
 		{
 			rightButtonMouse = 1;
 		}
-		obj->MouseX = e.motion.x;
-		obj->MouseY = e.motion.y;
 		
 
 	}
-
+	
+	SDL_GetMouseState(&obj->MouseX, &obj->MouseX);
 }
 
 //HIER ZEICHNEST DU NUR HIER!!!!!
 TOPROCESS(EditorRender) {
 
-	///////////////////////START DRAWING ON TEXTURE////////////////////////////
-	setAsRenderTarget(&TileMapArea);
+	/////////////////////////START DRAWING ON TEXTURE////////////////////////////
+	//setAsRenderTarget(&TileMapArea);
 
-	//SDL_SetRenderDrawColor(obj->Renderer, 0xFF, 0xFF, 0xFF,SDL_ALPHA_OPAQUE);
-	SDL_RenderClear(obj->Renderer);
-	SDL_SetRenderDrawColor(obj->Renderer, 0xff, 0xaa, 0xff, SDL_ALPHA_OPAQUE);
-   
-	SDL_RenderFillRect(obj->Renderer, &rect);
+	////SDL_SetRenderDrawColor(obj->Renderer, 0xFF, 0xFF, 0xFF,SDL_ALPHA_OPAQUE);
+	//SDL_RenderClear(obj->Renderer);
+	//SDL_SetRenderDrawColor(obj->Renderer, 0xff, 0xaa, 0xff, SDL_ALPHA_OPAQUE);
+ //  
+	//SDL_RenderFillRect(obj->Renderer, &rect);
 
 
 	//////////////////////START DRAWING ON WINDOW/////////////////////////////
-	SDL_SetRenderTarget(obj->Renderer, NULL);
-	SDL_RenderClear(obj->Renderer);
+	//SDL_SetRenderTarget(obj->Renderer, NULL);
 	SDL_SetRenderDrawColor(obj->Renderer, 0xff, 0xff, 0xff, SDL_ALPHA_OPAQUE);
+	SDL_RenderClear(obj->Renderer);
+	
+	auto t = getTile(&SetOfTiles, "grass");
 
-	render(&TileMapArea,
-		rect2.x, 
-		rect2.y , 
-		NULL , 0, NULL,
+	SDL_Rect  tt = { t.x,t.y, t.TileWidth , t.TileHeight };
+
+	//SDL_Log("Tile w = %d | Tile h = %d", tt.w, tt.h);
+
+	render(&SetOfTiles.Tilesheet,
+		100, 
+		100 , 
+		&tt , 0, NULL,
 		SDL_FLIP_NONE);
+
+
+
+
+
+	//SDL_RenderCopy(obj->Renderer, SetOfTiles.Tilesheet.mTexture, &tt, &tt);
 	
 	SDL_RenderPresent(obj->Renderer);
 }

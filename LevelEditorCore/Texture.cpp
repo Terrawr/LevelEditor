@@ -107,14 +107,14 @@ bool loadFromFile(Texture* t, char* path)
 	return (t->mTexture != NULL);
 }
 
-#ifdef _SDL_TTF_H
+//#ifdef _SDL_TTF_H
 //Creates image from font string
-bool loadFromRenderedText(Texture* t,TTF_Font* font, std::string textureText, SDL_Color textColor) {
+bool loadFromRenderedText(Texture* t,TTF_Font* font, char* textureText, SDL_Color textColor) {
 	//Get rid of preexisting texture
 	freeTexture(t);
 
 	//Render text surface
-	SDL_Surface* textSurface = TTF_RenderText_Solid(font, textureText.c_str(), textColor);
+	SDL_Surface* textSurface = TTF_RenderText_Solid(font, textureText, textColor);
 	if (textSurface != NULL)
 	{
 		//Create texture from surface pixels
@@ -142,7 +142,7 @@ bool loadFromRenderedText(Texture* t,TTF_Font* font, std::string textureText, SD
 	//Return success
 	return (t->mTexture != NULL);
 }
-#endif
+//#endif
 
 //Creates blank texture
 bool createBlank(Texture* t, int width, int height, SDL_TextureAccess access) {
@@ -204,6 +204,10 @@ void render(Texture* t, int x, int y, SDL_Rect* clip, double angle, SDL_Point* c
 	{
 		renderQuad.w = clip->w;
 		renderQuad.h = clip->h;
+	}
+
+	if (t->mTexture == NULL) {
+		SDL_Log("Texture cannot be drawn, you idiot\n");
 	}
 
 	//Render to screen

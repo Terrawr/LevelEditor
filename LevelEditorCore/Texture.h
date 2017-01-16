@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL.h>
+#include <SDL_ttf.h>
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -54,10 +55,10 @@ extern "C" {
 	/// to ensure it fits the resulotion of the screen the best.
 	bool loadFromFile(Texture* t, char* path);
 
-#ifdef _SDL_TTF_H
+//#ifdef _SDL_TTF_H
 	//Creates image from font string
-	bool loadFromRenderedText(Texture* t, TTF_Font* font, std::string textureText, SDL_Color textColor);
-#endif
+	bool loadFromRenderedText(Texture* t, TTF_Font* font, char* textureText, SDL_Color textColor);
+//#endif
 
 	//Creates blank texture
 	bool createBlank(Texture* t, int width, int height, SDL_TextureAccess);
