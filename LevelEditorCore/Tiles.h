@@ -41,10 +41,13 @@ typedef struct TILESETMETAINFORMATION
 
 
 Tile createTile(int x, int y, int w, int h, int index, int type);
-/** Load an specific image containing several different Tiles
-
+/** Load an specific image containing several different Tiles into an TileSet
+\param location specified the location on the disk
+\param Set the struct where the results should be stored
+\param renderer for some stupid reasons you need this, DON'T ask why. just do it.
+ 
  */
-void loadTileSet(const std::string& location, TileSet* Set,SDL_Renderer*);
+void loadTileSet(const std::string& location, TileSet* Set,SDL_Renderer* renderer);
 
 Tile getTile(TileSet* Set, const std::string& type);
 
