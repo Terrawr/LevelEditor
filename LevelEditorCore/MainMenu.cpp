@@ -43,6 +43,10 @@ static int MouseOnLevelEditor = 0; // 0 = Mouse not on this Tile, 1 = Mouse on t
 static int MouseOnExit = 0; // 0 = Mouse not on this Tile, 1 = Mouse on this Tile
 
 
+static GameState InternalState_NEWGAME;
+
+static int INTERNALSTATE_CURRENTINDEX = -1;
+
 
 
 
@@ -58,6 +62,11 @@ CHANGESTATE(MainMenuOnEnterState) {
 
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = true;
 	SDL_SetRenderDrawColor(obj->Renderer, 0x00, 0x00, 0x00, SDL_ALPHA_OPAQUE);
+	
+	/*initializeGameState(&InternalState_NEWGAME, "Internal", -1,
+		)*/
+
+	obj->Collection[obj->CurrentStateIndex]->InternalStates.push_back(&InternalState_NEWGAME);
 
 	//Load all Ressources here
 
@@ -176,6 +185,18 @@ TOPROCESS(MainMenuUpdate) {
 	else
 		MouseOnExit = 0;
 
+	//
+	//
+	// You call here the internal state function. But only if you have set the INTERNALSTATE_CURRENTINDEX value greater than -1
+	// It is your responsibility as Modul Maintainer to maintain which state or internal state should be excuted by manipulating
+	// respectively the currentindex depending on your specific situation. 
+	//
+	if (INTERNALSTATE_CURRENTINDEX != -1) {
+
+		obj->Collection[obj->CurrentStateIndex]->InternalStates[INTERNALSTATE_CURRENTINDEX]->Update(obj, elapsedTime_Lag);
+
+	}
+
 
 }
 
@@ -208,6 +229,17 @@ TOPROCESS(MainMenuInput) {
 		//Correct this. Apparently the version before were wrong. this 
 		//Updates the X und Y Coordinate each Frame.
 		SDL_GetMouseState(&obj->MouseX, &obj->MouseY);
+
+	}
+	//
+	//
+	// You call here the internal state function. But only if you have set the INTERNALSTATE_CURRENTINDEX value greater than -1
+	// It is your responsibility as Modul Maintainer to maintain which state or internal state should be excuted by manipulating
+	// respectively the currentindex depending on your specific situation. 
+	//
+	if (INTERNALSTATE_CURRENTINDEX != -1) {
+
+		obj->Collection[obj->CurrentStateIndex]->InternalStates[INTERNALSTATE_CURRENTINDEX]->Input(obj, elapsedTime_Lag);
 
 	}
 
@@ -254,6 +286,18 @@ TOPROCESS(MainMenuRender) {
 	}
 	
 	printf("%d %d %d %d", obj->MouseX, obj->MouseY, MouseOnNewGame, leftButtonMouse);
+
+	//
+	//
+	// You call here the internal state function. But only if you have set the INTERNALSTATE_CURRENTINDEX value greater than -1
+	// It is your responsibility as Modul Maintainer to maintain which state or internal state should be excuted by manipulating
+	// respectively the currentindex depending on your specific situation. 
+	//
+	if (INTERNALSTATE_CURRENTINDEX != -1) {
+
+		obj->Collection[obj->CurrentStateIndex]->InternalStates[INTERNALSTATE_CURRENTINDEX]->Render(obj, elapsedTime_Lag);
+
+	}
 
 
 	SDL_RenderPresent(obj->Renderer);
