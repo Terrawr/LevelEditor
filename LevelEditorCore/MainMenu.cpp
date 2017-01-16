@@ -108,7 +108,7 @@ CHANGESTATE(MainMenuOnExitState) {
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = false;
 	obj->Collection[obj->CurrentStateIndex]->isActive = false;
 	obj->Collection[obj->CurrentStateIndex]->isOnPause = true;
-	printf("ONEXIT NOW---\n");
+	SDL_Log("----ON EXIT NOW----\n");
 	obj->CurrentStateIndex++;
 
 }
@@ -116,25 +116,28 @@ CHANGESTATE(MainMenuOnExitState) {
 ///State pausing/////////////////
 CHANGESTATE(MainMenuOnPauseState) {
 	obj->Collection[obj->CurrentStateIndex]->isActive = false;
+	SDL_Log("----ON PAUSE NOW----\n");
 }
 
 ///State unpausing/////////////////
 CHANGESTATE(MainMenuOnResumeState) {
 	obj->Collection[obj->CurrentStateIndex]->isOnPause = false;
+	SDL_Log("----ON RESUME NOW----\n");
 }
 
 
 
 //HIER KOMMT DEINE GAMELOGIC REIN BZW DEINE USERINTERFACE LOGIC ODER WAS AUCH IMMER AN LOGIC
 TOPROCESS(MainMenuUpdate) {
-
-
+	SDL_Log("----UPDATE LOGIC NOW----\n");
+	///should never be empty unless you plan to do nothing in your state!!!
 
 
 }
 
 //HIER NIMMST DIE BENUTZTER EINGABE ENTGEGEN UND VERARBEITES SDL EVENTS
 TOPROCESS(MainMenuInput) {
+	SDL_Log("----UPDATE USERINPUT NOW----\n");
 	SDL_Event e;
 	while (SDL_PollEvent(&e))
 	{
@@ -143,7 +146,7 @@ TOPROCESS(MainMenuInput) {
 			obj->isRunning = true;
 
 		}
-		if (e.key.keysym.sym == SDLK_RETURN) {
+		if (e.key.keysym.sym == SDLK_1) {//<--- Changed from RETURN key to the NUMBER(1) key
 			MainMenuOnExitState(obj);
 			SDL_FlushEvents(SDL_USEREVENT, SDL_LASTEVENT);
 			while (SDL_PollEvent(&e));
@@ -157,8 +160,9 @@ TOPROCESS(MainMenuInput) {
 		{
 			rightButtonMouse = 1;
 		}
-		obj->MouseX = e.motion.x;
-		obj->MouseY = e.motion.y;
+		//Correct this. Apparently the version before were wrong. this 
+		//Updates the X und Y Coordinate each Frame.
+		SDL_GetMouseState(&obj->MouseX, &obj->MouseX);
 
 	}
 
@@ -166,6 +170,7 @@ TOPROCESS(MainMenuInput) {
 
 //HIER ZEICHNEST DU NUR HIER!!!!!
 TOPROCESS(MainMenuRender) {
+	SDL_Log("----UPDATE DRAWING NOW----\n");
 	SDL_RenderClear(obj->Renderer);
 
 	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &CreateNewGame_Rect);
@@ -173,6 +178,9 @@ TOPROCESS(MainMenuRender) {
 	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &LevelEditor_Rect);
 	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &Exit_Rect);
 
+	/// This seems to be part of the logic and shoud not be in the Render function.
+	/// of course the SDL_RenderCopy call must remain here but the conditions when 
+	/// to draw what should be known BEFORE you start rendering.
 	if (MouseX >= CreateNewGame_Rect.x && MouseX <= (CreateNewGame_Rect.x + CreateNewGame_Rect.w))
 	{
 		if (MouseY >= CreateNewGame_Rect.y && MouseY <= (CreateNewGame_Rect.y + CreateNewGame_Rect.h))

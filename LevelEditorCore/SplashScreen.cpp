@@ -99,8 +99,8 @@ TOPROCESS(SplashUpdate) {
 		}
 	}
 
-	rect.x += (dx * 0.016) * speedx;
-	rect.y += (dy * 0.016) * speedy;
+	rect.x += (int)(dx * 0.016) * speedx;
+	rect.y += (int)(dy * 0.016) * speedy;
 
 	/* collide with edges of screen */
 	if (rect.x < 0) {
