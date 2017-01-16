@@ -159,6 +159,10 @@ extern "C" {
 	SDL_bool lockTexture(Texture* t);
 	SDL_bool unlockTexture(Texture* t);
 	void* getPixels(Texture* t);
+
+	/**
+	* \brief Copies pixel from void* TO Texture* 
+	*/
 	void copyPixels(Texture* t, void* pixels);
 	int getPitch(Texture* t);
 	Uint32 getPixel32(Texture* t, unsigned int x, unsigned int y);
