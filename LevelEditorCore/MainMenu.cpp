@@ -5,11 +5,12 @@
 #include "Texture.h"
 #include "SDL_image.h"
 #include "Texture.h"
+#include "SDL_ttf.h"
 
 #include <string>
 #include <fstream>
 
-#define msToWait 50
+#define FONTSIZE 25 //is not the original font size, its how much ppx it has...
 
 
 //Structs 
@@ -36,16 +37,23 @@ static SDL_Rect CreateNewGame_Rect;
 static SDL_Rect LoadGame_Rect;
 static SDL_Rect LevelEditor_Rect;
 static SDL_Rect Exit_Rect;
+static TTF_Font* MenuFont;
+static SDL_Color MenuCol = { 255,255,255 };
+static SDL_Surface* TextNewGame = NULL;
+static SDL_Texture* TextureTextNewGame = nullptr;
+static SDL_Surface* TextLoadGame = NULL;
+static SDL_Texture* TextureTextLoadGame = nullptr;
+static SDL_Surface* TextLevelEditor = NULL;
+static SDL_Texture* TextureTextLevelEditor = nullptr;
+static SDL_Surface* TextExit = NULL;
+static SDL_Texture* TextureTextExit = nullptr;
 
 static int MouseOnNewGame = 0; // 0 = Mouse not on this Tile, 1 = Mouse on this Tile
 static int MouseOnLoadGame = 0; // 0 = Mouse not on this Tile, 1 = Mouse on this Tile
 static int MouseOnLevelEditor = 0; // 0 = Mouse not on this Tile, 1 = Mouse on this Tile
 static int MouseOnExit = 0; // 0 = Mouse not on this Tile, 1 = Mouse on this Tile
+//static int
 
-
-static GameState InternalState_NEWGAME;
-
-static int INTERNALSTATE_CURRENTINDEX = -1;
 
 
 
@@ -62,19 +70,29 @@ CHANGESTATE(MainMenuOnEnterState) {
 
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = true;
 	SDL_SetRenderDrawColor(obj->Renderer, 0x00, 0x00, 0x00, SDL_ALPHA_OPAQUE);
-	
-	/*initializeGameState(&InternalState_NEWGAME, "Internal", -1,
-		)*/
-
-	obj->Collection[obj->CurrentStateIndex]->InternalStates.push_back(&InternalState_NEWGAME);
-
 	//Load all Ressources here
 
+	MenuFont = TTF_OpenFont("..\\resources\\test.ttf", FONTSIZE);
+	if (!MenuFont)
+	{
+		printf("TTF_OpenFont: %s\n", TTF_GetError());
+		abort();
+	}
 
-	/*TextureBackground = IMG_Load("..\\resources\\background.png");*/
+	TextNewGame = TTF_RenderText_Solid(MenuFont, "    New Game    ", MenuCol);
+	TextureTextNewGame = SDL_CreateTextureFromSurface(obj->Renderer, TextNewGame);
+	TextLoadGame = TTF_RenderText_Solid(MenuFont, "    Load Game    ", MenuCol);
+	TextureTextLoadGame = SDL_CreateTextureFromSurface(obj->Renderer, TextLoadGame);
+	TextLevelEditor = TTF_RenderText_Solid(MenuFont, "    Level Editor    ", MenuCol);
+	TextureTextLevelEditor = SDL_CreateTextureFromSurface(obj->Renderer, TextLevelEditor);
+	TextExit = TTF_RenderText_Solid(MenuFont, "    Exit    ", MenuCol);
+	TextureTextExit = SDL_CreateTextureFromSurface(obj->Renderer, TextExit);
+
+	TextureBackground = IMG_Load("..\\resources\\background.png");
 	Background = SDL_CreateTextureFromSurface(obj->Renderer, TextureBackground);
 	Background_Rect.x = 0;
 	Background_Rect.y = 0;
+
 	Background_Rect.w = obj->Width;
 	Background_Rect.h = obj->Height;
 
@@ -121,7 +139,7 @@ CHANGESTATE(MainMenuOnEnterState) {
 	Exit_Rect.w = 0.16875 * obj->Width;
 	Exit_Rect.h = 0.1 * obj->Height;
 	Exit_Rect.x = 0.415625 * obj->Width;
-	Exit_Rect.y = 0.75555 * obj->Height;
+	Exit_Rect.y =/* 0.75555 */ 0.85 * obj->Height;
 
 
 }
@@ -133,6 +151,11 @@ CHANGESTATE(MainMenuOnExitState) {
 	obj->Collection[obj->CurrentStateIndex]->isOnPause = true;
 	SDL_Log("----ON EXIT NOW----\n");
 	obj->CurrentStateIndex--;
+
+	if (MouseOnNewGame == 1)
+	{
+		obj->isRunning = true;
+	}
 
 }
 
@@ -159,7 +182,7 @@ TOPROCESS(MainMenuUpdate) {
 	{
 		elapsedTime += elapsedTime_Lag;
 	}
-	if (elapsedTime >= 300)
+	if (elapsedTime >= 200)
 	{
 		leftButtonMouse = 0;
 		elapsedTime = 0;
@@ -184,19 +207,9 @@ TOPROCESS(MainMenuUpdate) {
 		MouseOnExit = 1;
 	else
 		MouseOnExit = 0;
-
-	//
-	//
-	// You call here the internal state function. But only if you have set the INTERNALSTATE_CURRENTINDEX value greater than -1
-	// It is your responsibility as Modul Maintainer to maintain which state or internal state should be excuted by manipulating
-	// respectively the currentindex depending on your specific situation. 
-	//
-	if (INTERNALSTATE_CURRENTINDEX != -1) {
-
-		obj->Collection[obj->CurrentStateIndex]->InternalStates[INTERNALSTATE_CURRENTINDEX]->Update(obj, elapsedTime_Lag);
-
-	}
-
+	if (MouseOnExit == 1 && leftButtonMouse == 1)
+		obj->isRunning = true;
+	
 
 }
 
@@ -231,17 +244,6 @@ TOPROCESS(MainMenuInput) {
 		SDL_GetMouseState(&obj->MouseX, &obj->MouseY);
 
 	}
-	//
-	//
-	// You call here the internal state function. But only if you have set the INTERNALSTATE_CURRENTINDEX value greater than -1
-	// It is your responsibility as Modul Maintainer to maintain which state or internal state should be excuted by manipulating
-	// respectively the currentindex depending on your specific situation. 
-	//
-	if (INTERNALSTATE_CURRENTINDEX != -1) {
-
-		obj->Collection[obj->CurrentStateIndex]->InternalStates[INTERNALSTATE_CURRENTINDEX]->Input(obj, elapsedTime_Lag);
-
-	}
 
 }
 
@@ -250,16 +252,28 @@ TOPROCESS(MainMenuRender) {
 	SDL_Log("----UPDATE DRAWING NOW----\n");
 	SDL_RenderClear(obj->Renderer);
 
+	//Render all Frames and Background
 	SDL_RenderCopy(obj->Renderer, Background, NULL, &Background_Rect);
 	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &CreateNewGame_Rect);
 	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &LoadGame_Rect);
 	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &LevelEditor_Rect);
 	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &Exit_Rect);
 
+	//Render Fonts
+	SDL_RenderCopy(obj->Renderer, TextureTextNewGame, NULL, &CreateNewGame_Rect);
+	SDL_RenderCopy(obj->Renderer, TextureTextLoadGame, NULL, &LoadGame_Rect);
+	SDL_RenderCopy(obj->Renderer, TextureTextLevelEditor, NULL, &LevelEditor_Rect);
+	SDL_RenderCopy(obj->Renderer, TextureTextExit, NULL, &Exit_Rect);
+
+
+	//Render all Frames for Chosen and Clicked
 	if (MouseOnNewGame == 1)
 	{
 		if (leftButtonMouse == 1)
+		{
 			SDL_RenderCopy(obj->Renderer, FrameClicked, &FrameClicked_Rect, &CreateNewGame_Rect);
+			MainMenuOnExitState(obj);
+		}
 		else
 			SDL_RenderCopy(obj->Renderer, FrameChosen, &FrameChosen_Rect, &CreateNewGame_Rect);
 	}
@@ -287,18 +301,7 @@ TOPROCESS(MainMenuRender) {
 	
 	printf("%d %d %d %d", obj->MouseX, obj->MouseY, MouseOnNewGame, leftButtonMouse);
 
-	//
-	//
-	// You call here the internal state function. But only if you have set the INTERNALSTATE_CURRENTINDEX value greater than -1
-	// It is your responsibility as Modul Maintainer to maintain which state or internal state should be excuted by manipulating
-	// respectively the currentindex depending on your specific situation. 
-	//
-	if (INTERNALSTATE_CURRENTINDEX != -1) {
-
-		obj->Collection[obj->CurrentStateIndex]->InternalStates[INTERNALSTATE_CURRENTINDEX]->Render(obj, elapsedTime_Lag);
-
-	}
-
 
 	SDL_RenderPresent(obj->Renderer);
+	/*SDL_FreeSurface(TextNewGame);*/
 }

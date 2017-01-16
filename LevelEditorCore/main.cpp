@@ -12,6 +12,8 @@
 #include "IntroScreen.h"
 #include "mainmenu.h"
 
+
+
 //resources in folder updated
 
 int gQuit = SDL_FALSE;
@@ -25,7 +27,7 @@ int main(int argc, char* argv[])
 
 	//The Order of initilization is IMPORTANT. I changed it. First Screen, now your Menu and then some demo
 
-	///FIRST STATE
+	/*FIRST STATE*/
 	GameState* IntroScreen = createGameState_ObjectInstance(Root); //<---- INTRO
 	initializeGameState(IntroScreen, "IntroScreen", -1,
 		IntroOnEnterState,
@@ -35,7 +37,7 @@ int main(int argc, char* argv[])
 		IntroUpdate,
 		IntroRender,
 		IntroInput);
-	/////SECOND STATE
+	///SECOND STATE
 	GameState* MainMenu = createGameState_ObjectInstance(Root); //<----- MENU
 	initializeGameState(MainMenu, "MainMenu", -1,
 		MainMenuOnEnterState,
@@ -45,7 +47,7 @@ int main(int argc, char* argv[])
 		MainMenuUpdate,
 		MainMenuRender,
 		MainMenuInput);
-	///THIRD STATE
+	/*THIRD STATE*/
 	GameState* LevelEditor = createGameState_ObjectInstance(Root); //<---- APPLICATION or SOMETHING ELSE
 	initializeGameState(LevelEditor, "LevelEditor", -1,
 		EditorOnEnterState,
