@@ -7,7 +7,7 @@
 
 static int screenwidth = 800;
 static int screenheight = 480;
-
+//
 //GameObj* createGameObjectHandle() {
 //	GameObj* tmp = (GameObj*) malloc(sizeof(GameObj));
 //	return tmp;  //c++ feature;

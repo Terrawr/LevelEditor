@@ -19,7 +19,7 @@ void deleteState(GameObj* obj, GameState* state) {
 
 
 GameState* createGameState_ObjectInstance(GameObj* obj) {
-	GameState* state = (GameState*)malloc(sizeof(GameState));
+	GameState* state = new GameState(); // DO NOT USE MALLOC!!! BECAUSE WE USE STD::VECTOR WE NEED TO MAKE SURE CTOR OF STD::VECTOR IS CALLED
 	registerState(obj, state);
 
 	return state;
@@ -47,8 +47,12 @@ void initializeGameState(GameState* obj, const std::string& Name, int ID, change
 	obj->Render = Render;
 	obj->Input = Input;
 
+	obj->EventHandler = NULL; //DEFAULT VALUE IS EXPLICITLY NULL
+
+	obj->INTERNALCURRENTINDEX = -1;
+
 	obj->ID = ID;
-	obj->Name =(char*) Name.c_str();
+	obj->Name =  Name.c_str();
 	obj->isInitialized = false;
 
 

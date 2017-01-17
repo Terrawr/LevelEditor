@@ -31,6 +31,12 @@
     <Filter Include="Header Files\GameIndependend\UserInterface">
       <UniqueIdentifier>{872e8dd4-131e-496e-a57d-5807e3f84b25}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameDepended\GameStates\InternalStates">
+      <UniqueIdentifier>{10044b02-f52e-46d9-a263-149a0d39c648}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameStates\InternalStates">
+      <UniqueIdentifier>{d945482d-fc4e-43b6-b253-087f31011bf8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Command.h">
@@ -72,6 +78,9 @@
     <ClInclude Include="mainmenu.h">
       <Filter>Header Files\GameDepended\GameStates</Filter>
     </ClInclude>
+    <ClInclude Include="TileView.h">
+      <Filter>Header Files\GameDepended\GameStates\InternalStates</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -106,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="Tiles.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TileView.cpp">
+      <Filter>Source Files\GameStates\InternalStates</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
