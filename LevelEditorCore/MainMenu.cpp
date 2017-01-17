@@ -6,6 +6,7 @@
 #include "SDL_image.h"
 #include "Texture.h"
 #include "SDL_ttf.h"
+#include "SDL.h"
 
 #include <string>
 #include <fstream>
@@ -20,6 +21,11 @@
 static int leftButtonMouse = 0;
 static int rightButtonMouse = 0;
 static int elapsedTime = 0;
+static int chosenwindow = 0;
+static int turnsToProcess = 0;
+
+static int charactersizeh = 0;
+static int charactersizew = 0;
 
 static SDL_Texture* Background = nullptr;
 static SDL_Texture* Frame = nullptr;
@@ -48,18 +54,33 @@ static SDL_Texture* TextureTextLevelEditor = nullptr;
 static SDL_Surface* TextExit = NULL;
 static SDL_Texture* TextureTextExit = nullptr;
 
-static int MouseOnNewGame = 0; // 0 = Mouse not on this Tile, 1 = Mouse on this Tile
-static int MouseOnLoadGame = 0; // 0 = Mouse not on this Tile, 1 = Mouse on this Tile
-static int MouseOnLevelEditor = 0; // 0 = Mouse not on this Tile, 1 = Mouse on this Tile
-static int MouseOnExit = 0; // 0 = Mouse not on this Tile, 1 = Mouse on this Tile
-//static int
+static int MouseOnNewGame = 0; // 0 = Mouse not on this Tile, 1 = Mouse on this Tile, MainMenu Button
+static int MouseOnLoadGame = 0; // 0 = Mouse not on this Tile, 1 = Mouse on this Tile, MainMenu Button
+static int MouseOnLevelEditor = 0; // 0 = Mouse not on this Tile, 1 = Mouse on this Tile, MainMenu Button
+static int MouseOnExit = 0; // 0 = Mouse not on this Tile, 1 = Mouse on this Tile, MainMenu Button
+static int MouseOnCancel = 0; // 0 = Mouse not on this Tile, 1 = Mouse on this Tile, CreateNewGameMenu Button
+static int MouseOnCreate = 0; // 0 = Mouse not on this Tile, 1 = Mouse on this Tile, CreateNewGameMenu Button
 
+static GameState NewGame; //<---- NewGame
+CHANGESTATE(NewGameOnEnterState);
+CHANGESTATE(NewGameOnExitState);
+CHANGESTATE(NewGameOnPauseState);
+CHANGESTATE(NewGameOnResumeState);
 
+TOPROCESS(NewGameUpdate);
+TOPROCESS(NewGameInput);
+TOPROCESS(NewGameRender);
 
+//Globals
 
+//Background spec..
+static SDL_Texture* TexNewGameBackground = nullptr;
+static SDL_Surface* NewGameBackground = NULL;
+static SDL_Rect NewGameBackground_Rect;
 
-
-
+//Buttons...
+static SDL_Rect Cancel_Rect;
+static SDL_Rect Create_Rect;
 
 //Implementation
 ///State Initialization/////////////////
@@ -141,7 +162,15 @@ CHANGESTATE(MainMenuOnEnterState) {
 	Exit_Rect.x = 0.415625 * obj->Width;
 	Exit_Rect.y =/* 0.75555 */ 0.85 * obj->Height;
 
-
+	initializeGameState(&NewGame, "NewGame", -1,
+		NewGameOnEnterState,
+		NewGameOnExitState,
+		NewGameOnPauseState,
+		NewGameOnResumeState,
+		NewGameUpdate,
+		NewGameRender,
+		NewGameInput);
+	
 }
 
 ///State destruction/////////////////
@@ -152,17 +181,27 @@ CHANGESTATE(MainMenuOnExitState) {
 	SDL_Log("----ON EXIT NOW----\n");
 	obj->CurrentStateIndex--;
 
-	if (MouseOnNewGame == 1)
-	{
-		obj->isRunning = true;
-	}
-
 }
 
 ///State pausing/////////////////
 CHANGESTATE(MainMenuOnPauseState) {
-	obj->Collection[obj->CurrentStateIndex]->isActive = false;
+	obj->Collection[obj->CurrentStateIndex]->isOnPause = true;
 	SDL_Log("----ON PAUSE NOW----\n");
+	switch (chosenwindow)
+	{
+	case 1:
+		if (turnsToProcess == 0)
+		NewGameOnEnterState(obj);
+		turnsToProcess++;
+		break;
+	case 0:
+		//reset turnsToProcess
+		turnsToProcess = 0;
+		break;
+	default:
+		printf("wow...\n");
+		break;
+	}
 }
 
 ///State unpausing/////////////////
@@ -177,7 +216,9 @@ CHANGESTATE(MainMenuOnResumeState) {
 TOPROCESS(MainMenuUpdate) {
 	SDL_Log("----UPDATE LOGIC NOW----\n");
 	///should never be empty unless you plan to do nothing in your state!!!
+
 	
+
 	if (leftButtonMouse == 1)
 	{
 		elapsedTime += elapsedTime_Lag;
@@ -188,35 +229,257 @@ TOPROCESS(MainMenuUpdate) {
 		elapsedTime = 0;
 	}
 
-	if (obj->MouseX >= CreateNewGame_Rect.x && obj->MouseX <= (CreateNewGame_Rect.x + CreateNewGame_Rect.w) && obj->MouseY >= CreateNewGame_Rect.y && obj->MouseY <= (CreateNewGame_Rect.y + CreateNewGame_Rect.h))
-		MouseOnNewGame = 1;
-	else
-		MouseOnNewGame = 0;
+	if (chosenwindow == 0) {
+		if (MouseOverButton(obj, CreateNewGame_Rect) == 1)
+			MouseOnNewGame = 1;
+		else
+			MouseOnNewGame = 0;
 
-	if (obj->MouseX >= LoadGame_Rect.x && obj->MouseX <= (LoadGame_Rect.x + LoadGame_Rect.w) && obj->MouseY >= LoadGame_Rect.y && obj->MouseY <= (LoadGame_Rect.y + LoadGame_Rect.h))
-		MouseOnLoadGame = 1;
-	else
-		MouseOnLoadGame = 0;
+		if (MouseOverButton(obj, LoadGame_Rect) == 1)
+			MouseOnLoadGame = 1;
+		else
+			MouseOnLoadGame = 0;
 
-	if (obj->MouseX >= LevelEditor_Rect.x && obj->MouseX <= (LevelEditor_Rect.x + LevelEditor_Rect.w) && obj->MouseY >= LevelEditor_Rect.y && obj->MouseY <= (LevelEditor_Rect.y + LevelEditor_Rect.h))
-		MouseOnLevelEditor = 1;
-	else
-		MouseOnLevelEditor = 0;
+		if (MouseOverButton(obj, LevelEditor_Rect) == 1)
+			MouseOnLevelEditor = 1;
+		else
+			MouseOnLevelEditor = 0;
 
-	if (obj->MouseX >= Exit_Rect.x && obj->MouseX <= (Exit_Rect.x + Exit_Rect.w) && obj->MouseY >= Exit_Rect.y && obj->MouseY <= (Exit_Rect.y + Exit_Rect.h))
-		MouseOnExit = 1;
-	else
-		MouseOnExit = 0;
-	if (MouseOnExit == 1 && leftButtonMouse == 1)
-		obj->isRunning = true;
-	
+		if (MouseOverButton(obj, Exit_Rect) == 1)
+			MouseOnExit = 1;
+		else
+			MouseOnExit = 0;
+		if (MouseOnExit == 1 && leftButtonMouse == 1)
+			obj->isRunning = true;
+	}
 
+	if (MouseOnNewGame == 1 && leftButtonMouse == 1)
+	{
+		chosenwindow = 1;
+		MainMenuOnPauseState(obj);
+	}
+
+	if (chosenwindow == 1)
+		{
+			NewGameUpdate(obj, elapsedTime_Lag);
+		}
+		
 }
 
 //HIER NIMMST DIE BENUTZTER EINGABE ENTGEGEN UND VERARBEITES SDL EVENTS
 TOPROCESS(MainMenuInput) {
 	SDL_Log("----UPDATE USERINPUT NOW----\n");
 	
+	SDL_Event e;
+	while (SDL_PollEvent(&e))
+	{
+		if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE)
+		{
+			obj->isRunning = true;
+
+		}
+		if (e.key.keysym.sym == SDLK_1) {//<--- Changed from RETURN key to the NUMBER(1) key
+			MainMenuOnExitState(obj);
+			SDL_FlushEvents(SDL_USEREVENT, SDL_LASTEVENT);
+			while (SDL_PollEvent(&e));
+		}
+		//SDL_Mouse MotionAndButtons:
+		if (e.button.button == SDL_BUTTON_LEFT)
+		{
+			leftButtonMouse = 1;
+		}
+		if (e.button.button == SDL_BUTTON_RIGHT)
+		{
+			rightButtonMouse = 1;
+		}
+		
+
+		SDL_GetMouseState(&obj->MouseX, &obj->MouseY);
+
+	}
+	//if(chosenwindow == 1)
+	//	NewGameInput(obj, elapsedTime_Lag);
+
+}
+
+//HIER ZEICHNEST DU NUR HIER!!!!!
+TOPROCESS(MainMenuRender) {
+	SDL_Log("----UPDATE DRAWING NOW----\n");
+	SDL_RenderClear(obj->Renderer);
+
+	//Render all Frames and Background
+	SDL_RenderCopy(obj->Renderer, Background, NULL, &Background_Rect);
+	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &CreateNewGame_Rect);
+	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &LoadGame_Rect);
+	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &LevelEditor_Rect);
+	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &Exit_Rect);
+
+	//Render Fonts
+	SDL_RenderCopy(obj->Renderer, TextureTextNewGame, NULL, &CreateNewGame_Rect);
+	SDL_RenderCopy(obj->Renderer, TextureTextLoadGame, NULL, &LoadGame_Rect);
+	SDL_RenderCopy(obj->Renderer, TextureTextLevelEditor, NULL, &LevelEditor_Rect);
+	SDL_RenderCopy(obj->Renderer, TextureTextExit, NULL, &Exit_Rect);
+
+
+	if (chosenwindow == 0) 
+	{
+		//Render all Frames for Chosen and Clicked
+		if (MouseOnNewGame == 1)
+		{
+			if (leftButtonMouse == 1)
+			{
+				SDL_RenderCopy(obj->Renderer, FrameClicked, &FrameClicked_Rect, &CreateNewGame_Rect);
+			}
+			else
+				SDL_RenderCopy(obj->Renderer, FrameChosen, &FrameChosen_Rect, &CreateNewGame_Rect);
+		}
+		if (MouseOnLoadGame == 1)
+		{
+			if (leftButtonMouse == 1)
+				SDL_RenderCopy(obj->Renderer, FrameClicked, &FrameClicked_Rect, &LoadGame_Rect);
+			else
+				SDL_RenderCopy(obj->Renderer, FrameChosen, &FrameChosen_Rect, &LoadGame_Rect);
+		}
+		if (MouseOnLevelEditor == 1)
+		{
+			if (leftButtonMouse == 1)
+				SDL_RenderCopy(obj->Renderer, FrameClicked, &FrameClicked_Rect, &LevelEditor_Rect);
+			else
+				SDL_RenderCopy(obj->Renderer, FrameChosen, &FrameChosen_Rect, &LevelEditor_Rect);
+		}
+		if (MouseOnExit == 1)
+		{
+			if (leftButtonMouse == 1)
+				SDL_RenderCopy(obj->Renderer, FrameClicked, &FrameClicked_Rect, &Exit_Rect);
+			else
+				SDL_RenderCopy(obj->Renderer, FrameChosen, &FrameChosen_Rect, &Exit_Rect);
+		}
+	}
+	if(chosenwindow == 1)
+		NewGameRender(obj, elapsedTime_Lag);
+	
+	
+	
+	
+	printf("%d %d %d %d", obj->MouseX, obj->MouseY, MouseOnNewGame, leftButtonMouse);
+
+	if(chosenwindow == 0)
+	SDL_RenderPresent(obj->Renderer);
+	
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////NEW GAME STATE //////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+CHANGESTATE(NewGameOnEnterState)
+{
+	obj->Collection[obj->CurrentStateIndex]->isInitialized = true;
+	SDL_SetRenderDrawColor(obj->Renderer, 0x00, 0x00, 0x00, SDL_ALPHA_OPAQUE);
+
+	printf("%d", obj->CurrentStateIndex);
+	//Background of new game state
+	NewGameBackground = IMG_Load("..\\resources\\newgamebackground.png");
+	TexNewGameBackground = SDL_CreateTextureFromSurface(obj->Renderer, NewGameBackground);
+	NewGameBackground_Rect.w = 0.875 * obj->Width;
+	NewGameBackground_Rect.h = 0.7777777 * obj->Height;
+	NewGameBackground_Rect.x = (obj->Width / 2) - (NewGameBackground_Rect.w / 2);
+	NewGameBackground_Rect.y = (obj->Height / 2) - (NewGameBackground_Rect.h / 2);
+
+	//Cancel Button
+	Cancel_Rect.w = 0.17 * NewGameBackground_Rect.w;
+	Cancel_Rect.h = 0.1 * NewGameBackground_Rect.h;
+	Cancel_Rect.x = (((NewGameBackground_Rect.w / 3) - Cancel_Rect.w / 2)) + NewGameBackground_Rect.x;
+	Cancel_Rect.y = (NewGameBackground_Rect.h * 0.777777778) + NewGameBackground_Rect.y;
+
+	//Create Button
+	Create_Rect.w = 0.17 * NewGameBackground_Rect.w;
+	Create_Rect.h = 0.1 * NewGameBackground_Rect.h;
+	Create_Rect.x = ((NewGameBackground_Rect.w * 0.66666666666666666667) - (Create_Rect.w / 2)) + NewGameBackground_Rect.x;
+	Create_Rect.y = (NewGameBackground_Rect.h * 0.777777778) + NewGameBackground_Rect.y;
+
+	//Character Textures Surfaces and positions...
+
+	//CharacterFrame 
+	static SDL_Rect CharacterFrame_Rect[2]; //0 is destination on png pic, 1 is with blue printings
+	CharacterFrame_Rect[0].w = 70;
+	CharacterFrame_Rect[0].h = 85;
+	CharacterFrame_Rect[0].x = 450;
+	CharacterFrame_Rect[0].y = 150;
+	CharacterFrame_Rect[1].w = 70;
+	CharacterFrame_Rect[1].h = 85;
+	CharacterFrame_Rect[1].x = 450;
+	CharacterFrame_Rect[1].y = 235;
+
+	//Characters "Guy" ... destinations on the png!
+	SDL_Texture* TexGuy = nullptr;
+	SDL_Surface* Guy = NULL;
+	SDL_Rect Guy_Rect[8];
+	Guy_Rect[0].x = 65;
+	Guy_Rect[0].y = 0;
+	Guy_Rect[0].w = 62;
+	Guy_Rect[0].h = 63;
+	Guy_Rect[1].x = 258;
+	Guy_Rect[1].y = 0;
+	Guy_Rect[1].w = 62;
+	Guy_Rect[1].h = 63;
+	Guy = IMG_Load("..\\resources\\characters.png");
+	TexGuy = SDL_CreateTextureFromSurface(obj->Renderer, Guy);
+}
+
+CHANGESTATE(NewGameOnExitState) {
+	SDL_Log("----ON EXIT NOW----\n");
+	chosenwindow = 0;
+}
+
+CHANGESTATE(NewGameOnPauseState) {
+	obj->Collection[obj->CurrentStateIndex]->isActive = false;
+	SDL_Log("----ON PAUSE NOW----\n");
+}
+
+///State unpausing///////////////
+CHANGESTATE(NewGameOnResumeState) {
+	obj->Collection[obj->CurrentStateIndex]->isOnPause = false;
+	SDL_Log("----ON RESUME NOW----\n");
+}
+
+TOPROCESS(NewGameUpdate) {
+	SDL_Log("----UPDATE LOGIC NOW----\n");
+	///should never be empty unless you plan to do nothing in your state!!!
+	
+
+	if (leftButtonMouse == 1)
+	{
+		elapsedTime += elapsedTime_Lag;
+	}
+	if (elapsedTime >= 200)
+	{
+		leftButtonMouse = 0;
+		elapsedTime = 0;
+	}
+
+	if (MouseOverButton(obj, Cancel_Rect) == 1)
+		MouseOnCancel = 1;
+	else
+		MouseOnCancel = 0;
+	if (MouseOverButton(obj, Create_Rect) == 1)
+		MouseOnCreate = 1;
+	else
+		MouseOnCreate = 0;
+
+	if ((MouseOverButton(obj, Cancel_Rect) == 1)&& leftButtonMouse == 1)
+	{
+		NewGameOnExitState(obj);
+		MainMenuOnResumeState(obj);
+	}
+}
+
+TOPROCESS(NewGameInput) {
+	SDL_Log("----UPDATE USERINPUT NOW----\n");
+
 	SDL_Event e;
 	while (SDL_PollEvent(&e))
 	{
@@ -247,61 +510,32 @@ TOPROCESS(MainMenuInput) {
 
 }
 
-//HIER ZEICHNEST DU NUR HIER!!!!!
-TOPROCESS(MainMenuRender) {
+TOPROCESS(NewGameRender) {
 	SDL_Log("----UPDATE DRAWING NOW----\n");
-	SDL_RenderClear(obj->Renderer);
+	/*SDL_RenderClear(obj->Renderer);*/
 
-	//Render all Frames and Background
-	SDL_RenderCopy(obj->Renderer, Background, NULL, &Background_Rect);
-	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &CreateNewGame_Rect);
-	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &LoadGame_Rect);
-	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &LevelEditor_Rect);
-	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &Exit_Rect);
+	SDL_RenderCopy(obj->Renderer, TexNewGameBackground, NULL, &NewGameBackground_Rect);
+	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &Cancel_Rect);
+	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &Create_Rect);
+	/*SDL_RenderCopy()*/
 
-	//Render Fonts
-	SDL_RenderCopy(obj->Renderer, TextureTextNewGame, NULL, &CreateNewGame_Rect);
-	SDL_RenderCopy(obj->Renderer, TextureTextLoadGame, NULL, &LoadGame_Rect);
-	SDL_RenderCopy(obj->Renderer, TextureTextLevelEditor, NULL, &LevelEditor_Rect);
-	SDL_RenderCopy(obj->Renderer, TextureTextExit, NULL, &Exit_Rect);
-
-
-	//Render all Frames for Chosen and Clicked
-	if (MouseOnNewGame == 1)
+	if (MouseOnCancel == 1)
 	{
 		if (leftButtonMouse == 1)
-		{
-			SDL_RenderCopy(obj->Renderer, FrameClicked, &FrameClicked_Rect, &CreateNewGame_Rect);
-			MainMenuOnExitState(obj);
-		}
+			SDL_RenderCopy(obj->Renderer, FrameClicked, &FrameClicked_Rect, &Cancel_Rect);
 		else
-			SDL_RenderCopy(obj->Renderer, FrameChosen, &FrameChosen_Rect, &CreateNewGame_Rect);
+			SDL_RenderCopy(obj->Renderer, FrameChosen, &FrameChosen_Rect, &Cancel_Rect);
 	}
-	if (MouseOnLoadGame == 1)
-	{
-		if(leftButtonMouse == 1)
-			SDL_RenderCopy(obj->Renderer, FrameClicked, &FrameClicked_Rect, &LoadGame_Rect);
-		else
-			SDL_RenderCopy(obj->Renderer, FrameChosen, &FrameChosen_Rect, &LoadGame_Rect);
-	}
-	if (MouseOnLevelEditor == 1)
+	if (MouseOnCreate == 1)
 	{
 		if (leftButtonMouse == 1)
-			SDL_RenderCopy(obj->Renderer, FrameClicked, &FrameClicked_Rect, &LevelEditor_Rect);
+			SDL_RenderCopy(obj->Renderer, FrameClicked, &FrameClicked_Rect, &Create_Rect);
 		else
-			SDL_RenderCopy(obj->Renderer, FrameChosen, &FrameChosen_Rect, &LevelEditor_Rect);
+			SDL_RenderCopy(obj->Renderer, FrameChosen, &FrameChosen_Rect, &Create_Rect);
 	}
-	if (MouseOnExit == 1)
-	{
-		if (leftButtonMouse == 1)
-			SDL_RenderCopy(obj->Renderer, FrameClicked, &FrameClicked_Rect, &Exit_Rect);
-		else
-			SDL_RenderCopy(obj->Renderer, FrameChosen, &FrameChosen_Rect, &Exit_Rect);
-	}
+
 	
-	printf("%d %d %d %d", obj->MouseX, obj->MouseY, MouseOnNewGame, leftButtonMouse);
 
 
 	SDL_RenderPresent(obj->Renderer);
-	/*SDL_FreeSurface(TextNewGame);*/
 }
