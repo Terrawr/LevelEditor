@@ -2,6 +2,8 @@
 #include "LevelEditor.h"
 #include <vector>
 
+#include <memory>
+
 //forward Declaration of structs to prevent circular dependencies
 struct GameState;
 struct GameObj;
@@ -53,6 +55,7 @@ struct GameState {
 	toProcess*  Update;
 	toProcess*  Input;
 	toProcess*  Render;
+
 
 };
 
