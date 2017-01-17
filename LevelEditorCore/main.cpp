@@ -28,25 +28,25 @@ int main(int argc, char* argv[])
 	//The Order of initilization is IMPORTANT. I changed it. First Screen, now your Menu and then some demo
 
 	/*FIRST STATE*/
-	//GameState* IntroScreen = createGameState_ObjectInstance(Root); //<---- INTRO
-	//initializeGameState(IntroScreen, "IntroScreen", -1,
-	//	IntroOnEnterState,
-	//	IntroOnExitState,
-	//	IntroOnPauseState,
-	//	IntroOnResumeState,
-	//	IntroUpdate,
-	//	IntroRender,
-	//	IntroInput);
-	/////SECOND STATE
-	//GameState* MainMenu = createGameState_ObjectInstance(Root); //<----- MENU
-	//initializeGameState(MainMenu, "MainMenu", -1,
-	//	MainMenuOnEnterState,
-	//	MainMenuOnExitState,
-	//	MainMenuOnPauseState,
-	//	MainMenuOnResumeState,
-	//	MainMenuUpdate,
-	//	MainMenuRender,
-	//	MainMenuInput);
+	GameState* IntroScreen = createGameState_ObjectInstance(Root); //<---- INTRO
+	initializeGameState(IntroScreen, "IntroScreen", -1,
+		IntroOnEnterState,
+		IntroOnExitState,
+		IntroOnPauseState,
+		IntroOnResumeState,
+		IntroUpdate,
+		IntroRender,
+		IntroInput);
+	///SECOND STATE
+	GameState* MainMenu = createGameState_ObjectInstance(Root); //<----- MENU
+	initializeGameState(MainMenu, "MainMenu", -1,
+		MainMenuOnEnterState,
+		MainMenuOnExitState,
+		MainMenuOnPauseState,
+		MainMenuOnResumeState,
+		MainMenuUpdate,
+		MainMenuRender,
+		MainMenuInput);
 	/*THIRD STATE*/
 	GameState* LevelEditor = createGameState_ObjectInstance(Root); //<---- APPLICATION or SOMETHING ELSE
 	initializeGameState(LevelEditor, "LevelEditor", -1,

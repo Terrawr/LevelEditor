@@ -73,7 +73,7 @@ void renderSingleTile(TileSet* Set,const std::string& TileType, int x, int y) {
 	SDL_Rect DrawableArea = { x,y,
 							  tmp.TileWidth ,tmp.TileHeight };
 
-	render(&Set->Tilesheet,
+	render(Set->Tilesheet,
 		x,
 		y,
 		&DrawableArea, 0, NULL,

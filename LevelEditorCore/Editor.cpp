@@ -7,7 +7,6 @@
 #include <string>
 #include <fstream>
 
-#include <iostream>
 
 
 
@@ -25,29 +24,18 @@ static TileSet SetOfTiles;
 //Hier initialisierst du ALLE deine VARIABLEN
 //NUR HIER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 CHANGESTATE(EditorOnEnterState) {
-	SDL_Log(">>>>Editor OnEnter\n");
 
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = true;
-	//You initialize a INTERNAL STATE like any other state
-	
 
-	SDL_Log(">>>>REGISTER INTERNAL STATE NOW\n");
-	//But you have to register it by manually!!!
-	
-
-	SDL_Log(">>>>>Start loading Resources\n");
 	//Load all Ressources here
 	//
 	loadTileSet("..\\resources\\demo_tiles.tilesheet", &SetOfTiles,obj->Renderer);
-
-	SDL_Log(">>>>>>>>>>>>>>>>>>>>On Enter has finished\n");
 }
 
 ///State destruction/////////////////
 CHANGESTATE(EditorOnExitState) {
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = false;
 
-	
 }
 
 ///State pausing/////////////////
@@ -138,51 +126,6 @@ TOPROCESS(EditorRender) {
 
 
 	//SDL_RenderCopy(obj->Renderer, SetOfTiles.Tilesheet.mTexture, &tt, &tt);
-
-	//You have to draw your INTERNALSTATE BEFORE you present you "normal" state
-	//otherwise you will see nothing
-		
+	
 	SDL_RenderPresent(obj->Renderer);
-
 }
-
-
-//////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////
-
-
-
-
-//CHANGESTATE(INTERNAL_OnEnterState) {
-//	//You init the texture you want to use to render your internal
-//	//state. If you would have decided that both your "normal" state
-//	//and your INTERNAL-state share the same drawing context then you 
-//	//would not need this!!!!!!!!! But only then.
-//	initilizeTexture(&INTERNAL_GRAPHICCONTEXT, obj->Renderer);
-//
-//	//Because in this example you decided to use a seperat drawing context
-//	//you create blank Texture with no content on it. You are responsible 
-//	//for drawing this Texture!!!!
-//	createBlank(&INTERNAL_GRAPHICCONTEXT, 300, 300, SDL_TEXTUREACCESS_TARGET);
-//
-//
-//}
-//CHANGESTATE(INTERNAL_OnExitState) {}
-//CHANGESTATE(INTERNAL_OnPauseState) {}
-//CHANGESTATE(INTERNAL_OnResumeState) {}
-//
-//TOPROCESS(INTERNAL_Update) {
-//	SDL_Log(">>>>>>>>>>INTERNAL STATE RENDERFUNCTION CALL\n");
-//	setAsRenderTarget(&INTERNAL_GRAPHICCONTEXT);
-//	SDL_SetRenderDrawColor(obj->Renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-//	SDL_RenderClear(obj->Renderer);
-//
-//	SDL_RenderPresent(obj->Renderer);
-//	SDL_SetRenderTarget(obj->Renderer, NULL);
-//	SDL_SetRenderDrawColor(obj->Renderer, 0xff, 0xff, 0xff, SDL_ALPHA_OPAQUE);
-//
-//}
-//TOPROCESS(INTERNAL_Input) {}
-//TOPROCESS(INTERNAL_Render) {}
