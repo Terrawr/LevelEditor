@@ -23,6 +23,7 @@ static int rightButtonMouse = 0;
 static int elapsedTime = 0;
 static int chosenwindow = 0;
 static int turnsToProcess = 0;
+static int characterchoice = 0;
 
 static int charactersizeh = 0;
 static int charactersizew = 0;
@@ -53,6 +54,11 @@ static SDL_Surface* TextLevelEditor = NULL;
 static SDL_Texture* TextureTextLevelEditor = nullptr;
 static SDL_Surface* TextExit = NULL;
 static SDL_Texture* TextureTextExit = nullptr;
+static SDL_Texture* TextureTextCancel = nullptr;
+static SDL_Surface* TextCancel = NULL;
+static SDL_Texture* TextureTextCreate = nullptr;
+static SDL_Surface* TextCreate = NULL;
+
 
 static int MouseOnNewGame = 0; // 0 = Mouse not on this Tile, 1 = Mouse on this Tile, MainMenu Button
 static int MouseOnLoadGame = 0; // 0 = Mouse not on this Tile, 1 = Mouse on this Tile, MainMenu Button
@@ -81,6 +87,15 @@ static SDL_Rect NewGameBackground_Rect;
 //Buttons...
 static SDL_Rect Cancel_Rect;
 static SDL_Rect Create_Rect;
+static SDL_Rect Arrows_Rect[4]; //1 and 2 are dests on png, 3 and 4 are dests on screen... left->right
+
+//others
+static SDL_Rect CharacterFrame_Rect[3]; //0 is destination on png pic, 1 is with blue printings, 2 is dest on Screen
+static SDL_Surface* CharacterFrame = NULL;
+static SDL_Texture* TextureCharacterFrame = nullptr;
+static SDL_Texture* TexGuy = nullptr;
+static SDL_Surface* Guy = NULL;
+static SDL_Rect Guy_Rect[8];
 
 //Implementation
 ///State Initialization/////////////////
@@ -181,6 +196,7 @@ CHANGESTATE(MainMenuOnExitState) {
 	SDL_Log("----ON EXIT NOW----\n");
 	obj->CurrentStateIndex--;
 
+	
 }
 
 ///State pausing/////////////////
@@ -404,7 +420,7 @@ CHANGESTATE(NewGameOnEnterState)
 	//Character Textures Surfaces and positions...
 
 	//CharacterFrame 
-	static SDL_Rect CharacterFrame_Rect[2]; //0 is destination on png pic, 1 is with blue printings
+	
 	CharacterFrame_Rect[0].w = 70;
 	CharacterFrame_Rect[0].h = 85;
 	CharacterFrame_Rect[0].x = 450;
@@ -413,11 +429,16 @@ CHANGESTATE(NewGameOnEnterState)
 	CharacterFrame_Rect[1].h = 85;
 	CharacterFrame_Rect[1].x = 450;
 	CharacterFrame_Rect[1].y = 235;
+	CharacterFrame_Rect[2].w = 0.125 * obj->Width;
+	CharacterFrame_Rect[2].h = 0.3333333333 * obj->Height;
+	CharacterFrame_Rect[2].x = ((NewGameBackground_Rect.w / 2) - (CharacterFrame_Rect[2].w / 2 )) + NewGameBackground_Rect.x;
+	CharacterFrame_Rect[2].y = ((NewGameBackground_Rect.h / 2) - (CharacterFrame_Rect[2].h / 2)) + NewGameBackground_Rect.y;
+	CharacterFrame = IMG_Load("..\\resources\\resources.png");
+	TextureCharacterFrame = SDL_CreateTextureFromSurface(obj->Renderer, CharacterFrame);
+
 
 	//Characters "Guy" ... destinations on the png!
-	SDL_Texture* TexGuy = nullptr;
-	SDL_Surface* Guy = NULL;
-	SDL_Rect Guy_Rect[8];
+	
 	Guy_Rect[0].x = 65;
 	Guy_Rect[0].y = 0;
 	Guy_Rect[0].w = 62;
@@ -426,8 +447,37 @@ CHANGESTATE(NewGameOnEnterState)
 	Guy_Rect[1].y = 0;
 	Guy_Rect[1].w = 62;
 	Guy_Rect[1].h = 63;
+	Guy_Rect[2].x = 447;
+	Guy_Rect[2].y = 0;
+	Guy_Rect[2].w = 62;
+	Guy_Rect[2].h = 63;
 	Guy = IMG_Load("..\\resources\\characters.png");
 	TexGuy = SDL_CreateTextureFromSurface(obj->Renderer, Guy);
+
+	TextCancel = TTF_RenderText_Solid(MenuFont, "    Cancel    ", MenuCol);
+	TextureTextCancel = SDL_CreateTextureFromSurface(obj->Renderer, TextCancel);
+	TextCreate = TTF_RenderText_Solid(MenuFont, "    Create    ", MenuCol);
+	TextureTextCreate = SDL_CreateTextureFromSurface(obj->Renderer, TextCreate);
+
+	//Arrows....
+	Arrows_Rect[0].w = 30;
+	Arrows_Rect[0].h = 90;
+	Arrows_Rect[0].x = 970;
+	Arrows_Rect[0].y = 0;
+	Arrows_Rect[1].w = 30;
+	Arrows_Rect[1].h = 90;
+	Arrows_Rect[1].x = 940;
+	Arrows_Rect[1].y = 0;
+
+	Arrows_Rect[2].w = 0.01875 * obj->Width;
+	Arrows_Rect[2].h = 0.1 * obj->Height;
+	Arrows_Rect[2].x = (obj->Width / 2) - Arrows_Rect[2].w - (0.6 * CharacterFrame_Rect[2].w);
+	Arrows_Rect[2].y = ((NewGameBackground_Rect.h / 2) - (CharacterFrame_Rect[2].h / 2)) + NewGameBackground_Rect.y + (CharacterFrame_Rect[2].h / 2) - (Arrows_Rect[2].h / 2);
+
+	Arrows_Rect[3].w = 0.01875 * obj->Width;
+	Arrows_Rect[3].h = 0.1 *obj->Height;
+	Arrows_Rect[3].x = (obj->Width / 2) + (0.6 * CharacterFrame_Rect[2].w);
+	Arrows_Rect[3].y = ((NewGameBackground_Rect.h / 2) - (CharacterFrame_Rect[2].h / 2)) + NewGameBackground_Rect.y + (CharacterFrame_Rect[2].h / 2) - (Arrows_Rect[2].h / 2);
 }
 
 CHANGESTATE(NewGameOnExitState) {
@@ -517,7 +567,7 @@ TOPROCESS(NewGameRender) {
 	SDL_RenderCopy(obj->Renderer, TexNewGameBackground, NULL, &NewGameBackground_Rect);
 	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &Cancel_Rect);
 	SDL_RenderCopy(obj->Renderer, Frame, &Frame_Rect, &Create_Rect);
-	/*SDL_RenderCopy()*/
+	SDL_RenderCopy(obj->Renderer, TextureCharacterFrame, &CharacterFrame_Rect[0], &CharacterFrame_Rect[2]);
 
 	if (MouseOnCancel == 1)
 	{
@@ -533,6 +583,13 @@ TOPROCESS(NewGameRender) {
 		else
 			SDL_RenderCopy(obj->Renderer, FrameChosen, &FrameChosen_Rect, &Create_Rect);
 	}
+
+	SDL_RenderCopy(obj->Renderer, TextureTextCancel, NULL, &Cancel_Rect);
+	SDL_RenderCopy(obj->Renderer, TextureTextCreate, NULL, &Create_Rect);
+	SDL_RenderCopy(obj->Renderer, TextureCharacterFrame, &Arrows_Rect[0], &Arrows_Rect[2]);
+	SDL_RenderCopy(obj->Renderer, TextureCharacterFrame, &Arrows_Rect[1], &Arrows_Rect[3]);
+
+
 
 	
 
