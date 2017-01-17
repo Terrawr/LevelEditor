@@ -5,6 +5,8 @@
 #include <queue>
 #include "RessourceManager.h"
 
+
+
 struct GameState;
 struct Command;
 struct RessourceManager;
@@ -23,6 +25,8 @@ struct GameObj
 
 	SDL_Window*				Window;
 	SDL_Renderer*			Renderer;
+
+	
 };
 
 

@@ -47,8 +47,12 @@ void initializeGameState(GameState* obj, const std::string& Name, int ID, change
 	obj->Render = Render;
 	obj->Input = Input;
 
+	obj->EventHandler = NULL; //DEFAULT VALUE IS EXPLICITLY NULL
+
+	obj->INTERNALCURRENTINDEX = -1;
+
 	obj->ID = ID;
-	obj->Name =(char*) Name.c_str();
+	obj->Name =  Name.c_str();
 	obj->isInitialized = false;
 
 

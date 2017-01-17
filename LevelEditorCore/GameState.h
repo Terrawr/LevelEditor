@@ -1,6 +1,7 @@
 #pragma once
 #include "LevelEditor.h"
 #include <vector>
+#include <SDL.h>
 
 //forward Declaration of structs to prevent circular dependencies
 struct GameState;
@@ -13,6 +14,8 @@ struct GameObj;
 //creating Functionpointer types
 typedef CHANGESTATE(changeState);
 typedef TOPROCESS(toProcess);
+
+typedef void eventCallback(SDL_Event* e);
 
 /**
 * \brief GameState is the Interface description for all possible Gamestates
@@ -36,12 +39,13 @@ typedef TOPROCESS(toProcess);
 * using the very same structure.
 */
 struct GameState {
-	char*					Name;
+	const char*				Name;
 	int						ID;
 	bool					isInitialized = false;;
 	bool					isActive = false;
 	bool					isOnPause = false;
 	std::vector<GameState*>	InternalStates; //TODO(jojo): Necessary? or maybe different?
+	int						INTERNALCURRENTINDEX;
 
 	//Must be coded for each State seperatly
 	changeState* onEnter;
@@ -53,6 +57,9 @@ struct GameState {
 	toProcess*  Update;
 	toProcess*  Input;
 	toProcess*  Render;
+
+	//optional propably only used for internalstates
+	eventCallback*			EventHandler;
 
 	GameState() : InternalStates() {}
 
