@@ -180,3 +180,16 @@ TOPROCESS(IntroRender) {
 
 	SDL_RenderPresent(obj->Renderer);
 }
+
+int MouseOverButton(GameObj* obj, SDL_Rect Button)
+{
+	//Testing if Mouse is over Button
+	//Return 1 == true, Return 0 == false
+
+	if (obj->MouseX >= Button.x && obj->MouseX <= (Button.x + Button.w) && obj->MouseY >= Button.y && obj->MouseY <= (Button.y + Button.h))
+	{
+		return 1;
+	}
+	else
+		return 0;
+}
