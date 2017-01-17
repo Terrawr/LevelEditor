@@ -19,7 +19,7 @@ void deleteState(GameObj* obj, GameState* state) {
 
 
 GameState* createGameState_ObjectInstance(GameObj* obj) {
-	GameState* state = (GameState*)malloc(sizeof(GameState));
+	GameState* state = new GameState(); // DO NOT USE MALLOC!!! BECAUSE WE USE STD::VECTOR WE NEED TO MAKE SURE CTOR OF STD::VECTOR IS CALLED
 	registerState(obj, state);
 
 	return state;

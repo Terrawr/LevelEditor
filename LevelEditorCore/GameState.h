@@ -54,6 +54,8 @@ struct GameState {
 	toProcess*  Input;
 	toProcess*  Render;
 
+	GameState() : InternalStates() {}
+
 };
 
 //
