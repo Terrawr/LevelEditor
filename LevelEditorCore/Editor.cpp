@@ -3,70 +3,36 @@
 #include "GameObject.h"
 #include "UserInterface.h"
 #include "Texture.h"
-#include "Tiles.h"
+#include "SDL_image.h"
+#include "Texture.h"
+#include "SDL_ttf.h"
+#include "SDL.h"
+
 #include <string>
 #include <fstream>
 
-
-//INTERNAL STATES INCLUDES
-#include "TileView.h"
-
-
-
+//All for Input, Update and stuffy stuff
 static int leftButtonMouse = 0;
 static int rightButtonMouse = 0;
 
-//Structs 
-GameState INTERNAL;
+//all Surfaces
+
+//all Textures
 
 
+//allFonts
 
-//Globals
-static TileSet SetOfTiles;
-static GameObj*   Root = NULL;
-static GameState* This = NULL;
 
-//Implementation
-///State Initialization/////////////////
-//Hier initialisierst du ALLE deine VARIABLEN
-//NUR HIER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 CHANGESTATE(EditorOnEnterState) {
 
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = true;
-	Root = obj;
-	This = obj->Collection[obj->CurrentStateIndex];
 
-	initializeGameState(&INTERNAL, "INTERNAL", -1,
-		TileView_OnEnter,
-		TileView_OnExitState,
-		TileView_OnPauseState,
-		TileView_OnResumeState,
-		TileView_Update,
-		TileView_Render,
-		TileView_Input
-	);
-	obj->Collection[obj->CurrentStateIndex]->InternalStates.push_back(&INTERNAL);
-	
-	This->INTERNALCURRENTINDEX++;
-
-	//All InternalStates has to be initialised even if you do not use them
-	for (auto states : obj->Collection[obj->CurrentStateIndex]->InternalStates) {
-		SDL_Log("Initialize INTERNAL STATE\n");
-		states->onEnter(obj);
-	}
-	
-	//Load all Ressources here
-	//
-	loadTileSet("..\\resources\\demo_tiles.tilesheet", &SetOfTiles,obj->Renderer);
 }
 
 ///State destruction/////////////////
 CHANGESTATE(EditorOnExitState) {
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = false;
-	//Every InternalState has to be destroyed.
-	for (auto states : obj->Collection[obj->CurrentStateIndex]->InternalStates) {
-		states->onExit(obj);
-	}
+	
 
 }
 
@@ -89,12 +55,10 @@ TOPROCESS(EditorUpdate) {
 	SDL_Log("FrameTime[s]: %f | FrameTime[ms]: %f | FPS: %f \n", (elapsedTime_Lag/1000.f), (elapsedTime_Lag ), ( 1000.f / elapsedTime_Lag ));
 
 
-	if (This->INTERNALCURRENTINDEX > -1)
-	{
-		if (!obj->Collection[obj->CurrentStateIndex]->InternalStates.empty())
-			obj->Collection[obj->CurrentStateIndex]->Input(obj,elapsedTime_Lag);
-	}
+	
 
+	/*leftButtonMouse = 0;
+	rightButtonMouse = 0;*/
 }
 
 //HIER NIMMST DIE BENUTZTER EINGABE ENTGEGEN UND VERARBEITES SDL EVENTS
@@ -108,20 +72,6 @@ TOPROCESS(EditorInput) {
 		}
 		if (e.type == SDL_KEYDOWN)
 		{
-			if (e.key.keysym.sym == SDLK_BACKSPACE) {
-				EditorOnExitState(obj);
-			}
-			if (e.key.keysym.sym == SDLK_c) {
-				//WARNING JUST AN EXAMPLE. YOU CAN DO IT DIFFERENTLY
-				if (This->InternalStates.empty())
-				{
-					This->InternalStates.push_back(&INTERNAL);
-					This->INTERNALCURRENTINDEX++;
-				}
-					
-
-			}
-			//SDL_Mouse MotionAndButtons:
 			if (e.button.button == SDL_BUTTON_LEFT)
 			{
 				leftButtonMouse = 1;
@@ -131,66 +81,28 @@ TOPROCESS(EditorInput) {
 				rightButtonMouse = 1;
 			}
 		}
-		
-		if(!This->InternalStates.empty() && This->INTERNALCURRENTINDEX > -1)
-			if (This->InternalStates[This->INTERNALCURRENTINDEX]->EventHandler != NULL)
-				This->InternalStates[This->INTERNALCURRENTINDEX]->EventHandler(&e);
-
-	}
-	
-		if (This->INTERNALCURRENTINDEX > -1)
+		if (e.type == SDL_KEYUP)
 		{
-			if (!This->InternalStates.empty())
+			if (e.button.button == SDL_BUTTON_LEFT)
 			{
-				This->InternalStates[This->INTERNALCURRENTINDEX]->Input(obj, elapsedTime_Lag);
+				leftButtonMouse = 0;
+			}
+			if (e.button.button == SDL_BUTTON_RIGHT)
+			{
+				rightButtonMouse = 0;
 			}
 		}
+	}
+		
 	SDL_GetMouseState(&obj->MouseX, &obj->MouseX);
 }
 
 //HIER ZEICHNEST DU NUR HIER!!!!!
 TOPROCESS(EditorRender) {
-
-	/////////////////////////START DRAWING ON TEXTURE////////////////////////////
-	//setAsRenderTarget(&TileMapArea);
-
-	////SDL_SetRenderDrawColor(obj->Renderer, 0xFF, 0xFF, 0xFF,SDL_ALPHA_OPAQUE);
-	//SDL_RenderClear(obj->Renderer);
-	//SDL_SetRenderDrawColor(obj->Renderer, 0xff, 0xaa, 0xff, SDL_ALPHA_OPAQUE);
- //  
-	//SDL_RenderFillRect(obj->Renderer, &rect);
-
-
-	//////////////////////START DRAWING ON WINDOW/////////////////////////////
-	//SDL_SetRenderTarget(obj->Renderer, NULL);
 	SDL_SetRenderDrawColor(obj->Renderer, 0xff, 0xff, 0xff, SDL_ALPHA_OPAQUE);
 	SDL_RenderClear(obj->Renderer);
 	
-	auto t = getTile(&SetOfTiles, "grass");
 
-	SDL_Rect  tt = { t.x,t.y, t.TileWidth , t.TileHeight };
-
-	//SDL_Log("Tile w = %d | Tile h = %d", tt.w, tt.h);
-
-	render(&SetOfTiles.Tilesheet,
-		100, 
-		100 , 
-		&tt , 0, NULL,
-		SDL_FLIP_NONE);
-
-
-
-
-
-	//SDL_RenderCopy(obj->Renderer, SetOfTiles.Tilesheet.Texture, &tt, &tt);
-	
-	if (This->INTERNALCURRENTINDEX > -1)
-	{
-		if (!This->InternalStates.empty())
-			This->InternalStates[This->INTERNALCURRENTINDEX]->Render(obj, elapsedTime_Lag);
-	}
-
-	
 
 	SDL_RenderPresent(obj->Renderer);
 }
