@@ -7,7 +7,7 @@
 
 
 
-void loadTextureFromFile(GameObj* obj, const std::string& FilePath, const std::string& RessourceName) {
+void rm_loadTextureFromFile(GameObj* obj, const std::string& FilePath, const std::string& RessourceName) {
 
 	Texture* t = (Texture*) malloc(sizeof(Texture));
 	auto path = obj->Assets.RessourcePath + FilePath;
@@ -20,7 +20,7 @@ void loadTextureFromFile(GameObj* obj, const std::string& FilePath, const std::s
 	obj->Assets.Textures.insert(std::make_pair(RessourceName, t));
 
 }
-void loadFontsFromFile(GameObj* obj, const std::string& FilePath, const std::string& RessourceName) {
+void rm_loadFontsFromFile(GameObj* obj, const std::string& FilePath, const std::string& RessourceName) {
 	TTF_Font* t = NULL;
 	auto path = obj->Assets.RessourcePath + FilePath;
 	t = TTF_OpenFont(path.c_str(), 16);
@@ -30,7 +30,7 @@ void loadFontsFromFile(GameObj* obj, const std::string& FilePath, const std::str
 	
 	obj->Assets.Fonts.insert(std::make_pair(RessourceName, t));
 }
-void loadTextsFromFile(GameObj* obj, const std::string& FilePath, const std::string& RessourceName) {
+void rm_loadTextsFromFile(GameObj* obj, const std::string& FilePath, const std::string& RessourceName) {
 
 	auto path = obj->Assets.RessourcePath + FilePath;
 	std::string line;
@@ -49,18 +49,25 @@ void loadTextsFromFile(GameObj* obj, const std::string& FilePath, const std::str
 	obj->Assets.Texts.insert(std::make_pair(RessourceName, textstream.str()));
 }
 
-Texture*	getTexture(GameObj* obj, const std::string& ResourceName) {
+Texture*		rm_getTexture(GameObj* obj, const std::string& ResourceName) {
 
 
 	return obj->Assets.Textures[ResourceName];
 
 }
-TTF_Font* getFonts(GameObj* obj, const std::string& ResourceName) {
+TTF_Font*		rm_getFonts(GameObj* obj, const std::string& ResourceName) {
 
 	return obj->Assets.Fonts[ResourceName];
 
 }
-std::string&    getText(GameObj*obj, const std::string& ResourceName) {
+std::string&    rm_getText(GameObj*obj, const std::string& ResourceName) {
 
 	return obj->Assets.Texts[ResourceName];
+}
+
+
+void rm_storeString(GameObj* obj, const std::string& String, const std::string& Key) {
+	obj->Assets.Texts.insert(
+		std::make_pair(Key, String)
+	);
 }

@@ -29,9 +29,6 @@ TileMap theMap;
 CHANGESTATE(EditorOnEnterState) {
 
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = true;
-	loadTextureFromFile(obj, "resources.png", "Resources");
-
-	theMap = LoadTileMap(obj,"../resources/TheMap.map");
 
 }
 
@@ -110,7 +107,7 @@ TOPROCESS(EditorRender) {
 	
 	//SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, NULL, NULL);
 
-	renderSingleTile(&theMap.mCurrentTileset, "lava", 300, 300);
+	re_renderSingleTile(&theMap.mCurrentTileset, "lava", 300, 300);
 	render(&theMap.mCurrentTileset.Tilesheet, 100, 100, NULL, 45, NULL, SDL_FLIP_NONE);
 
 	SDL_RenderPresent(obj->Renderer);

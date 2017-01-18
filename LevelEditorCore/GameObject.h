@@ -22,6 +22,7 @@ struct GameObj
 
 	int						Width, Height;
 	int						MouseX, MouseY;
+	float					lastFrameTime ;
 
 	SDL_Window*				Window;
 	SDL_Renderer*			Renderer;

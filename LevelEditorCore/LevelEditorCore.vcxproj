@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Demo_State_jojo.cpp" />
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="GameObj.cpp" />
     <ClCompile Include="GameStateInterface.cpp" />
@@ -160,6 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Command.h" />
+    <ClInclude Include="Demo_State_jojo.h" />
     <ClInclude Include="EditorState.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameState.h" />

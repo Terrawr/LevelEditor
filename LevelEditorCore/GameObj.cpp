@@ -77,6 +77,7 @@ void initializeGameObj(GameObj* obj, char*Title,int width, int height) {
 	}
 
 	obj->CurrentStateIndex = -1;
+	obj->lastFrameTime = 0.0f;
 	
 }
 

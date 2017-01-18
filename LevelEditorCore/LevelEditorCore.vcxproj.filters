@@ -90,6 +90,9 @@
     <ClInclude Include="GameState.h">
       <Filter>Header Files\GameDepended\GameStates</Filter>
     </ClInclude>
+    <ClInclude Include="Demo_State_jojo.h">
+      <Filter>Header Files\GameDepended\GameStates</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -127,6 +130,9 @@
     </ClCompile>
     <ClCompile Include="UserInterface.cpp">
       <Filter>Source Files\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Demo_State_jojo.cpp">
+      <Filter>Source Files\GameStates</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

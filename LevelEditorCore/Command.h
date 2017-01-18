@@ -3,15 +3,23 @@
 #include <functional>
 
 
-
+//DEFINES BEHAVIOUR FOR THE PROGRAMM. Internal State behaviour must be defined seperatly!!!!!!!!!!!!!!!!!!!!
 enum {
 	EXIT,
 	STATEUP,
 	STATEDOWN,
+	TERMINATE_STATE,
+	TERMINATE_GAME,
+	NEXT_STATE,
+	PREVIOUS_STATE,
+	PAUSE_STATE,
+	RESUME_STATE,
 	UNKOWN
 };
 
-typedef void CallBack(GameObj*, float delta);
+#define COMMAND_CALLBACK(name) void name(GameObj* obj, float dt)
+typedef COMMAND_CALLBACK(CallBack);
+
 struct GameObj;
 
 struct Command {
