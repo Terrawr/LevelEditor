@@ -30,6 +30,7 @@ static int characterchoice = 0; //0-7
 static int charactersizeh = 0;
 static int charactersizew = 0;
 
+
 static SDL_Texture* Background = nullptr;
 static SDL_Texture* Frame = nullptr;
 static SDL_Texture* FrameChosen = nullptr;
@@ -196,7 +197,10 @@ CHANGESTATE(MainMenuOnExitState) {
 	obj->Collection[obj->CurrentStateIndex]->isActive = false;
 	obj->Collection[obj->CurrentStateIndex]->isOnPause = true;
 	SDL_Log("----ON EXIT NOW----\n");
-	obj->CurrentStateIndex--;
+	if (MouseOverButton(obj, Exit_Rect) == 1)
+		obj->CurrentStateIndex--;
+	if (MouseOverButton(obj, LevelEditor_Rect) == 1)
+		obj->CurrentStateIndex++;
 
 	
 }
@@ -281,6 +285,8 @@ TOPROCESS(MainMenuUpdate) {
 		{
 			NewGameUpdate(obj, elapsedTime_Lag);
 		}
+	if (MouseOverButton(obj, LevelEditor_Rect) == 1 && leftButtonMouse == 1)
+		MainMenuOnExitState(obj);
 		
 }
 
@@ -504,6 +510,7 @@ CHANGESTATE(NewGameOnEnterState)
 	Arrows_Rect[3].h = 0.07 *obj->Height;
 	Arrows_Rect[3].x = (obj->Width / 2) + (0.6 * CharacterFrame_Rect[2].w);
 	Arrows_Rect[3].y = ((NewGameBackground_Rect.h / 2) - (CharacterFrame_Rect[2].h / 2)) + NewGameBackground_Rect.y + (CharacterFrame_Rect[2].h / 2) - (Arrows_Rect[2].h / 2);
+
 }
 
 CHANGESTATE(NewGameOnExitState) {
