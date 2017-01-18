@@ -1,0 +1,15 @@
+Class		HP		ED		MP		MK		AT		AS
+Warrior		250		100		0		0		45		0.9
+Assasin		200		175		10		50		35		1.6
+Berserk		350		75		0		0		35		0.7
+Druid		175		120		45		120		25		0.9
+Mage		175		100		75		250		10		0.8
+Priest		350		50		100		350		10		0.7
+Girl		50		50		0		0		10		0.5
+Necromancer	175		120		120		300		20		1.3
+
+ED = Endurance
+MP = Magic Points (like Endurance)
+MK = Magic Attack Points
+AT = AttackDamage
+AS = AttackSpeed
