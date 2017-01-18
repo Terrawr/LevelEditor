@@ -167,8 +167,6 @@
     <ClInclude Include="LevelEditor.h" />
     <ClInclude Include="mainmenu.h" />
     <ClInclude Include="RessourceManager.h" />
-    <ClInclude Include="SplashScreen.h" />
-    <ClInclude Include="Splashscreen2.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Tiles.h" />
     <ClInclude Include="TileView.h" />

@@ -49,6 +49,9 @@
     <Filter Include="Header Files\Graphic\UserInterface">
       <UniqueIdentifier>{872e8dd4-131e-496e-a57d-5807e3f84b25}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\IO">
+      <UniqueIdentifier>{44be14a0-8242-4031-ae1b-d12b1b310e73}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -56,12 +59,6 @@
     </ClInclude>
     <ClInclude Include="LevelEditor.h">
       <Filter>Header Files\GameDepended</Filter>
-    </ClInclude>
-    <ClInclude Include="SplashScreen.h">
-      <Filter>Header Files\GameDepended\GameStates</Filter>
-    </ClInclude>
-    <ClInclude Include="Splashscreen2.h">
-      <Filter>Header Files\GameDepended\GameStates</Filter>
     </ClInclude>
     <ClInclude Include="EditorState.h">
       <Filter>Header Files\GameDepended\GameStates</Filter>
@@ -78,9 +75,6 @@
     <ClInclude Include="TileView.h">
       <Filter>Header Files\GameDepended\GameStates\InternalStates</Filter>
     </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Tiles.h">
       <Filter>Header Files\TileEngine</Filter>
     </ClInclude>
@@ -92,6 +86,9 @@
     </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>Header Files\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Header Files\GameDepended\GameStates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
