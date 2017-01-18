@@ -1,5 +1,6 @@
 #pragma once
 #include "Texture.h"
+#include "LevelEditor.h"
 /*
 Contains all functions and structs necessary for our
 internal User interface.
@@ -36,5 +37,5 @@ typedef struct UI_INTERFACEDESCRIPTION {
 
 
 void UI_initializeUserInterface();
-void UI_createWindow
+void UI_createWindow(Box);
 

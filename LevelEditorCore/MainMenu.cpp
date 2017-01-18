@@ -200,7 +200,10 @@ CHANGESTATE(MainMenuOnExitState) {
 	if (MouseOverButton(obj, Exit_Rect) == 1)
 		obj->CurrentStateIndex--;
 	if (MouseOverButton(obj, LevelEditor_Rect) == 1)
+	{
 		obj->CurrentStateIndex++;
+		
+	}
 
 	
 }

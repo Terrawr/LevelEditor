@@ -15,18 +15,18 @@
 static int leftButtonMouse = 0;
 static int rightButtonMouse = 0;
 
-//all Surfaces
+static SDL_Rect test;
 
-//all Textures
-
-
-//allFonts
 
 
 CHANGESTATE(EditorOnEnterState) {
 
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = true;
-
+	loadTextureFromFile(obj, "resources.png", "Resources");
+	test.x = 0;
+	test.y = 0;
+	test.w = 1600;
+	test.h = 900;
 }
 
 ///State destruction/////////////////
@@ -102,7 +102,7 @@ TOPROCESS(EditorRender) {
 	SDL_SetRenderDrawColor(obj->Renderer, 0xff, 0xff, 0xff, SDL_ALPHA_OPAQUE);
 	SDL_RenderClear(obj->Renderer);
 	
-
+	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, NULL, &test);
 
 	SDL_RenderPresent(obj->Renderer);
 }

@@ -48,7 +48,7 @@ void loadTextsFromFile(GameObj* obj, const std::string& FilePath, const std::str
 Texture*	getTexture(GameObj* obj, const std::string& ResourceName) {
 
 
-	return obj->Assets.Textures[ResourceName].get();
+	return obj->Assets.Textures[ResourceName];
 
 }
 TTF_Font* getFonts(GameObj* obj, const std::string& ResourceName) {

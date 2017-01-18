@@ -13,7 +13,7 @@ struct GameObj;
 struct RessourceManager {
 
 	std::string RessourcePath;
-	std::map<std::string, std::unique_ptr<Texture>>		 Textures;
+	std::map<std::string, Texture*>		 Textures;
 	std::map<std::string, TTF_Font*>     Fonts;
 	std::map<std::string, std::string>					 Texts;
 	//std::map<std::string, Mix_Music*>    Music;
@@ -28,7 +28,7 @@ struct RessourceManager {
 
 
 
-void loadTextureFromFile(GameObj* obj, const std::string& FilePath, const std::string& RessourceName);
+void loadTextureFromFile(GameObj* obj, const std::string& FilePath, const std::string& RessourceName); // void loadTextureFromFile(GameObj* obj, const std::string& FilePath, const std::string& RessourceName);
 void loadFontsFromFile(GameObj* obj, const std::string& FilePath, const std::string& RessourceName);
 void loadTextsFromFile(GameObj* obj, const std::string& FilePath, const std::string& RessourceName);
 
