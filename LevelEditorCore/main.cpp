@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 	GameObj*  Root = createGameObjectHandle();
 	initializeGameObj(Root,"LevelEditor", 1440,786);
 
-
+	Root->Assets.RessourcePath = "../resources/";
 
 	//The Order of initilization is IMPORTANT. I changed it. First Screen, now your Menu and then some demo
 
@@ -49,15 +49,15 @@ int main(int argc, char* argv[])
 		MainMenuRender,
 		MainMenuInput);
 	/*THIRD STATE*/
-	//GameState* LevelEditor = createGameState_ObjectInstance(Root); //<---- APPLICATION or SOMETHING ELSE
-	//initializeGameState(LevelEditor, "LevelEditor", -1,
-	//	EditorOnEnterState,
-	//	EditorOnExitState,
-	//	EditorOnPauseState,
-	//	EditorOnResumeState,
-	//	EditorUpdate,
-	//	EditorRender,
-	//	EditorInput);
+	GameState* LevelEditor = createGameState_ObjectInstance(Root); //<---- APPLICATION or SOMETHING ELSE
+	initializeGameState(LevelEditor, "LevelEditor", -1,
+		EditorOnEnterState,
+		EditorOnExitState,
+		EditorOnPauseState,
+		EditorOnResumeState,
+		EditorUpdate,
+		EditorRender,
+		EditorInput);
 	///FOURTH STATE
 	///FIFTH STATE
 
