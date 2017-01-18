@@ -49,15 +49,15 @@ int main(int argc, char* argv[])
 		MainMenuRender,
 		MainMenuInput);
 	/*THIRD STATE*/
-	//GameState* LevelEditor = createGameState_ObjectInstance(Root); //<---- APPLICATION or SOMETHING ELSE
-	//initializeGameState(LevelEditor, "LevelEditor", -1,
-	//	EditorOnEnterState,
-	//	EditorOnExitState,
-	//	EditorOnPauseState,
-	//	EditorOnResumeState,
-	//	EditorUpdate,
-	//	EditorRender,
-	//	EditorInput);
+	GameState* LevelEditor = createGameState_ObjectInstance(Root); //<---- LevelEditor
+	initializeGameState(LevelEditor, "LevelEditor", -1,
+		EditorOnEnterState,
+		EditorOnExitState,
+		EditorOnPauseState,
+		EditorOnResumeState,
+		EditorUpdate,
+		EditorRender,
+		EditorInput);
 	///FOURTH STATE
 	///FIFTH STATE
 
