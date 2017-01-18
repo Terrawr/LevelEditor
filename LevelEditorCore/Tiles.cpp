@@ -28,6 +28,7 @@ Tile createTile(int x, int y, int w, int h, int index, int type) {
 
 void loadTileSet(const std::string& location,TileSet* Set,SDL_Renderer* renderer) {
 	std::fstream tileset(location.c_str(),std::ios_base::in|std::ios_base::out|std::ios_base::app); //<--read-only access
+	
 	if (tileset.is_open()) {
 		std::string imagepath;
 		///Read the Header
@@ -41,14 +42,22 @@ void loadTileSet(const std::string& location,TileSet* Set,SDL_Renderer* renderer
 		while (std::getline(tileset, line))  //<-- Read one line of Content till the end of File
 		{
 			std::istringstream iss(line);
+
+
+
+
 			int tileX, tileY; //<-- Position on the Tilesheet
 			int tileW, tileH; //<-- Outlines of the actuall Tile
 			int index, intType;
 			std::string TileType; //<-- Type of the tile
-			if (!(iss >> TileType >> intType >> index >>
-				tileX >> tileY >> tileW >> tileH)) {
+
+
+			if (!(iss >> TileType >> intType >> index >>tileX >> tileY >> tileW >> tileH)) {
 				SDL_Log("FileEnd"); continue;; //<-- skip if line is corrupted
 			} //<-- Read values of an line or quit loop if error occured
+
+			iss >> TileType;
+			iss >> intType;
 
 			SDL_Log("Tile(%s) \t[%d|%d] \t{w = %d|h = %d} ",TileType.c_str(),tileX,tileY, tileW, tileH);
 
@@ -62,6 +71,7 @@ void loadTileSet(const std::string& location,TileSet* Set,SDL_Renderer* renderer
 	else {
 		//Error
 	}
+
 	
 	SDL_Log("TilesetLoaded\n");
 	return;

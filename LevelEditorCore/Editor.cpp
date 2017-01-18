@@ -12,21 +12,17 @@
 #include "TileView.h"
 
 
-
-static int leftButtonMouse = 0;
-static int rightButtonMouse = 0;
-
-//Structs 
-GameState INTERNAL;
-
-
-
 //Globals
+static GameState INTERNAL;
 static TileSet SetOfTiles;
 static GameObj*   Root = NULL;
 static GameState* This = NULL;
 
-//Implementation
+static int leftButtonMouse = 0;
+static int rightButtonMouse = 0;
+
+
+
 ///State Initialization/////////////////
 //Hier initialisierst du ALLE deine VARIABLEN
 //NUR HIER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -35,8 +31,10 @@ CHANGESTATE(EditorOnEnterState) {
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = true;
 	Root = obj;
 	This = obj->Collection[obj->CurrentStateIndex];
-
-	initializeGameState(&INTERNAL, "INTERNAL", -1,
+	///////////////////////////////////////////////////////////////
+	//////////Initialize all Internal States Here and Now//////////
+	///////////////////////////////////////////////////////////////
+	initializeGameState(&INTERNAL, "TileView", -1,
 		TileView_OnEnter,
 		TileView_OnExitState,
 		TileView_OnPauseState,
@@ -45,26 +43,26 @@ CHANGESTATE(EditorOnEnterState) {
 		TileView_Render,
 		TileView_Input
 	);
-	obj->Collection[obj->CurrentStateIndex]->InternalStates.push_back(&INTERNAL);
-	
+	This->InternalStates.push_back(&INTERNAL);
 	This->INTERNALCURRENTINDEX++;
 
 	//All InternalStates has to be initialised even if you do not use them
-	for (auto states : obj->Collection[obj->CurrentStateIndex]->InternalStates) {
+	for (auto states : This->InternalStates) {
 		SDL_Log("Initialize INTERNAL STATE\n");
 		states->onEnter(obj);
 	}
-	
+	/////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
+
 	//Load all Ressources here
-	//
 	loadTileSet("..\\resources\\demo_tiles.tilesheet", &SetOfTiles,obj->Renderer);
 }
 
 ///State destruction/////////////////
 CHANGESTATE(EditorOnExitState) {
-	obj->Collection[obj->CurrentStateIndex]->isInitialized = false;
+	This->isInitialized = false;
 	//Every InternalState has to be destroyed.
-	for (auto states : obj->Collection[obj->CurrentStateIndex]->InternalStates) {
+	for (auto states : This->InternalStates) {
 		states->onExit(obj);
 	}
 
@@ -72,12 +70,12 @@ CHANGESTATE(EditorOnExitState) {
 
 ///State pausing/////////////////
 CHANGESTATE(EditorOnPauseState) {
-	obj->Collection[obj->CurrentStateIndex]->isActive = false;
+	This->isActive = false;
 }
 
 ///State unpausing/////////////////
 CHANGESTATE(EditorOnResumeState) {
-	obj->Collection[obj->CurrentStateIndex]->isOnPause = false;
+	This->isOnPause = false;
 }
 
 
@@ -91,8 +89,8 @@ TOPROCESS(EditorUpdate) {
 
 	if (This->INTERNALCURRENTINDEX > -1)
 	{
-		if (!obj->Collection[obj->CurrentStateIndex]->InternalStates.empty())
-			obj->Collection[obj->CurrentStateIndex]->Input(obj,elapsedTime_Lag);
+		if (!This->InternalStates.empty())
+			This->InternalStates[This->INTERNALCURRENTINDEX]->Update(obj,elapsedTime_Lag);
 	}
 
 }
@@ -138,13 +136,14 @@ TOPROCESS(EditorInput) {
 
 	}
 	
-		if (This->INTERNALCURRENTINDEX > -1)
+	if (This->INTERNALCURRENTINDEX > -1)
+	{
+		if (!This->InternalStates.empty())
 		{
-			if (!This->InternalStates.empty())
-			{
-				This->InternalStates[This->INTERNALCURRENTINDEX]->Input(obj, elapsedTime_Lag);
-			}
+			This->InternalStates[This->INTERNALCURRENTINDEX]->Input(obj, elapsedTime_Lag);
 		}
+	}
+
 	SDL_GetMouseState(&obj->MouseX, &obj->MouseX);
 }
 
@@ -177,21 +176,14 @@ TOPROCESS(EditorRender) {
 		100 , 
 		&tt , 0, NULL,
 		SDL_FLIP_NONE);
-
-
-
-
-
-	//SDL_RenderCopy(obj->Renderer, SetOfTiles.Tilesheet.Texture, &tt, &tt);
 	
 	if (This->INTERNALCURRENTINDEX > -1)
 	{
 		if (!This->InternalStates.empty())
 			This->InternalStates[This->INTERNALCURRENTINDEX]->Render(obj, elapsedTime_Lag);
+
+		
 	}
-
-	
-
 	SDL_RenderPresent(obj->Renderer);
 }
 

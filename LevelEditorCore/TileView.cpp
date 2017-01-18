@@ -8,6 +8,7 @@ constexpr	int TILEVIEW_WIDTH	= 700;
 constexpr   int TILEVIEW_HEIGHT = 540;
 //GLOBAL Private Data Member
 static Texture DrawingContext;
+static Texture TilesetView;
 
 static GameState* Root = NULL;
 static GameState* This = NULL;
@@ -32,21 +33,25 @@ void EventHandler(SDL_Event* e) {
 //INTERFACE-IMPLEMENTATION
 CHANGESTATE(TileView_OnEnter) {
 
+	This = obj->Collection[obj->CurrentStateIndex]->InternalStates
+		[
+			obj->Collection[obj->CurrentStateIndex]->INTERNALCURRENTINDEX
+		];
+	Root = obj->Collection[obj->CurrentStateIndex];
+
 	SDL_Log(">>>>>>>>>INIT TileView\n");
 	SDL_SetRenderDrawColor(obj->Renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
 
 	initilizeTexture(&DrawingContext, obj->Renderer);
+	initilizeTexture(&TilesetView, obj->Renderer);
 	createBlank(&DrawingContext, TILEVIEW_WIDTH, TILEVIEW_HEIGHT, SDL_TEXTUREACCESS_TARGET);
+	loadFromFile(&TilesetView, "../resources/resources.png");
 	
 	setBlendMode(&DrawingContext, SDL_BLENDMODE_BLEND);
 	setAlpha(&DrawingContext, SDL_ALPHA_OPAQUE); //100% visible
 
 	
-	This = obj->Collection[obj->CurrentStateIndex]->InternalStates
-		[
-		   obj->Collection[obj->CurrentStateIndex]->INTERNALCURRENTINDEX
-	    ];
-	Root = obj->Collection[obj->CurrentStateIndex];
+	
 
 	//Explicitly overriding eventhandler
 	This->EventHandler = EventHandler;
@@ -88,7 +93,7 @@ TOPROCESS(TileView_Render) {
 	////////////////YOU START DRAWING OF YOUR INTERNAL STATE HERE//////////////
 
 
-
+	render(&TilesetView, 0, 0, NULL, 0, NULL, SDL_FLIP_NONE);
 
 
 
