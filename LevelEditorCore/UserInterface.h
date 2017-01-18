@@ -1,4 +1,5 @@
 #pragma once
+#include "LevelEditor.h"
 #include "Texture.h"
 /*
 Contains all functions and structs necessary for our
@@ -30,11 +31,13 @@ typedef struct UI_INTERFACEDESCRIPTION {
 	uiPublic*		Input;
 
 
+
+
 }UI;
 
 
 
 
 void UI_initializeUserInterface();
-void UI_createWindow
+void UI_createWindow(Box);
 

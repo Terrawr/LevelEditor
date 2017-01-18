@@ -8,10 +8,13 @@
 
 void loadTextureFromFile(GameObj* obj, const std::string& FilePath, const std::string& RessourceName) {
 
-	Texture* t = NULL;
+	Texture* t = (Texture*) malloc(sizeof(Texture));
 	auto path = obj->Assets.RessourcePath + FilePath;
 	initilizeTexture(t, obj->Renderer);
 	loadFromFile(t, (char*)path.c_str());
+
+	if (t == NULL)
+		abort();
 	
 	obj->Assets.Textures.insert(std::make_pair(RessourceName, t));
 
@@ -48,7 +51,7 @@ void loadTextsFromFile(GameObj* obj, const std::string& FilePath, const std::str
 Texture*	getTexture(GameObj* obj, const std::string& ResourceName) {
 
 
-	return obj->Assets.Textures[ResourceName].get();
+	return obj->Assets.Textures[ResourceName];
 
 }
 TTF_Font* getFonts(GameObj* obj, const std::string& ResourceName) {
