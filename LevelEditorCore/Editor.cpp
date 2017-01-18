@@ -26,7 +26,7 @@ static int rightButtonMouse = 0;
 CHANGESTATE(EditorOnEnterState) {
 
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = true;
-	
+	loadTextureFromFile(obj, "resources.png", "Resources");
 
 }
 

@@ -28,7 +28,6 @@ int main(int argc, char* argv[])
 	initializeGameObj(Root,"LevelEditor", 1440,786);
 
 	Root->Assets.RessourcePath = "../resources/";
-	loadTextureFromFile(Root, "resources.png", "Resources");
 
 	//The Order of initilization is IMPORTANT. I changed it. First Screen, now your Menu and then some demo
 
