@@ -1,4 +1,5 @@
 #include "Tiles.h"
+#include "GameObject.h"
 #include <fstream>
 #include <sstream>
 
@@ -27,7 +28,7 @@ Tile createTile(int x, int y, int w, int h, int index, int type) {
 }
 
 void loadTileSet(const std::string& location,TileSet* Set,SDL_Renderer* renderer) {
-	std::fstream tileset(location.c_str(),std::ios_base::in|std::ios_base::out|std::ios_base::app); //<--read-only access
+	std::fstream tileset(location.c_str(),std::ios_base::in|std::ios_base::out); //<--read-only access
 	
 	if (tileset.is_open()) {
 		std::string imagepath;
@@ -64,7 +65,7 @@ void loadTileSet(const std::string& location,TileSet* Set,SDL_Renderer* renderer
 			Set->TileTypes.insert(TileType);
 			Set->TileSetMetaInformaton.insert(
 				std::make_pair(TileType,
-					createTile(0, 0, tileW, tileH, index, intType)
+					createTile(tileX, tileY, tileW, tileH, index, intType)
 				));
 		}
 	}
@@ -79,9 +80,11 @@ void loadTileSet(const std::string& location,TileSet* Set,SDL_Renderer* renderer
 
 void renderSingleTile(TileSet* Set,const std::string& TileType, int x, int y) {
 
-	Tile tmp = getTile(Set, TileType);
-	SDL_Rect DrawableArea = { x,y,
-							  tmp.TileWidth ,tmp.TileHeight };
+	Tile tmp = getTileFromTileset(Set, TileType);
+	SDL_Rect DrawableArea = { 
+		tmp.x ,tmp.y,
+		tmp.TileWidth , tmp.TileHeight
+	};
 
 	render(&Set->Tilesheet,
 		x,
@@ -92,6 +95,69 @@ void renderSingleTile(TileSet* Set,const std::string& TileType, int x, int y) {
 
 }
 //Create a COPY of an TILE
-Tile getTile(TileSet* Set, const std::string& type) {
+Tile getTileFromTileset(TileSet* Set, const std::string& type) {
 	return Set->TileSetMetaInformaton[type];
+}
+
+
+
+void loadline(const std::string& line, int layer, int row, array3D& ar) {
+	std::stringstream stream;
+
+	int  type;
+	stream << line;
+	int i = 0;
+
+	while (!stream.eof()) {
+		stream >> type;
+		ar[layer][row][i++] = type;
+		if (stream.eof())
+			break;
+	}
+}
+
+
+
+/**
+*/
+TileMap LoadTileMap(GameObj* obj,const std::string& PathToMap) {
+
+	std::fstream TextFile(PathToMap.c_str(), std::ios_base::in | std::ios_base::out | std::ios_base::app); //<--read-only access
+	std::stringstream textstream;
+	std::string line;
+
+	int col = 0;
+	int rows = 0,currentrow=0;
+	int layer = 0, currentLayer = 0;
+	std::string tileset;
+
+	TextFile >> tileset >> layer >> rows >> col;
+	while (TextFile.get() != '\n'); //<-- Read till the end of line
+
+	TileMap map(layer,rows,col); //<-- Initialize our 3D array
+	map.columns = col;
+	map.rows = rows;
+
+	loadTileSet(tileset, &map.mCurrentTileset, obj->Renderer);
+
+
+
+	if (TextFile.is_open()) { //<-- Start reading our *.map file
+
+		
+		while (std::getline(TextFile, line))  //<-- Read one line of Content till the end of File
+		{
+			if (line[0] != '-') //<-- if found a new layer is about to begin
+			{
+				if(currentrow < rows)
+					loadline(line, currentLayer, currentrow++, map.mTileMap); //<-- is filling 1 row at time into our array
+			}else {
+				currentLayer++;
+			}
+			
+		}
+	}
+
+	return map;
+
 }

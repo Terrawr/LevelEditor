@@ -89,6 +89,11 @@ int main(int argc, char* argv[])
 						cmd->action(Root, 0);
 						Root->HolyCommands.pop_back();
 					}break;
+					case STATEDOWN:
+					{
+						cmd->action(Root, 0);
+						Root->HolyCommands.pop_back();
+					}break;
 			
 				}
 			}

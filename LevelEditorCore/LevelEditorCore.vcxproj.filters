@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\GameIndependend">
-      <UniqueIdentifier>{14b19ff8-4498-4bad-9e03-90e7350d2759}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\GameDepended">
       <UniqueIdentifier>{05ac3f3a-0533-436d-b433-c7b99a0b27b9}</UniqueIdentifier>
     </Filter>
@@ -25,34 +22,40 @@
     <Filter Include="Source Files\GameStates">
       <UniqueIdentifier>{d912501b-184d-4027-92a2-1f4f4793b33e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\GameIndependend\Editor">
-      <UniqueIdentifier>{b8db6235-202b-49fb-aa10-724207f25fa8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\GameIndependend\UserInterface">
-      <UniqueIdentifier>{872e8dd4-131e-496e-a57d-5807e3f84b25}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\GameDepended\GameStates\InternalStates">
       <UniqueIdentifier>{10044b02-f52e-46d9-a263-149a0d39c648}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\GameStates\InternalStates">
       <UniqueIdentifier>{d945482d-fc4e-43b6-b253-087f31011bf8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Editor">
+      <UniqueIdentifier>{b8db6235-202b-49fb-aa10-724207f25fa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\TileEngine">
+      <UniqueIdentifier>{f6414b0a-e4f2-4c8f-a1c7-fec5410231df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\IO">
+      <UniqueIdentifier>{494ea06f-42d7-4288-8ca6-3ef533271af5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphic">
+      <UniqueIdentifier>{ca32c56e-a28c-4f5e-80f9-dffa32de141d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphic">
+      <UniqueIdentifier>{f3c6d483-5023-442e-ac93-26d679a91bd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TileEngine">
+      <UniqueIdentifier>{e101c00a-d892-4c4e-a81a-80d08a75ea05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphic\UserInterface">
+      <UniqueIdentifier>{872e8dd4-131e-496e-a57d-5807e3f84b25}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Command.h">
-      <Filter>Header Files\GameIndependend</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Header Files\GameDepended</Filter>
     </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>Header Files\GameIndependend</Filter>
-    </ClInclude>
     <ClInclude Include="LevelEditor.h">
       <Filter>Header Files\GameDepended</Filter>
-    </ClInclude>
-    <ClInclude Include="Tiles.h">
-      <Filter>Header Files\GameIndependend</Filter>
     </ClInclude>
     <ClInclude Include="SplashScreen.h">
       <Filter>Header Files\GameDepended\GameStates</Filter>
@@ -63,14 +66,8 @@
     <ClInclude Include="EditorState.h">
       <Filter>Header Files\GameDepended\GameStates</Filter>
     </ClInclude>
-    <ClInclude Include="RessourceManager.h">
-      <Filter>Header Files\GameIndependend</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Header Files\GameIndependend</Filter>
-    </ClInclude>
     <ClInclude Include="UserInterface.h">
-      <Filter>Header Files\GameIndependend\UserInterface</Filter>
+      <Filter>Header Files\Graphic\UserInterface</Filter>
     </ClInclude>
     <ClInclude Include="IntroScreen.h">
       <Filter>Header Files\GameDepended\GameStates</Filter>
@@ -80,6 +77,21 @@
     </ClInclude>
     <ClInclude Include="TileView.h">
       <Filter>Header Files\GameDepended\GameStates\InternalStates</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tiles.h">
+      <Filter>Header Files\TileEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Header Files\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="RessourceManager.h">
+      <Filter>Header Files\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files\Graphic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -95,15 +107,6 @@
     <ClCompile Include="Editor.cpp">
       <Filter>Source Files\GameStates</Filter>
     </ClCompile>
-    <ClCompile Include="RessourceManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UserInterface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameStateInterface.cpp">
       <Filter>Source Files\GameStates</Filter>
     </ClCompile>
@@ -113,11 +116,20 @@
     <ClCompile Include="MainMenu.cpp">
       <Filter>Source Files\GameStates</Filter>
     </ClCompile>
-    <ClCompile Include="Tiles.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TileView.cpp">
       <Filter>Source Files\GameStates\InternalStates</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Tiles.cpp">
+      <Filter>Source Files\TileEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="RessourceManager.cpp">
+      <Filter>Source Files\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInterface.cpp">
+      <Filter>Source Files\Graphic</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

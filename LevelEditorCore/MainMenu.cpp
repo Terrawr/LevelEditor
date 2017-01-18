@@ -127,6 +127,7 @@ CHANGESTATE(MainMenuOnEnterState) {
 		abort();
 	}
 
+
 	TextNewGame = TTF_RenderText_Solid(MenuFont, "    New Game    ", MenuCol);
 	TextureTextNewGame = SDL_CreateTextureFromSurface(obj->Renderer, TextNewGame);
 	TextLoadGame = TTF_RenderText_Solid(MenuFont, "    Load Game    ", MenuCol);

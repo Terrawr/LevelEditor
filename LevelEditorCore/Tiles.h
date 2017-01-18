@@ -5,9 +5,18 @@
 #include <set>
 #include <memory>
 
+#include <fstream>
+#include <sstream>
+
 #include "LevelEditor.h"
 #include "Texture.h"
 
+typedef std::vector<
+	std::vector<
+	std::vector< int
+	>
+	>
+>  array3D;
 
 //Describes the possible Types for Tiles
 typedef enum {
@@ -21,7 +30,7 @@ typedef enum {
 
 typedef struct TILEMETAINFORMATION {
 
-	int x, y;					//Position on Screen
+	int x, y;					//Position on TileSheet image file!!!!!!!!!!!!
 	int TileWidth, TileHeight;  //
 	int TileType;				//TileType
 	int LayerIndex;				//Describes in which layer the Tile should be drawn
@@ -38,6 +47,20 @@ typedef struct TILESETMETAINFORMATION
 
 
 }TileSet;
+
+typedef struct TILEMAP_LAYOUTINFORMATION {
+
+	TileSet 				mCurrentTileset;
+	array3D					mTileMap;
+
+	int columns;
+	int rows;
+
+	TILEMAP_LAYOUTINFORMATION() : mTileMap(500, std::vector<std::vector<int>>(500, std::vector<int>(500))) {}
+
+	TILEMAP_LAYOUTINFORMATION(int l,int r,int c) : mTileMap(l, std::vector<std::vector<int>>(r, std::vector<int>(c))) {}
+
+} TileMap;
 
 /** Create a tile with values given by the functionparameter list
 * \param x represent X-Coord of the tile on the SCREEN
@@ -72,7 +95,7 @@ void loadTileSet(const std::string& location, TileSet* Set,SDL_Renderer* rendere
 * \param type is a string which is used as key to access the corresponding tile
 * \returns COPY of corresponding stored TILE within the TileSet
 */
-Tile getTile(TileSet* Set, const std::string& type);
+Tile getTileFromTileset(TileSet* Set, const std::string& type);
 
 
 /** Renders a specific Tile of given Type onto the screen at given Coordinates
@@ -85,4 +108,36 @@ Tile getTile(TileSet* Set, const std::string& type);
 *
 */
 void renderSingleTile(TileSet* Set, const std::string& TileType, int x, int y);
+
+
+TileMap LoadTileMap(GameObj* obj, const std::string& PathToMap);
+
+
+
+
+//
+//35 7
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//-
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//-
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
 
