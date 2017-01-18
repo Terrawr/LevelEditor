@@ -1,4 +1,5 @@
 #pragma once
+#include "LevelEditor.h"
 #include "Texture.h"
 #include "LevelEditor.h"
 /*
@@ -29,6 +30,8 @@ typedef struct UI_INTERFACEDESCRIPTION {
 	uiPublic*		Render;
 	uiPublic*		Update;
 	uiPublic*		Input;
+
+
 
 
 }UI;

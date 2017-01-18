@@ -144,8 +144,8 @@ TOPROCESS(SplashInput) {
 	{
 		if (e.type == SDL_QUIT)
 		{
-			Command* cmd = createCommand(test, EXIT);
-			obj->HolyCommands.push(cmd);
+			/*Command* cmd = createCommand(test, EXIT);
+			obj->HolyCommands.push(cmd);*/
 		}
 
 		if (e.type == SDL_KEYDOWN)
@@ -153,8 +153,8 @@ TOPROCESS(SplashInput) {
 			switch (e.key.keysym.sym)
 			{
 			case SDLK_ESCAPE: {
-				Command* cmd = createCommand(test, EXIT);
-				obj->HolyCommands.push(cmd);
+				/*Command* cmd = createCommand(test, EXIT);
+				obj->HolyCommands.push(cmd);*/
 
 			}break;
 			case SDLK_d: {

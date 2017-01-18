@@ -13,18 +13,22 @@
 #include "mainmenu.h"
 
 
+#include "Command.h"
+
 
 //resources in folder updated
 
 int gQuit = SDL_FALSE;
 
+struct Command;
 
 int main(int argc, char* argv[]) 
 {
 	GameObj*  Root = createGameObjectHandle();
 	initializeGameObj(Root,"LevelEditor", 1440,786);
 
-
+	Root->Assets.RessourcePath = "../resources/";
+	loadTextureFromFile(Root, "resources.png", "Resources");
 
 	//The Order of initilization is IMPORTANT. I changed it. First Screen, now your Menu and then some demo
 
@@ -49,7 +53,7 @@ int main(int argc, char* argv[])
 		MainMenuRender,
 		MainMenuInput);
 	/*THIRD STATE*/
-	GameState* LevelEditor = createGameState_ObjectInstance(Root); //<---- LevelEditor
+	GameState* LevelEditor = createGameState_ObjectInstance(Root); //<---- APPLICATION or SOMETHING ELSE
 	initializeGameState(LevelEditor, "LevelEditor", -1,
 		EditorOnEnterState,
 		EditorOnExitState,
@@ -71,6 +75,12 @@ int main(int argc, char* argv[])
 		auto timePoint1(std::chrono::high_resolution_clock::now());
 		//SDL_Log(".....CurrentState %d\n", Root->CurrentStateIndex); //<---- added this so you can see on your CONSOLE which state you are currently in. Thats the reason i remove fullscreen mode everytime you putt it back to see the console ;P 
 		if (!Root->Collection.empty()) {
+			if (!Root->HolyCommands.empty()) {
+				if (Root->HolyCommands.front()->Type == 0) {
+					Root->HolyCommands.front()->action(Root, 0);
+					Root->HolyCommands.pop();
+				}
+			}
 
 			if (!Root->Collection[Root->CurrentStateIndex]->isInitialized)
 				Root->Collection[Root->CurrentStateIndex]->onEnter(Root);
