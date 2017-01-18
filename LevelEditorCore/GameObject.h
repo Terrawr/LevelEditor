@@ -15,7 +15,7 @@ struct GameObj
 	bool					 isRunning = false;
 	int						 CurrentStateIndex;
 	std::vector<GameState*>  Collection;
-	std::queue<Command*>	 HolyCommands;
+	std::vector<Command*>	 HolyCommands;
 
 	RessourceManager		Assets;
 

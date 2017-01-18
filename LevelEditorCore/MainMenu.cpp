@@ -83,8 +83,12 @@ TOPROCESS(NewGameInput);
 TOPROCESS(NewGameRender);
 
 //Globals
-void __changeState(GameObj* obj, float deltatime) {
+void StateGoesUp(GameObj* obj, float deltatime) {
 	obj->CurrentStateIndex++;
+}
+
+void StateGoesDown(GameObj* obj, float deltatime) {
+	obj->CurrentStateIndex--;
 }
 
 //Background spec..
@@ -203,12 +207,12 @@ CHANGESTATE(MainMenuOnExitState) {
 	obj->Collection[obj->CurrentStateIndex]->isOnPause = true;
 	SDL_Log("----ON EXIT NOW----\n");
 	if (MouseOverButton(obj, Exit_Rect) == 1)
-		obj->CurrentStateIndex--;
+	{
+		registerCommand(obj, StateGoesDown, STATEDOWN);
+	}
 	if (MouseOverButton(obj, LevelEditor_Rect) == 1)
 	{
-		//obj->CurrentStateIndex++;
-		Command* tmp = createCommand(__changeState, 0);
-		obj->HolyCommands.push(tmp);
+		registerCommand(obj, StateGoesUp, STATEUP);
 	}
 		
 

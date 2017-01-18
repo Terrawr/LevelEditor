@@ -74,11 +74,23 @@ int main(int argc, char* argv[])
 
 		auto timePoint1(std::chrono::high_resolution_clock::now());
 		//SDL_Log(".....CurrentState %d\n", Root->CurrentStateIndex); //<---- added this so you can see on your CONSOLE which state you are currently in. Thats the reason i remove fullscreen mode everytime you putt it back to see the console ;P 
-		if (!Root->Collection.empty()) {
-			if (!Root->HolyCommands.empty()) {
-				if (Root->HolyCommands.front()->Type == 0) {
-					Root->HolyCommands.front()->action(Root, 0);
-					Root->HolyCommands.pop();
+		if(!Root->Collection.empty()){
+
+			while (!Root->HolyCommands.empty()){
+				Command* cmd = Root->HolyCommands.back();
+				switch (cmd->Type)
+				{
+					case EXIT:
+					{
+						cmd->action(Root, 0.f);
+						Root->HolyCommands.pop_back();
+					}break;
+					case STATEUP:
+					{
+						cmd->action(Root, 0);
+						Root->HolyCommands.pop_back();
+					}break;
+			
 				}
 			}
 
@@ -94,6 +106,7 @@ int main(int argc, char* argv[])
 			Root->Collection[Root->CurrentStateIndex]->Input(Root, lastFrameTime);
 			Root->Collection[Root->CurrentStateIndex]->Update(Root, lastFrameTime);
 			Root->Collection[Root->CurrentStateIndex]->Render(Root, lastFrameTime);
+
 		} else {
 			SDL_Event e;
 			while (SDL_PollEvent(&e))
