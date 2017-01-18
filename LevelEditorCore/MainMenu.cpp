@@ -8,6 +8,8 @@
 #include "SDL_ttf.h"
 #include "SDL.h"
 
+#include "Command.h"
+
 #include <string>
 #include <fstream>
 
@@ -81,6 +83,9 @@ TOPROCESS(NewGameInput);
 TOPROCESS(NewGameRender);
 
 //Globals
+void __changeState(GameObj* obj, float deltatime) {
+	obj->CurrentStateIndex++;
+}
 
 //Background spec..
 static SDL_Texture* TexNewGameBackground = nullptr;
@@ -200,7 +205,12 @@ CHANGESTATE(MainMenuOnExitState) {
 	if (MouseOverButton(obj, Exit_Rect) == 1)
 		obj->CurrentStateIndex--;
 	if (MouseOverButton(obj, LevelEditor_Rect) == 1)
-		obj->CurrentStateIndex++;
+	{
+		//obj->CurrentStateIndex++;
+		Command* tmp = createCommand(__changeState, 0);
+		obj->HolyCommands.push(tmp);
+	}
+		
 
 	
 }

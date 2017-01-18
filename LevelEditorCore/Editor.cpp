@@ -26,6 +26,7 @@ static int rightButtonMouse = 0;
 CHANGESTATE(EditorOnEnterState) {
 
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = true;
+	
 
 }
 
@@ -102,7 +103,7 @@ TOPROCESS(EditorRender) {
 	SDL_SetRenderDrawColor(obj->Renderer, 0xff, 0xff, 0xff, SDL_ALPHA_OPAQUE);
 	SDL_RenderClear(obj->Renderer);
 	
-
+	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, NULL, NULL);
 
 	SDL_RenderPresent(obj->Renderer);
 }
