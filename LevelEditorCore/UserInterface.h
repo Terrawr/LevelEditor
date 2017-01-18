@@ -33,5 +33,8 @@ typedef struct UI_INTERFACEDESCRIPTION {
 }UI;
 
 
-void initializeUserInterface();
+
+
+void UI_initializeUserInterface();
+void UI_createWindow
 
