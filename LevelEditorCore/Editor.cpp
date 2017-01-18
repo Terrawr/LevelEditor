@@ -23,6 +23,10 @@ static int MouseOverNPCButton = 0;
 static int MouseOverQuestButton = 0;
 static int ToolChosen = 2;
 static int elapsedTime = 0;
+/*0 = Chose which Mode Window
+1 = Create New Map
+2 = Load Old Map*/
+static int EditorMode = 0;
 
 //allRects
 static SDL_Rect ExitToMainMenu_Rect; // JUST DEST ON SCREEN; TEXTURE IS TOOLBAR_RECT[12 and 13]
@@ -32,17 +36,23 @@ static SDL_Rect LoadOldMap_Rect;
 static SDL_Rect Background;
 static TTF_Font* MenuFont;
 static SDL_Color MenuCol = { 100,100,100 };
+static SDL_Rect EditorBackground;
+static SDL_Rect EditorWindow;
 
 //ALL TEXTURES FOR TEXTS
 static SDL_Texture* TextureTextExitToMainMenu = nullptr;
-static SDL_Surface* TextExitToMainMenu = NULL;
+static SDL_Texture* TextureTextCreateNewMap = nullptr;
 
 //ALL SURFACES FOR TEXTS
+static SDL_Surface* TextExitToMainMenu = NULL;
+static SDL_Surface* TextCreateNewMap = NULL;
+
+
 
 /*0 delet, 1 create, 2 quest, 3 NPCS, 4/5 Arrows right/left ... ALL DESTINATIONS ON PIC!
 6 del, 7 create, 8 quest, 9 NPC, 10 11 arrow right/left... ALL DESTINATIONS ON SCREEN!!!
-12 frame on pic, 13 blue frame on pic*/
-static SDL_Rect ToolBar_Rect[14];	
+12 frame on pic, 13 blue frame on pic, 14 re frame on pic*/
+static SDL_Rect ToolBar_Rect[15];	
 
 
 
@@ -52,6 +62,7 @@ CHANGESTATE(EditorOnEnterState) {
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = true;
 	loadTextureFromFile(obj, "resources.png", "Resources");
 	loadTextureFromFile(obj, "NewGameBackGround.png", "WindowBackground");
+	loadTextureFromFile(obj, "test.bmp", "EditorBackground");
 	MenuFont = TTF_OpenFont("..\\resources\\test.ttf", FONTSIZE);
 	if (!MenuFont)
 	{
@@ -66,9 +77,7 @@ CHANGESTATE(EditorOnEnterState) {
 	ExitToMainMenu_Rect.x = 0.005 * obj->Width;
 	ExitToMainMenu_Rect.y = 0.005 * obj->Height;
 
-
-	if(1) //TOOLBAR RECT
-	{
+	if (1) {
 		ToolBar_Rect[0].w = 90;
 		ToolBar_Rect[0].h = 90;
 		ToolBar_Rect[0].x = 580;
@@ -100,23 +109,19 @@ CHANGESTATE(EditorOnEnterState) {
 		ToolBar_Rect[7].w = 0.05625*obj->Width;;
 		ToolBar_Rect[7].h = 0.1*obj->Height;;
 		ToolBar_Rect[7].x = (obj->Width - 0.005 *obj->Width) - (ToolBar_Rect[6].w);
-		ToolBar_Rect[7].y = (obj->Height - 0.005 *obj->Height) - (ToolBar_Rect[6].h)*2 - (ToolBar_Rect[6].h / 2) *1;
+		ToolBar_Rect[7].y = (obj->Height - 0.005 *obj->Height) - (ToolBar_Rect[6].h) * 2 - (ToolBar_Rect[6].h / 2) * 1;
 		ToolBar_Rect[8].w = 0.05625*obj->Width;;
 		ToolBar_Rect[8].h = 0.1*obj->Height;;
 		ToolBar_Rect[8].x = (obj->Width - 0.005 *obj->Width) - (ToolBar_Rect[6].w);
-		ToolBar_Rect[8].y = (obj->Height - 0.005 *obj->Height) - (ToolBar_Rect[6].h) * 3 - (ToolBar_Rect[6].h / 2)*2;
+		ToolBar_Rect[8].y = (obj->Height - 0.005 *obj->Height) - (ToolBar_Rect[6].h) * 3 - (ToolBar_Rect[6].h / 2) * 2;
 		ToolBar_Rect[9].w = 0.05625*obj->Width;;
 		ToolBar_Rect[9].h = 0.1*obj->Height;;
 		ToolBar_Rect[9].x = (obj->Width - 0.005 *obj->Width) - (ToolBar_Rect[6].w);
-		ToolBar_Rect[9].y = (obj->Height - 0.005 *obj->Height) - (ToolBar_Rect[6].h) * 4 - (ToolBar_Rect[6].h / 2)*3;
-	/*	ToolBar_Rect[10].w = ;
-		ToolBar_Rect[10].h = ;
-		ToolBar_Rect[10].x = ;
-		ToolBar_Rect[10].y = ;
-		ToolBar_Rect[11].w = ;
-		ToolBar_Rect[11].h = ;
-		ToolBar_Rect[11].x = ;
-		ToolBar_Rect[11].y = ;*/
+		ToolBar_Rect[9].y = (obj->Height - 0.005 *obj->Height) - (ToolBar_Rect[6].h) * 4 - (ToolBar_Rect[6].h / 2) * 3;
+		ToolBar_Rect[10].w = 0.01875 * obj->Width;
+		ToolBar_Rect[10].h = 0.1 * obj->Height;
+		ToolBar_Rect[11].w = 0.01875 * obj->Width;
+		ToolBar_Rect[11].h = 0.1 * obj->Height;
 		ToolBar_Rect[12].w = 90;
 		ToolBar_Rect[12].h = 90;
 		ToolBar_Rect[12].x = 0;
@@ -125,12 +130,39 @@ CHANGESTATE(EditorOnEnterState) {
 		ToolBar_Rect[13].h = 90;
 		ToolBar_Rect[13].x = 90;
 		ToolBar_Rect[13].y = 30;
-	}
+		ToolBar_Rect[14].w = 270;
+		ToolBar_Rect[14].h = 90;
+		ToolBar_Rect[14].x = 180;
+		ToolBar_Rect[14].y = 330;
 
-	Background.h = obj->Height;
-	Background.w = obj->Width;
-	Background.x = 0;
-	Background.y = 0;
+
+		Background.h = obj->Height;
+		Background.w = obj->Width;
+		Background.x = 0;
+		Background.y = 0;
+
+		EditorBackground.x = 0.005 * obj->Width;
+		EditorBackground.y = 2 * ExitToMainMenu_Rect.y + ExitToMainMenu_Rect.h;
+		EditorBackground.w = obj->Width - ToolBar_Rect[6].w - 4 * (obj->Width - (ToolBar_Rect[6].x + ToolBar_Rect[6].w));
+		EditorBackground.h = obj->Height - 2 * ExitToMainMenu_Rect.y - ExitToMainMenu_Rect.h;
+
+		EditorWindow.w = 0.94125 * EditorBackground.w;
+		EditorWindow.h = 0.9033333333 * EditorBackground.h;
+		EditorWindow.x = EditorBackground.x + (0.5 *(EditorBackground.w - EditorWindow.w));
+		EditorWindow.y = EditorBackground.y + (0.55 *(EditorBackground.h - EditorWindow.h));
+
+		ToolBar_Rect[10].x = EditorWindow.x + EditorWindow.w - 10 - ToolBar_Rect[11].w;
+		ToolBar_Rect[10].y = EditorWindow.y + (EditorWindow.h / 2) - (ToolBar_Rect[10].h / 2);
+		ToolBar_Rect[11].x = EditorWindow.x + 10;
+		ToolBar_Rect[11].y = EditorWindow.y + (EditorWindow.h / 2) - (ToolBar_Rect[10].h / 2);
+
+		CreateOrLoad_Rect.w = obj->Width * 0.5;
+		CreateOrLoad_Rect.h = obj->Height * 0.7;
+		CreateOrLoad_Rect.x = obj->Width / 2 - CreateOrLoad_Rect.w / 2;
+		CreateOrLoad_Rect.y = obj->Height / 2 - CreateOrLoad_Rect.h / 2;;
+	}
+	
+
 }
 
 ///State destruction/////////////////
@@ -158,6 +190,7 @@ TOPROCESS(EditorUpdate) {
 
 	SDL_Log("FrameTime[s]: %f | FrameTime[ms]: %f | FPS: %f \n", (elapsedTime_Lag/1000.f), (elapsedTime_Lag ), ( 1000.f / elapsedTime_Lag ));
 
+	//CONTROLL BUTTONS 
 	if (MouseOverButton(obj, ExitToMainMenu_Rect) == 1)
 	{
 		MouseOverExitButton = 1;
@@ -171,19 +204,63 @@ TOPROCESS(EditorUpdate) {
 		MouseOverExitButton = 0;
 	}
 
-	if (MouseOverButton(obj, ToolBar_Rect[6]) == 1)
+	if (!EditorMode == 0)
 	{
-		MouseOverDeletButton = 1;
-		if (leftButtonMouse == 1)
+		if (MouseOverButton(obj, ToolBar_Rect[6]) == 1)
 		{
-			ToolChosen = 1;
+			MouseOverDeletButton = 1;
+			if (leftButtonMouse == 1)
+			{
+				ToolChosen = 1;
+			}
 		}
-	}
-	else
-	{
-		MouseOverDeletButton = 0;
-	}
+		else
+		{
+			MouseOverDeletButton = 0;
+		}
 
+		if (MouseOverButton(obj, ToolBar_Rect[7]) == 1)
+		{
+			MouseOverCreateButton = 1;
+			if (leftButtonMouse == 1)
+			{
+				ToolChosen = 2;
+			}
+
+		}
+		else
+		{
+			MouseOverCreateButton = 0;
+		}
+
+		if (MouseOverButton(obj, ToolBar_Rect[8]) == 1)
+		{
+			MouseOverQuestButton = 1;
+			if (leftButtonMouse == 1)
+			{
+				ToolChosen = 3;
+			}
+		}
+		else
+		{
+			MouseOverQuestButton = 0;
+		}
+
+		if (MouseOverButton(obj, ToolBar_Rect[9]) == 1)
+		{
+			MouseOverNPCButton = 1;
+			if (leftButtonMouse == 1)
+			{
+				ToolChosen = 4;
+			}
+		}
+		else
+		{
+			MouseOverNPCButton = 0;
+		}
+
+	}
+	//END OF CONTROLL BUTTONS
 
 	
 
@@ -228,6 +305,7 @@ TOPROCESS(EditorRender) {
 	SDL_SetRenderDrawColor(obj->Renderer, 0xff, 0xff, 0xff, SDL_ALPHA_OPAQUE);
 	SDL_RenderClear(obj->Renderer);
 
+	//CONTROLL BUTTONS
 	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &ExitToMainMenu_Rect);
 	SDL_RenderCopy(obj->Renderer, TextureTextExitToMainMenu, NULL, &ExitToMainMenu_Rect);
 	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &ToolBar_Rect[6]);
@@ -242,23 +320,53 @@ TOPROCESS(EditorRender) {
 	if (MouseOverExitButton == 1)
 		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ExitToMainMenu_Rect);
 
-	if (MouseOverDeletButton == 1)
-		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[6]);
-
 	switch (ToolChosen)
 	{
 	case 1: //del
-		{
-		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[6]);
+	{
+		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[14], &ToolBar_Rect[6]);
 		break;
-		}
-	case 2:
-		{
-		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[7]);
-		break;
-		}
 	}
-	
+	case 2:
+	{
+		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[14], &ToolBar_Rect[7]);
+		break;
+	}
+	case 3:
+	{
+		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[14], &ToolBar_Rect[8]);
+		break;
+	}
+	case 4:
+	{
+		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[14], &ToolBar_Rect[9]);
+		break;
+	}
+	default:
+		break;
+	}
+
+	if (MouseOverDeletButton == 1)
+		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[6]);
+	if (MouseOverCreateButton == 1)
+		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[7]);
+	if (MouseOverQuestButton == 1)
+		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[8]);
+	if (MouseOverNPCButton == 1)
+		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[9]);
+
+	//END OF CONTROLL BUTTONS
+
+	//Start of Editor dependend
+	SDL_RenderCopy(obj->Renderer, getTexture(obj, "WindowBackground")->mTexture, NULL, &EditorBackground);
+	SDL_RenderCopy(obj->Renderer, getTexture(obj, "EditorBackground")->mTexture, NULL, &EditorWindow);
+	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[4], &ToolBar_Rect[10]);
+	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[5], &ToolBar_Rect[11]);
+
+	if (EditorMode == 0)
+	{
+		SDL_RenderCopy(obj->Renderer, getTexture(obj, "WindowBackground")->mTexture, NULL, &CreateOrLoad_Rect);
+	}
 
 	SDL_RenderPresent(obj->Renderer);
 }
