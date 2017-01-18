@@ -17,6 +17,11 @@
 static int leftButtonMouse = 0;
 static int rightButtonMouse = 0;
 static int MouseOverExitButton = 0;
+static int MouseOverDeletButton = 0;
+static int MouseOverCreateButton = 0;
+static int MouseOverNPCButton = 0;
+static int MouseOverQuestButton = 0;
+static int ToolChosen = 2;
 static int elapsedTime = 0;
 
 //allRects
@@ -88,23 +93,23 @@ CHANGESTATE(EditorOnEnterState) {
 		ToolBar_Rect[5].h = 90;
 		ToolBar_Rect[5].x = 970;
 		ToolBar_Rect[5].y = 0;
-		/*ToolBar_Rect[6].w = ;
-		ToolBar_Rect[6].h = ;
-		ToolBar_Rect[6].x = ;
-		ToolBar_Rect[6].y = ;
-		ToolBar_Rect[7].w = ;
-		ToolBar_Rect[7].h = ;
-		ToolBar_Rect[7].x = ;
-		ToolBar_Rect[7].y = ;
-		ToolBar_Rect[8].w = ;
-		ToolBar_Rect[8].h = ;
-		ToolBar_Rect[8].x = ;
-		ToolBar_Rect[8].y = ;
-		ToolBar_Rect[9].w = ;
-		ToolBar_Rect[9].h = ;
-		ToolBar_Rect[9].x = ;
-		ToolBar_Rect[9].y = ;
-		ToolBar_Rect[10].w = ;
+		ToolBar_Rect[6].w = 0.05625*obj->Width;
+		ToolBar_Rect[6].h = 0.1*obj->Height;
+		ToolBar_Rect[6].x = (obj->Width - 0.005 *obj->Width) - (ToolBar_Rect[6].w);
+		ToolBar_Rect[6].y = (obj->Height - 0.005 *obj->Height) - (ToolBar_Rect[6].h);
+		ToolBar_Rect[7].w = 0.05625*obj->Width;;
+		ToolBar_Rect[7].h = 0.1*obj->Height;;
+		ToolBar_Rect[7].x = (obj->Width - 0.005 *obj->Width) - (ToolBar_Rect[6].w);
+		ToolBar_Rect[7].y = (obj->Height - 0.005 *obj->Height) - (ToolBar_Rect[6].h)*2 - (ToolBar_Rect[6].h / 2) *1;
+		ToolBar_Rect[8].w = 0.05625*obj->Width;;
+		ToolBar_Rect[8].h = 0.1*obj->Height;;
+		ToolBar_Rect[8].x = (obj->Width - 0.005 *obj->Width) - (ToolBar_Rect[6].w);
+		ToolBar_Rect[8].y = (obj->Height - 0.005 *obj->Height) - (ToolBar_Rect[6].h) * 3 - (ToolBar_Rect[6].h / 2)*2;
+		ToolBar_Rect[9].w = 0.05625*obj->Width;;
+		ToolBar_Rect[9].h = 0.1*obj->Height;;
+		ToolBar_Rect[9].x = (obj->Width - 0.005 *obj->Width) - (ToolBar_Rect[6].w);
+		ToolBar_Rect[9].y = (obj->Height - 0.005 *obj->Height) - (ToolBar_Rect[6].h) * 4 - (ToolBar_Rect[6].h / 2)*3;
+	/*	ToolBar_Rect[10].w = ;
 		ToolBar_Rect[10].h = ;
 		ToolBar_Rect[10].x = ;
 		ToolBar_Rect[10].y = ;
@@ -166,6 +171,19 @@ TOPROCESS(EditorUpdate) {
 		MouseOverExitButton = 0;
 	}
 
+	if (MouseOverButton(obj, ToolBar_Rect[6]) == 1)
+	{
+		MouseOverDeletButton = 1;
+		if (leftButtonMouse == 1)
+		{
+			ToolChosen = 1;
+		}
+	}
+	else
+	{
+		MouseOverDeletButton = 0;
+	}
+
 
 	
 
@@ -212,9 +230,34 @@ TOPROCESS(EditorRender) {
 
 	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &ExitToMainMenu_Rect);
 	SDL_RenderCopy(obj->Renderer, TextureTextExitToMainMenu, NULL, &ExitToMainMenu_Rect);
+	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &ToolBar_Rect[6]);
+	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[0], &ToolBar_Rect[6]);
+	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[1], &ToolBar_Rect[7]);
+	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[2], &ToolBar_Rect[8]);
+	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[3], &ToolBar_Rect[9]);
+	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &ToolBar_Rect[7]);
+	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &ToolBar_Rect[8]);
+	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &ToolBar_Rect[9]);
 
 	if (MouseOverExitButton == 1)
 		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ExitToMainMenu_Rect);
+
+	if (MouseOverDeletButton == 1)
+		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[6]);
+
+	switch (ToolChosen)
+	{
+	case 1: //del
+		{
+		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[6]);
+		break;
+		}
+	case 2:
+		{
+		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[7]);
+		break;
+		}
+	}
 	
 
 	SDL_RenderPresent(obj->Renderer);
