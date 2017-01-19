@@ -1,6 +1,7 @@
 #pragma once
 #include "LevelEditor.h"
 #include "Texture.h"
+#include "LevelEditor.h"
 /*
 Contains all functions and structs necessary for our
 internal User interface.
