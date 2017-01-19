@@ -8,6 +8,8 @@
 #include "SDL_ttf.h"
 #include "SDL.h"
 
+
+#include "Tiles.h"
 #include <string>
 #include <fstream>
 
@@ -61,9 +63,15 @@ static SDL_Rect ToolBar_Rect[15];
 
 
 
+//allFonts
+//TileMap theMap;
+
+
+
 CHANGESTATE(EditorOnEnterState) {
 
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = true;
+
 	loadTextureFromFile(obj, "resources.png", "Resources");
 	loadTextureFromFile(obj, "NewGameBackGround.png", "WindowBackground");
 	loadTextureFromFile(obj, "test.bmp", "EditorBackground");
@@ -182,6 +190,7 @@ CHANGESTATE(EditorOnEnterState) {
 		LoadOldMap_Rect.y = CreateOrLoad_Rect.y + CreateOrLoad_Rect.h * 0.75;
 	}
 	
+
 
 }
 
@@ -353,6 +362,7 @@ TOPROCESS(EditorRender) {
 	SDL_SetRenderDrawColor(obj->Renderer, 0xff, 0xff, 0xff, SDL_ALPHA_OPAQUE);
 	SDL_RenderClear(obj->Renderer);
 
+
 	//CONTROLL BUTTONS
 	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &ExitToMainMenu_Rect);
 	SDL_RenderCopy(obj->Renderer, TextureTextExitToMainMenu, NULL, &ExitToMainMenu_Rect);
@@ -426,6 +436,13 @@ TOPROCESS(EditorRender) {
 			SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &LoadOldMap_Rect);
 
 	}
+
+	
+	//SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, NULL, NULL);
+
+	re_renderSingleTile(&theMap.mCurrentTileset, "lava", 300, 300);
+	render(&theMap.mCurrentTileset.Tilesheet, 100, 100, NULL, 45, NULL, SDL_FLIP_NONE);
+
 
 	SDL_RenderPresent(obj->Renderer);
 }

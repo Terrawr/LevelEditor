@@ -15,13 +15,14 @@ struct GameObj
 	bool					 isRunning = false;
 	int						 CurrentStateIndex;
 	std::vector<GameState*>  Collection;
-	std::queue<Command*>	 HolyCommands;
+	std::vector<Command*>	 HolyCommands;
 
 	RessourceManager		Assets;
 
 
 	int						Width, Height;
 	int						MouseX, MouseY;
+	float					lastFrameTime ;
 
 	SDL_Window*				Window;
 	SDL_Renderer*			Renderer;

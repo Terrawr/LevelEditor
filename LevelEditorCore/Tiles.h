@@ -5,9 +5,18 @@
 #include <set>
 #include <memory>
 
+#include <fstream>
+#include <sstream>
+
 #include "LevelEditor.h"
 #include "Texture.h"
 
+typedef std::vector<
+	std::vector<
+	std::vector< int
+	>
+	>
+>  array3D;
 
 //Describes the possible Types for Tiles
 typedef enum {
@@ -21,7 +30,7 @@ typedef enum {
 
 typedef struct TILEMETAINFORMATION {
 
-	int x, y;					//Position on Screen
+	int x, y;					//Position on TileSheet image file!!!!!!!!!!!!
 	int TileWidth, TileHeight;  //
 	int TileType;				//TileType
 	int LayerIndex;				//Describes in which layer the Tile should be drawn
@@ -31,13 +40,27 @@ typedef struct TILEMETAINFORMATION {
 
 typedef struct TILESETMETAINFORMATION
 {
-	std::set<std::string>		TileTypes; //<-- Because we never know how many different types of tiles a new map could contain we store all types provided by the user here as string
 	Texture						Tilesheet; //<-- The Actual image where all tiles a stored used for in one Map
-	std::map<std::string, Tile>	TileSetMetaInformaton; //<-- Here we store all the information where and in which size the tiles are stored within the image aka our used tilesheet!!!
+	std::map<int, Tile>			TileSetMetaInformaton; //<-- Here we store all the information where and in which size the tiles are stored within the image aka our used tilesheet!!!
+	std::map<std::string,int>	TileTypes; //<-- Because we never know how many different types of tiles a new map could contain we store all types provided by the user here as string
 
 
 
 }TileSet;
+
+typedef struct TILEMAP_LAYOUTINFORMATION {
+
+	TileSet 				mCurrentTileset;
+	array3D					mTileMap;
+
+	int columns;
+	int rows;
+
+	TILEMAP_LAYOUTINFORMATION() : mTileMap(500, std::vector<std::vector<int>>(500, std::vector<int>(500))) {}
+
+	TILEMAP_LAYOUTINFORMATION(int l,int r,int c) : mTileMap(l, std::vector<std::vector<int>>(r, std::vector<int>(c))) {}
+
+} TileMap;
 
 /** Create a tile with values given by the functionparameter list
 * \param x represent X-Coord of the tile on the SCREEN
@@ -50,7 +73,7 @@ typedef struct TILESETMETAINFORMATION
 * \returns a copy of an initilised tile.
 *
 */
-Tile createTile(int x, int y, int w, int h, int index, int type);
+Tile te_createTile(int x, int y, int w, int h, int index, int type);
 
 /** Load an specific image containing several different Tiles into an TileSet
 * \param location specified the location on the disk
@@ -64,16 +87,14 @@ Tile createTile(int x, int y, int w, int h, int index, int type);
 * 
 * IT JUST LOAD ALL METADATA FOR LATER USE. 
 */
-void loadTileSet(const std::string& location, TileSet* Set,SDL_Renderer* renderer);
-
+void te_loadTileSet(const std::string& location, TileSet* Set,SDL_Renderer* renderer);
 
 /** Gives you a COPY of an tile saved in a TileSet
 * \param Set is the Tileset storing all metainformation of available tiles
 * \param type is a string which is used as key to access the corresponding tile
 * \returns COPY of corresponding stored TILE within the TileSet
 */
-Tile getTile(TileSet* Set, const std::string& type);
-
+Tile te_getTileFromTileset(TileSet* Set, const std::string& type);
 
 /** Renders a specific Tile of given Type onto the screen at given Coordinates
 * \param Set is TileSet with the corresponding Tiles
@@ -84,5 +105,38 @@ Tile getTile(TileSet* Set, const std::string& type);
 * Draws a single Tile onto the Screen at the given Coordinates X,Y
 *
 */
-void renderSingleTile(TileSet* Set, const std::string& TileType, int x, int y);
+void re_renderSingleTile(TileSet* Set, const std::string& TileType, int x, int y);
+
+TileMap				te_LoadTileMap(GameObj* obj, const std::string& PathToMap);
+std::vector<Tile>	te_createRenderableTiles(GameObj* obj, TileMap* mapdata);
+std::string te_translateTypeInformation(TileSet* Set, int type);
+
+
+
+
+//
+//35 7
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//-
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//-
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
+//00000000000000000000000000000000000
 
