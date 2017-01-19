@@ -7,7 +7,7 @@
 
 static int screenwidth = 800;
 static int screenheight = 480;
-
+//
 //GameObj* createGameObjectHandle() {
 //	GameObj* tmp = (GameObj*) malloc(sizeof(GameObj));
 //	return tmp;  //c++ feature;
@@ -38,11 +38,12 @@ void getScreenResolution()
 			SDL_Log("Display #%d: current display mode is %dx%dpx @ %dhz.", i, currentscreen.w, currentscreen.h, currentscreen.refresh_rate);
 
 		//for fullscreen with 1 display
-		/*screenheight = currentscreen.h;
-		screenwidth = currentscreen.w;*/
+		screenheight = currentscreen.h;
+		screenwidth = currentscreen.w;
 
-		screenheight = 900;
-		screenwidth = 1600;
+		/*screenwidth = 1600;
+		screenheight = 900;*/
+		
 	}
 }
 
@@ -62,10 +63,10 @@ void initializeGameObj(GameObj* obj, char*Title,int width, int height) {
 	getScreenResolution();
 	/*obj->Height =  screenheight;
 	obj->Width =  screenwidth;*/
-	obj->Width = 1000;
-	obj->Height = 600;
+	obj->Width = 1600;
+	obj->Height = 900;
 
-	obj->Window = SDL_CreateWindow(Title, 100, 100, obj->Width, obj->Height, SDL_WINDOW_SHOWN| SDL_WINDOW_OPENGL);
+	obj->Window = SDL_CreateWindow(Title, 50, 50, obj->Width, obj->Height, SDL_WINDOW_SHOWN| SDL_WINDOW_OPENGL);
 	if (obj->Window == NULL){
 		//Error
 	}
@@ -76,6 +77,7 @@ void initializeGameObj(GameObj* obj, char*Title,int width, int height) {
 	}
 
 	obj->CurrentStateIndex = -1;
+	obj->lastFrameTime = 0.0f;
 	
 }
 

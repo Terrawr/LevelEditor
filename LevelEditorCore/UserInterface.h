@@ -1,5 +1,7 @@
 #pragma once
+#include "LevelEditor.h"
 #include "Texture.h"
+#include "LevelEditor.h"
 /*
 Contains all functions and structs necessary for our
 internal User interface.
@@ -20,18 +22,5 @@ struct UI_INTERFACEDESCRIPTION;
 #define UI_PUBLICFUNCTION(name) void name(UI_INTERFACEDESCRIPTION*,float deltatime)
 typedef UI_PUBLICFUNCTION(uiPublic);
 
-typedef struct UI_INTERFACEDESCRIPTION {
-
-	Texture*		DrawingContext;
-	int				ID;
-
-	uiPublic*		Render;
-	uiPublic*		Update;
-	uiPublic*		Input;
-
-
-}UI;
-
-
-void initializeUserInterface();
+/////////////////////WARNING PURE C++ CODE /////////////////////////////////////////
 

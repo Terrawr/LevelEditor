@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include "UserInterface.h"
 #include "Texture.h"
-#include "SDL_image.h"
+#include <SDL_image.h>
 #include "Texture.h"
 
 #include <string>
@@ -179,4 +179,17 @@ TOPROCESS(IntroRender) {
 	SDL_RenderCopy(obj->Renderer, Copyright, NULL, &Copy_Rect);
 
 	SDL_RenderPresent(obj->Renderer);
+}
+
+int MouseOverButton(GameObj* obj, SDL_Rect Button)
+{
+	//Testing if Mouse is over Button
+	//Return 1 == true, Return 0 == false
+
+	if (obj->MouseX >= Button.x && obj->MouseX <= (Button.x + Button.w) && obj->MouseY >= Button.y && obj->MouseY <= (Button.y + Button.h))
+	{
+		return 1;
+	}
+	else
+		return 0;
 }
