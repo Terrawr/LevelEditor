@@ -21,6 +21,8 @@ static int MouseOverDeletButton = 0;
 static int MouseOverCreateButton = 0;
 static int MouseOverNPCButton = 0;
 static int MouseOverQuestButton = 0;
+static int MouseOverCreateNewMapButton = 0;
+static int MouseOverLoadOldMapButton = 0;
 static int ToolChosen = 2;
 static int elapsedTime = 0;
 /*0 = Chose which Mode Window
@@ -42,10 +44,12 @@ static SDL_Rect EditorWindow;
 //ALL TEXTURES FOR TEXTS
 static SDL_Texture* TextureTextExitToMainMenu = nullptr;
 static SDL_Texture* TextureTextCreateNewMap = nullptr;
+static SDL_Texture* TextureTextLoadOldMap = nullptr;
 
 //ALL SURFACES FOR TEXTS
 static SDL_Surface* TextExitToMainMenu = NULL;
 static SDL_Surface* TextCreateNewMap = NULL;
+static SDL_Surface* TextLoadOldMap = NULL;
 
 
 
@@ -71,6 +75,12 @@ CHANGESTATE(EditorOnEnterState) {
 	}
 	TextExitToMainMenu = TTF_RenderText_Solid( MenuFont, "   Exit to Main Menu   ", MenuCol);
 	TextureTextExitToMainMenu = SDL_CreateTextureFromSurface(obj->Renderer, TextExitToMainMenu);
+
+	TextCreateNewMap = TTF_RenderText_Solid(MenuFont, "   Create New Map   ", MenuCol);
+	TextureTextCreateNewMap = SDL_CreateTextureFromSurface(obj->Renderer, TextCreateNewMap);
+
+	TextLoadOldMap = TTF_RenderText_Solid(MenuFont, "   Load Old Map   ", MenuCol);
+	TextureTextLoadOldMap = SDL_CreateTextureFromSurface(obj->Renderer, TextLoadOldMap);
 	
 	ExitToMainMenu_Rect.w = 0.2 * obj->Width;
 	ExitToMainMenu_Rect.h = 0.1 * obj->Height;
@@ -160,6 +170,16 @@ CHANGESTATE(EditorOnEnterState) {
 		CreateOrLoad_Rect.h = obj->Height * 0.7;
 		CreateOrLoad_Rect.x = obj->Width / 2 - CreateOrLoad_Rect.w / 2;
 		CreateOrLoad_Rect.y = obj->Height / 2 - CreateOrLoad_Rect.h / 2;;
+
+		CreateNewMap_Rect.w = obj->Width * 0.1;
+		CreateNewMap_Rect.h = obj->Height * 0.07;
+		CreateNewMap_Rect.x = CreateOrLoad_Rect.x + (CreateOrLoad_Rect.w / 4) - (CreateNewMap_Rect.w / 2);
+		CreateNewMap_Rect.y = CreateOrLoad_Rect.y + CreateOrLoad_Rect.h * 0.75;
+
+		LoadOldMap_Rect.w = obj->Width * 0.1;
+		LoadOldMap_Rect.h = obj->Height * 0.07;
+		LoadOldMap_Rect.x = CreateOrLoad_Rect.x + (CreateOrLoad_Rect.w * 0.75) - (LoadOldMap_Rect.w / 2);
+		LoadOldMap_Rect.y = CreateOrLoad_Rect.y + CreateOrLoad_Rect.h * 0.75;
 	}
 	
 
@@ -169,6 +189,10 @@ CHANGESTATE(EditorOnEnterState) {
 CHANGESTATE(EditorOnExitState) {
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = false;
 	obj->CurrentStateIndex--;
+	EditorMode = 0;
+	SDL_DestroyTexture(TextureTextCreateNewMap);
+	SDL_DestroyTexture(TextureTextExitToMainMenu);
+	SDL_DestroyTexture(TextureTextLoadOldMap);
 
 }
 
@@ -259,6 +283,30 @@ TOPROCESS(EditorUpdate) {
 			MouseOverNPCButton = 0;
 		}
 
+	}
+
+	if (EditorMode == 0)
+	{
+		if (MouseOverButton(obj, CreateNewMap_Rect) == 1)
+		{
+			MouseOverCreateNewMapButton = 1;
+			if (leftButtonMouse == 1)
+				EditorMode = 1;
+		}
+		else
+		{
+			MouseOverCreateNewMapButton = 0;
+		}
+		if (MouseOverButton(obj, LoadOldMap_Rect) == 1)
+		{
+			MouseOverLoadOldMapButton = 1;
+			if (leftButtonMouse == 1)
+				EditorMode = 2;
+		}
+		else
+		{
+			MouseOverLoadOldMapButton = 0;
+		}
 	}
 	//END OF CONTROLL BUTTONS
 
@@ -366,6 +414,17 @@ TOPROCESS(EditorRender) {
 	if (EditorMode == 0)
 	{
 		SDL_RenderCopy(obj->Renderer, getTexture(obj, "WindowBackground")->mTexture, NULL, &CreateOrLoad_Rect);
+		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &CreateNewMap_Rect);
+		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12],  &LoadOldMap_Rect);
+		SDL_RenderCopy(obj->Renderer, TextureTextCreateNewMap, NULL, &CreateNewMap_Rect);
+		SDL_RenderCopy(obj->Renderer, TextureTextLoadOldMap, NULL, &LoadOldMap_Rect);
+
+
+		if(MouseOverCreateNewMapButton == 1)
+			SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &CreateNewMap_Rect);
+		if(MouseOverLoadOldMapButton == 1)
+			SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &LoadOldMap_Rect);
+
 	}
 
 	SDL_RenderPresent(obj->Renderer);
