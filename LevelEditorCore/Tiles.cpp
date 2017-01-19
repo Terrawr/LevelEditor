@@ -136,6 +136,10 @@ void loadline(const std::string& line, int layer, int row, array3D& ar) {
 	}
 }
 
+//void ReadToLineEnd(const std::fstream& stream) {
+//	while (stream.get() != '\n');
+//}
+
 
 
 /**
@@ -143,7 +147,9 @@ void loadline(const std::string& line, int layer, int row, array3D& ar) {
 TileMap te_LoadTileMap(GameObj* obj,const std::string& PathToMap) {
 
 	SDL_Log("--->Is Loading a TileMap: %s", PathToMap.c_str());
+
 	std::fstream TextFile(PathToMap.c_str(), std::ios_base::in | std::ios_base::out | std::ios_base::app); //<--read-only access
+	
 	std::stringstream textstream;
 	std::string line;
 
@@ -166,7 +172,9 @@ TileMap te_LoadTileMap(GameObj* obj,const std::string& PathToMap) {
 		
 		while (std::getline(TextFile, line))  //<-- Read one line of Content till the end of File
 		{
-			if (line[0] != '-') //<-- if found a new layer is about to begin
+			
+				
+			if (line[0] != '-' ) //<-- if found a new layer is about to begin
 			{
 				if(currentrow < rows )
 					loadline(line, currentLayer, currentrow++, map->mTileMap); //<-- is filling 1 row at time into our array
