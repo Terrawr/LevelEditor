@@ -3,10 +3,10 @@
 #include "GameObject.h"
 #include "UserInterface.h"
 #include "Texture.h"
-#include "SDL_image.h"
+#include <SDL_image.h>
 #include "Texture.h"
-#include "SDL_ttf.h"
-#include "SDL.h"
+#include <SDL_ttf.h>
+#include <SDL.h>
 
 #include "Command.h"
 

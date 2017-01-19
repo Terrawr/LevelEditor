@@ -21,23 +21,5 @@ struct UI_INTERFACEDESCRIPTION;
 #define UI_PUBLICFUNCTION(name) void name(UI_INTERFACEDESCRIPTION*,float deltatime)
 typedef UI_PUBLICFUNCTION(uiPublic);
 
-typedef struct UI_INTERFACEDESCRIPTION {
-
-	Texture*		DrawingContext;
-	int				ID;
-
-	uiPublic*		Render;
-	uiPublic*		Update;
-	uiPublic*		Input;
-
-
-
-
-}UI;
-
-
-
-
-void UI_initializeUserInterface();
-void UI_createWindow(Box);
+/////////////////////WARNING PURE C++ CODE /////////////////////////////////////////
 

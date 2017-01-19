@@ -173,7 +173,7 @@ TileMap te_LoadTileMap(GameObj* obj,const std::string& PathToMap) {
 			}else {
 				currentLayer++;
 				currentrow = 0;
-				if (currentLayer == layer)
+				if (currentLayer == layer) //!<--- Don't forget we start counting in C at 0 not 1
 					break;
 			}
 			
