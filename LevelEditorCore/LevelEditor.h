@@ -83,4 +83,18 @@ typedef struct RECTANGLESHAPE {
 typedef struct CIRCLESHAPE {
 	Vector2D Position;
 	float	 Radius;
-};
+}Circle;
+
+inline RECTANGLESHAPE createRectShape(float x, float y, float w, float h) {
+	RECTANGLESHAPE tmp;
+	tmp.Position.x = x;
+	tmp.Position.y = y;
+	tmp.Size.x = w;
+	tmp.Size.y = h;
+	return tmp;
+}
+
+bool checkCollision(SDL_Rect a, SDL_Rect b);
+
+struct GameObj;
+int MouseOverButton(GameObj* obj, SDL_Rect Button);

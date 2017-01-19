@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\GameIndependend">
-      <UniqueIdentifier>{14b19ff8-4498-4bad-9e03-90e7350d2759}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\GameDepended">
       <UniqueIdentifier>{05ac3f3a-0533-436d-b433-c7b99a0b27b9}</UniqueIdentifier>
     </Filter>
@@ -25,40 +22,220 @@
     <Filter Include="Source Files\GameStates">
       <UniqueIdentifier>{d912501b-184d-4027-92a2-1f4f4793b33e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\GameIndependend\Editor">
+    <Filter Include="Header Files\GameDepended\GameStates\InternalStates">
+      <UniqueIdentifier>{10044b02-f52e-46d9-a263-149a0d39c648}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameStates\InternalStates">
+      <UniqueIdentifier>{d945482d-fc4e-43b6-b253-087f31011bf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Editor">
       <UniqueIdentifier>{b8db6235-202b-49fb-aa10-724207f25fa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\TileEngine">
+      <UniqueIdentifier>{f6414b0a-e4f2-4c8f-a1c7-fec5410231df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\IO">
+      <UniqueIdentifier>{494ea06f-42d7-4288-8ca6-3ef533271af5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphic">
+      <UniqueIdentifier>{ca32c56e-a28c-4f5e-80f9-dffa32de141d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphic">
+      <UniqueIdentifier>{f3c6d483-5023-442e-ac93-26d679a91bd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TileEngine">
+      <UniqueIdentifier>{e101c00a-d892-4c4e-a81a-80d08a75ea05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphic\UserInterface">
+      <UniqueIdentifier>{872e8dd4-131e-496e-a57d-5807e3f84b25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\IO">
+      <UniqueIdentifier>{44be14a0-8242-4031-ae1b-d12b1b310e73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphic\UserInterface\IO">
+      <UniqueIdentifier>{c6b3bc96-fb20-480f-aba6-6568e4c756ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphic\UserInterface">
+      <UniqueIdentifier>{bb879749-2082-47b4-af65-8f2fc5debd7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphic\UserInterface\IO">
+      <UniqueIdentifier>{b7bcb7f0-7f87-4455-9dda-23f6261d6a9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphic\UserInterface\IO\Keyboard">
+      <UniqueIdentifier>{36914c7d-c2ba-44ac-b639-c30433f25280}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphic\UserInterface\IO\Mouse">
+      <UniqueIdentifier>{6fb306a8-a8a0-461e-9241-5c9bdd99a6b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphic\UserInterface\Widget">
+      <UniqueIdentifier>{abc46470-4339-4dd0-a989-20f66810e5ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphic\UserInterface\Widget">
+      <UniqueIdentifier>{5c665696-8c65-43b7-9539-500f0e629ce9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphic\UserInterface\IO\Keyboard">
+      <UniqueIdentifier>{b10e39cd-4d7d-41d3-b7a4-06d8a225bac1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphic\UserInterface\IO\Mouse">
+      <UniqueIdentifier>{baa5af9b-c8af-491c-a4bd-a71a8d6175c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphic\UserInterface\Platform">
+      <UniqueIdentifier>{d96b5cf0-9531-4e7c-9617-500d474d4672}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphic\UserInterface\Platform">
+      <UniqueIdentifier>{5283311f-4845-4e18-a141-b1b5ad8a2ff7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Command.h">
-      <Filter>Header Files\GameIndependend</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Header Files\GameDepended</Filter>
-    </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>Header Files\GameIndependend</Filter>
     </ClInclude>
     <ClInclude Include="LevelEditor.h">
       <Filter>Header Files\GameDepended</Filter>
     </ClInclude>
-    <ClInclude Include="Tiles.h">
-      <Filter>Header Files\GameIndependend</Filter>
-    </ClInclude>
-    <ClInclude Include="SplashScreen.h">
-      <Filter>Header Files\GameDepended\GameStates</Filter>
-    </ClInclude>
-    <ClInclude Include="Splashscreen2.h">
-      <Filter>Header Files\GameDepended\GameStates</Filter>
-    </ClInclude>
     <ClInclude Include="EditorState.h">
       <Filter>Header Files\GameDepended\GameStates</Filter>
     </ClInclude>
+    <ClInclude Include="UserInterface.h">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroScreen.h">
+      <Filter>Header Files\GameDepended\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="mainmenu.h">
+      <Filter>Header Files\GameDepended\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="TileView.h">
+      <Filter>Header Files\GameDepended\GameStates\InternalStates</Filter>
+    </ClInclude>
+    <ClInclude Include="Tiles.h">
+      <Filter>Header Files\TileEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Header Files\IO</Filter>
+    </ClInclude>
     <ClInclude Include="RessourceManager.h">
-      <Filter>Header Files\GameIndependend</Filter>
+      <Filter>Header Files\Graphic</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
-      <Filter>Header Files\GameIndependend</Filter>
+      <Filter>Header Files\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Header Files\GameDepended\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="Demo_State_jojo.h">
+      <Filter>Header Files\GameDepended\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="InterfaceInput.h">
+      <Filter>Header Files\Graphic\UserInterface\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Header Files\Graphic\UserInterface\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Header Files\Graphic\UserInterface\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="GenericInput.h">
+      <Filter>Header Files\Graphic\UserInterface\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Key.h">
+      <Filter>Header Files\Graphic\UserInterface\IO\Keyboard</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyEvent.h">
+      <Filter>Header Files\Graphic\UserInterface\IO\Keyboard</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyInput.h">
+      <Filter>Header Files\Graphic\UserInterface\IO\Keyboard</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyListner.h">
+      <Filter>Header Files\Graphic\UserInterface\IO\Keyboard</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseInput.h">
+      <Filter>Header Files\Graphic\UserInterface\IO\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseEvent.h">
+      <Filter>Header Files\Graphic\UserInterface\IO\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseListner.h">
+      <Filter>Header Files\Graphic\UserInterface\IO\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="Widget.h">
+      <Filter>Header Files\Graphic\UserInterface\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="WidgetListner.h">
+      <Filter>Header Files\Graphic\UserInterface\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectEvent.h">
+      <Filter>Header Files\Graphic\UserInterface\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="SDL_Input.h">
+      <Filter>Header Files\Graphic\UserInterface\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="DeathListneer.h">
+      <Filter>Header Files\Graphic\UserInterface\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseContainer.h">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="FocusListneer.h">
+      <Filter>Header Files\Graphic\UserInterface\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="FocusHandler.h">
+      <Filter>Header Files\Graphic\UserInterface\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionListneer.h">
+      <Filter>Header Files\Graphic\UserInterface\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionEvent.h">
+      <Filter>Header Files\Graphic\UserInterface\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageLoader.h">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="ClipRectangle.h">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="Rectangle.h">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageFont.h">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectionListneer.h">
+      <Filter>Header Files\Graphic\UserInterface\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="Exception.h">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Header Files\Graphic\UserInterface\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic.h">
+      <Filter>Header Files\Graphic\UserInterface\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="DefaultFont.h">
+      <Filter>Header Files\Graphic\UserInterface\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="SDL_Graphic.h">
+      <Filter>Header Files\Graphic\UserInterface\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="SDL_IMAGE.h">
+      <Filter>Header Files\Graphic\UserInterface\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="SDL_ImageLoader.h">
+      <Filter>Header Files\Graphic\UserInterface\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="SDL_Font.h">
+      <Filter>Header Files\Graphic\UserInterface\Platform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -74,11 +251,113 @@
     <ClCompile Include="Editor.cpp">
       <Filter>Source Files\GameStates</Filter>
     </ClCompile>
-    <ClCompile Include="RessourceManager.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="GameStateInterface.cpp">
+      <Filter>Source Files\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="intro.cpp">
+      <Filter>Source Files\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Source Files\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="TileView.cpp">
+      <Filter>Source Files\GameStates\InternalStates</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Tiles.cpp">
+      <Filter>Source Files\TileEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="RessourceManager.cpp">
+      <Filter>Source Files\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Demo_State_jojo.cpp">
+      <Filter>Source Files\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="Event.cpp">
+      <Filter>Source Files\Graphic\UserInterface\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Source Files\Graphic\UserInterface\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="GenericInput.cpp">
+      <Filter>Source Files\Graphic\UserInterface\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget.cpp">
+      <Filter>Source Files\Graphic\UserInterface\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectionEvent.cpp">
+      <Filter>Source Files\Graphic\UserInterface\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Key.cpp">
+      <Filter>Source Files\Graphic\UserInterface\IO\Keyboard</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyEvent.cpp">
+      <Filter>Source Files\Graphic\UserInterface\IO\Keyboard</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyInput.cpp">
+      <Filter>Source Files\Graphic\UserInterface\IO\Keyboard</Filter>
+    </ClCompile>
+    <ClCompile Include="SDL_Input.cpp">
+      <Filter>Source Files\Graphic\UserInterface\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInterface.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseEvent.cpp">
+      <Filter>Source Files\Graphic\UserInterface\IO\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseInput.cpp">
+      <Filter>Source Files\Graphic\UserInterface\IO\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseContainer.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionEvent.cpp">
+      <Filter>Source Files\Graphic\UserInterface\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="FocusHandler.cpp">
+      <Filter>Source Files\Graphic\UserInterface\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageFont.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="Exception.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Source Files\Graphic\UserInterface\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultFont.cpp">
+      <Filter>Source Files\Graphic\UserInterface\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="SDL_Graphic.cpp">
+      <Filter>Source Files\Graphic\UserInterface\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="SDL_IMAGE.cpp">
+      <Filter>Source Files\Graphic\UserInterface\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="SDL_Imageloader.cpp">
+      <Filter>Source Files\Graphic\UserInterface\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Rectangle.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="ClipRectangle.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

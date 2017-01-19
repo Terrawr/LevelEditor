@@ -2,7 +2,6 @@
 #include "GameState.h"
 
 enum SUPPORTEDCOMMANDTYPES{
-	EXIT,
 	MOVEUP,
 	MOVEDOWN,
 	MOVELEFT,
