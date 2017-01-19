@@ -4,9 +4,18 @@
 #include <SDL_ttf.h>
 
 #include "SDL_opengl.h"
+#include <Windows.h>
+#include <SDL_messagebox.h>
+#include <tchar.h>
+#include <strsafe.h>
+#include <stdio.h>
+#include <conio.h>
+#include <direct.h>
+
 
 static int screenwidth = 800;
 static int screenheight = 480;
+
 //
 //GameObj* createGameObjectHandle() {
 //	GameObj* tmp = (GameObj*) malloc(sizeof(GameObj));
@@ -38,11 +47,8 @@ void getScreenResolution()
 			SDL_Log("Display #%d: current display mode is %dx%dpx @ %dhz.", i, currentscreen.w, currentscreen.h, currentscreen.refresh_rate);
 
 		//for fullscreen with 1 display
-		screenheight = currentscreen.h;
-		screenwidth = currentscreen.w;
-
-		/*screenwidth = 1600;
-		screenheight = 900;*/
+		/*screenheight = currentscreen.h;
+		screenwidth = currentscreen.w;*/
 		
 	}
 }
@@ -63,8 +69,8 @@ void initializeGameObj(GameObj* obj, char*Title,int width, int height) {
 	getScreenResolution();
 	/*obj->Height =  screenheight;
 	obj->Width =  screenwidth;*/
-	obj->Width = 1600;
-	obj->Height = 900;
+	obj->Width = 1000;
+	obj->Height = 800;
 
 	obj->Window = SDL_CreateWindow(Title, 50, 50, obj->Width, obj->Height, SDL_WINDOW_SHOWN| SDL_WINDOW_OPENGL);
 	if (obj->Window == NULL){
@@ -128,4 +134,17 @@ bool checkCollision(SDL_Rect a, SDL_Rect b)
 	//If none of the sides from A are outside B
 	return true;
 }
+
+
+/*Function to get all Containing Maps from the
+Directory /resources/maps/..
+ATTENTION: max Amount of Maps is 10!!!*/
+void getMapNamesFromDirectory(GameObj* obj)
+{
+	
+	
+
+
+}
+
 

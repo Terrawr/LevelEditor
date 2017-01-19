@@ -4,6 +4,7 @@
 #include <vector>
 #include <queue>
 #include "RessourceManager.h"
+#include <windows.h>
 
 
 
@@ -16,6 +17,7 @@ struct GameObj
 	int						 CurrentStateIndex;
 	std::vector<GameState*>  Collection;
 	std::vector<Command*>	 HolyCommands;
+	WIN32_FIND_DATA			 MapNames;
 
 	RessourceManager		Assets;
 

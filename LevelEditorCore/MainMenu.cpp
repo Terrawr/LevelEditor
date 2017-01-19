@@ -207,6 +207,32 @@ CHANGESTATE(MainMenuOnExitState) {
 	obj->Collection[obj->CurrentStateIndex]->isActive = false;
 	obj->Collection[obj->CurrentStateIndex]->isOnPause = true;
 	SDL_Log("----ON EXIT NOW----\n");
+
+	SDL_DestroyTexture(Background);
+	SDL_DestroyTexture(Frame);
+	SDL_DestroyTexture(FrameChosen);
+	SDL_DestroyTexture(FrameClicked);
+	SDL_DestroyTexture(TextureCharacterFrame);
+	SDL_DestroyTexture(TextureTextExit);
+	SDL_DestroyTexture(TextureTextNewGame);
+	SDL_DestroyTexture(TextureTextLoadGame);
+	SDL_DestroyTexture(TextureTextLevelEditor);
+	SDL_DestroyTexture(TexNewGameBackground);
+	SDL_DestroyTexture(TexGuy);
+
+	SDL_FreeSurface(Guy);
+	SDL_FreeSurface(TextureBackground);
+	SDL_FreeSurface(TextureFrame);
+	SDL_FreeSurface(TextureFrameChosen);
+	SDL_FreeSurface(TextureFrameClicked);
+	SDL_FreeSurface(TextNewGame);
+	SDL_FreeSurface(TextLoadGame);
+	SDL_FreeSurface(TextLevelEditor);
+	SDL_FreeSurface(TextExit);
+	SDL_FreeSurface(TextCancel);
+	SDL_FreeSurface(TextCreate);
+
+
 	if (MouseOverButton(obj, Exit_Rect) == 1)
 	{
 		registerCommand(obj, StateGoesDown, STATEDOWN);

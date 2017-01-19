@@ -12,8 +12,11 @@
 #include "Tiles.h"
 #include <string>
 #include <fstream>
+#include <iostream>
+#include <Windows.h>
 
 #define FONTSIZE 25
+
 
 //All for Input, Update and stuffy stuff
 static int leftButtonMouse = 0;
@@ -32,6 +35,7 @@ static int elapsedTime = 0;
 2 = Load Old Map*/
 static int EditorMode = 0;
 
+
 //allRects
 static SDL_Rect ExitToMainMenu_Rect; // JUST DEST ON SCREEN; TEXTURE IS TOOLBAR_RECT[12 and 13]
 static SDL_Rect CreateOrLoad_Rect;
@@ -42,16 +46,30 @@ static TTF_Font* MenuFont;
 static SDL_Color MenuCol = { 100,100,100 };
 static SDL_Rect EditorBackground;
 static SDL_Rect EditorWindow;
+static SDL_Rect MapName;
 
+SDL_Rect OldMapName;
 //ALL TEXTURES FOR TEXTS
 static SDL_Texture* TextureTextExitToMainMenu = nullptr;
 static SDL_Texture* TextureTextCreateNewMap = nullptr;
 static SDL_Texture* TextureTextLoadOldMap = nullptr;
+static SDL_Texture* TextureTextMapName = nullptr;
+static SDL_Texture* TextureTextTest = nullptr;
 
 //ALL SURFACES FOR TEXTS
 static SDL_Surface* TextExitToMainMenu = NULL;
 static SDL_Surface* TextCreateNewMap = NULL;
 static SDL_Surface* TextLoadOldMap = NULL;
+static SDL_Surface* TextMapName = NULL;
+static SDL_Surface* TextTest = NULL;
+
+//TEXT
+std::string mapname = "";
+std::string spaces = "    ";
+std::string emap = ".map";
+
+
+
 
 
 
@@ -72,9 +90,9 @@ CHANGESTATE(EditorOnEnterState) {
 
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = true;
 
-	loadTextureFromFile(obj, "resources.png", "Resources");
-	loadTextureFromFile(obj, "NewGameBackGround.png", "WindowBackground");
-	loadTextureFromFile(obj, "test.bmp", "EditorBackground");
+	rm_loadTextureFromFile(obj, "resources.png", "Resources");
+	rm_loadTextureFromFile(obj, "NewGameBackGround.png", "WindowBackground");
+	rm_loadTextureFromFile(obj, "test.bmp", "EditorBackground");
 	MenuFont = TTF_OpenFont("..\\resources\\test.ttf", FONTSIZE);
 	if (!MenuFont)
 	{
@@ -89,6 +107,8 @@ CHANGESTATE(EditorOnEnterState) {
 
 	TextLoadOldMap = TTF_RenderText_Solid(MenuFont, "   Load Old Map   ", MenuCol);
 	TextureTextLoadOldMap = SDL_CreateTextureFromSurface(obj->Renderer, TextLoadOldMap);
+
+
 	
 	ExitToMainMenu_Rect.w = 0.2 * obj->Width;
 	ExitToMainMenu_Rect.h = 0.1 * obj->Height;
@@ -188,8 +208,22 @@ CHANGESTATE(EditorOnEnterState) {
 		LoadOldMap_Rect.h = obj->Height * 0.07;
 		LoadOldMap_Rect.x = CreateOrLoad_Rect.x + (CreateOrLoad_Rect.w * 0.75) - (LoadOldMap_Rect.w / 2);
 		LoadOldMap_Rect.y = CreateOrLoad_Rect.y + CreateOrLoad_Rect.h * 0.75;
+
+		MapName.w = CreateNewMap_Rect.w + LoadOldMap_Rect.w + (LoadOldMap_Rect.x - CreateNewMap_Rect.x - CreateNewMap_Rect.w);
+		MapName.h = 0.1 * CreateOrLoad_Rect.h;
+		MapName.x = CreateNewMap_Rect.x;
+		MapName.y = CreateNewMap_Rect.y - 0.12 * CreateOrLoad_Rect.h;
+
+		
+		OldMapName.w = CreateNewMap_Rect.w + LoadOldMap_Rect.w + (LoadOldMap_Rect.x - CreateNewMap_Rect.x - CreateNewMap_Rect.w);
+		OldMapName.h = 0.1 * CreateOrLoad_Rect.h;
+		OldMapName.x = CreateNewMap_Rect.x;
+		OldMapName.y = CreateNewMap_Rect.y - 0.4 * CreateOrLoad_Rect.h;
 	}
+
+	/*TextExitToMainMenu = TTF_RenderText_Solid(MenuFont, (char*)&text, MenuCol); text for mapname */
 	
+	SDL_StartTextInput();
 
 
 }
@@ -202,7 +236,11 @@ CHANGESTATE(EditorOnExitState) {
 	SDL_DestroyTexture(TextureTextCreateNewMap);
 	SDL_DestroyTexture(TextureTextExitToMainMenu);
 	SDL_DestroyTexture(TextureTextLoadOldMap);
+	SDL_FreeSurface(TextCreateNewMap);
+	SDL_FreeSurface(TextExitToMainMenu);
+	SDL_FreeSurface(TextLoadOldMap);
 
+	mapname = "";
 }
 
 ///State pausing/////////////////
@@ -221,7 +259,7 @@ CHANGESTATE(EditorOnResumeState) {
 TOPROCESS(EditorUpdate) {
 	
 
-	SDL_Log("FrameTime[s]: %f | FrameTime[ms]: %f | FPS: %f \n", (elapsedTime_Lag/1000.f), (elapsedTime_Lag ), ( 1000.f / elapsedTime_Lag ));
+	/*SDL_Log("FrameTime[s]: %f | FrameTime[ms]: %f | FPS: %f \n", (elapsedTime_Lag/1000.f), (elapsedTime_Lag ), ( 1000.f / elapsedTime_Lag ));*/
 
 	//CONTROLL BUTTONS 
 	if (MouseOverButton(obj, ExitToMainMenu_Rect) == 1)
@@ -234,7 +272,7 @@ TOPROCESS(EditorUpdate) {
 	}
 	else
 	{
-		MouseOverExitButton = 0;
+	MouseOverExitButton = 0;
 	}
 
 	if (!EditorMode == 0)
@@ -296,11 +334,15 @@ TOPROCESS(EditorUpdate) {
 
 	if (EditorMode == 0)
 	{
+		getMapNamesFromDirectory(obj);
 		if (MouseOverButton(obj, CreateNewMap_Rect) == 1)
 		{
 			MouseOverCreateNewMapButton = 1;
 			if (leftButtonMouse == 1)
+			{
 				EditorMode = 1;
+				std::fstream NewMapName((obj->Assets.MapsPath + mapname + emap).c_str(), std::ios_base::in | std::ios_base::out | std::ios_base::app);
+			}
 		}
 		else
 		{
@@ -310,16 +352,27 @@ TOPROCESS(EditorUpdate) {
 		{
 			MouseOverLoadOldMapButton = 1;
 			if (leftButtonMouse == 1)
+			{
 				EditorMode = 2;
+
+
+			}
 		}
 		else
 		{
 			MouseOverLoadOldMapButton = 0;
 		}
+
+
+
 	}
 	//END OF CONTROLL BUTTONS
 
-	
+	TextTest = TTF_RenderText_Solid(MenuFont, (spaces + obj->MapNames.cFileName[0] + spaces).c_str(), MenuCol);
+	TextureTextTest = SDL_CreateTextureFromSurface(obj->Renderer, TextTest);
+
+	TextMapName = TTF_RenderText_Solid(MenuFont, (spaces + mapname + spaces).c_str() , MenuCol);
+	TextureTextMapName = SDL_CreateTextureFromSurface(obj->Renderer, TextMapName);
 
 	/*leftButtonMouse = 0;
 	rightButtonMouse = 0;*/
@@ -330,6 +383,17 @@ TOPROCESS(EditorInput) {
 	SDL_Event e;
 	while (SDL_PollEvent(&e))
 	{
+		if (e.type == SDL_TEXTINPUT || e.type == SDL_KEYDOWN)
+		{
+		system("cls");
+		/*system("clear");*/
+		if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_BACKSPACE && mapname.length() > 0)
+			mapname = mapname.substr(0, mapname.length() - 1);
+		else if (e.type == SDL_TEXTINPUT)
+			mapname += e.text.text;
+
+		std::cout << mapname << std::endl;
+		}
 		if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE)
 		{
 			obj->isRunning = true;
@@ -364,40 +428,40 @@ TOPROCESS(EditorRender) {
 
 
 	//CONTROLL BUTTONS
-	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &ExitToMainMenu_Rect);
+	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &ExitToMainMenu_Rect);
 	SDL_RenderCopy(obj->Renderer, TextureTextExitToMainMenu, NULL, &ExitToMainMenu_Rect);
-	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &ToolBar_Rect[6]);
-	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[0], &ToolBar_Rect[6]);
-	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[1], &ToolBar_Rect[7]);
-	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[2], &ToolBar_Rect[8]);
-	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[3], &ToolBar_Rect[9]);
-	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &ToolBar_Rect[7]);
-	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &ToolBar_Rect[8]);
-	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &ToolBar_Rect[9]);
+	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &ToolBar_Rect[6]);
+	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[0], &ToolBar_Rect[6]);
+	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[1], &ToolBar_Rect[7]);
+	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[2], &ToolBar_Rect[8]);
+	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[3], &ToolBar_Rect[9]);
+	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &ToolBar_Rect[7]);
+	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &ToolBar_Rect[8]);
+	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &ToolBar_Rect[9]);
 
 	if (MouseOverExitButton == 1)
-		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ExitToMainMenu_Rect);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ExitToMainMenu_Rect);
 
 	switch (ToolChosen)
 	{
 	case 1: //del
 	{
-		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[14], &ToolBar_Rect[6]);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[14], &ToolBar_Rect[6]);
 		break;
 	}
 	case 2:
 	{
-		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[14], &ToolBar_Rect[7]);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[14], &ToolBar_Rect[7]);
 		break;
 	}
 	case 3:
 	{
-		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[14], &ToolBar_Rect[8]);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[14], &ToolBar_Rect[8]);
 		break;
 	}
 	case 4:
 	{
-		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[14], &ToolBar_Rect[9]);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[14], &ToolBar_Rect[9]);
 		break;
 	}
 	default:
@@ -405,43 +469,47 @@ TOPROCESS(EditorRender) {
 	}
 
 	if (MouseOverDeletButton == 1)
-		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[6]);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[6]);
 	if (MouseOverCreateButton == 1)
-		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[7]);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[7]);
 	if (MouseOverQuestButton == 1)
-		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[8]);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[8]);
 	if (MouseOverNPCButton == 1)
-		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[9]);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[9]);
 
 	//END OF CONTROLL BUTTONS
 
 	//Start of Editor dependend
-	SDL_RenderCopy(obj->Renderer, getTexture(obj, "WindowBackground")->mTexture, NULL, &EditorBackground);
-	SDL_RenderCopy(obj->Renderer, getTexture(obj, "EditorBackground")->mTexture, NULL, &EditorWindow);
-	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[4], &ToolBar_Rect[10]);
-	SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[5], &ToolBar_Rect[11]);
+	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "WindowBackground")->mTexture, NULL, &EditorBackground);
+	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "EditorBackground")->mTexture, NULL, &EditorWindow);
+	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[4], &ToolBar_Rect[10]);
+	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[5], &ToolBar_Rect[11]);
 
 	if (EditorMode == 0)
 	{
-		SDL_RenderCopy(obj->Renderer, getTexture(obj, "WindowBackground")->mTexture, NULL, &CreateOrLoad_Rect);
-		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &CreateNewMap_Rect);
-		SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12],  &LoadOldMap_Rect);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "WindowBackground")->mTexture, NULL, &CreateOrLoad_Rect);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &CreateNewMap_Rect);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12],  &LoadOldMap_Rect);
 		SDL_RenderCopy(obj->Renderer, TextureTextCreateNewMap, NULL, &CreateNewMap_Rect);
 		SDL_RenderCopy(obj->Renderer, TextureTextLoadOldMap, NULL, &LoadOldMap_Rect);
 
 
 		if(MouseOverCreateNewMapButton == 1)
-			SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &CreateNewMap_Rect);
+			SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &CreateNewMap_Rect);
 		if(MouseOverLoadOldMapButton == 1)
-			SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &LoadOldMap_Rect);
+			SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &LoadOldMap_Rect);
 
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &MapName);
+		SDL_RenderCopy(obj->Renderer, TextureTextMapName, NULL, &MapName);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &OldMapName);
+		SDL_RenderCopy(obj->Renderer, TextureTextTest, NULL, &OldMapName);
 	}
 
 	
 	//SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, NULL, NULL);
 
-	re_renderSingleTile(&theMap.mCurrentTileset, "lava", 300, 300);
-	render(&theMap.mCurrentTileset.Tilesheet, 100, 100, NULL, 45, NULL, SDL_FLIP_NONE);
+	/*re_renderSingleTile(&theMap.mCurrentTileset, "lava", 300, 300);
+	render(&theMap.mCurrentTileset.Tilesheet, 100, 100, NULL, 45, NULL, SDL_FLIP_NONE);*/
 
 
 	SDL_RenderPresent(obj->Renderer);
