@@ -179,7 +179,7 @@ namespace gcn
             ++mCaretPosition;
         }
 
-        else if (key.getValue() == Key::aDELETE && mCaretPosition < mText.size())
+        else if (key.getValue() == Key::DELETE && mCaretPosition < mText.size())
         {
             mText.erase(mCaretPosition, 1);
         }

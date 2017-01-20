@@ -267,7 +267,7 @@ namespace gcn
               value = Key::ESCAPE;
               break;
           case SDLK_DELETE:
-              value = Key::aDELETE;
+              value = Key::DELETE;
               break;
           case SDLK_INSERT:
               value = Key::INSERT;

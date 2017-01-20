@@ -12,10 +12,6 @@
 
 #define __WIN__
 
-#ifdef __WIN__
-#include <Windows.h>
-#else
-#endif
 
 
 
@@ -332,7 +328,7 @@ void initWidgets()
 	/*
 	* Add them to the top container
 	*/
-	/*top->add(label, 290, 10);
+	top->add(label, 290, 10);
 	top->add(icon, 10, 10);
 	top->add(button, 325, 10);
 	top->add(textField, 375, 10);
@@ -346,7 +342,7 @@ void initWidgets()
 	top->add(radioButton3, 580, 160);
 	top->add(slider, 580, 200);
 	top->add(window, 100, 350);
-	top->add(nestedScrollArea, 440, 350);*/
+	top->add(nestedScrollArea, 440, 350);
 
 
 

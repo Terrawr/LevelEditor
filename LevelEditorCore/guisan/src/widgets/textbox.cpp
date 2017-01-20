@@ -294,14 +294,14 @@ namespace gcn
             --mCaretRow;
         }
 
-        else if (key.getValue() == Key::aDELETE
+        else if (key.getValue() == Key::DELETE
                  && mCaretColumn < (int)mTextRows[mCaretRow].size()
                  && mEditable)
         {
             mTextRows[mCaretRow].erase(mCaretColumn, 1);
         }
 
-        else if (key.getValue() == Key::aDELETE
+        else if (key.getValue() == Key::DELETE
                  && mCaretColumn == (int)mTextRows[mCaretRow].size()
                  && mCaretRow < ((int)mTextRows.size() - 1)
                  && mEditable)
