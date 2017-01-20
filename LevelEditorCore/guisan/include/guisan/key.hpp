@@ -125,7 +125,7 @@ namespace gcn
             INSERT,
             HOME,
             PAGE_UP,
-            DELETE,
+            aDELETE,
             END,
             PAGE_DOWN,
             ESCAPE,
