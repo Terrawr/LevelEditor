@@ -12,7 +12,6 @@
 #include <string>
 #include <fstream>
 #include <iostream>
-#include <Windows.h>
 
 #define FONTSIZE 25
 
@@ -21,7 +20,7 @@
 static int leftButtonMouse = 0;
 static int rightButtonMouse = 0;
 static int MouseOverExitButton = 0;
-static int MouseOverDeletButton = 0;
+static int MouseOverDeleteButton = 0;
 static int MouseOverCreateButton = 0;
 static int MouseOverNPCButton = 0;
 static int MouseOverQuestButton = 0;
@@ -278,7 +277,7 @@ TOPROCESS(EditorUpdate) {
 	{
 		if (MouseOverButton(obj, ToolBar_Rect[6]) == 1)
 		{
-			MouseOverDeletButton = 1;
+			MouseOverDeleteButton = 1;
 			if (leftButtonMouse == 1)
 			{
 				ToolChosen = 1;
@@ -286,7 +285,7 @@ TOPROCESS(EditorUpdate) {
 		}
 		else
 		{
-			MouseOverDeletButton = 0;
+			MouseOverDeleteButton = 0;
 		}
 
 		if (MouseOverButton(obj, ToolBar_Rect[7]) == 1)
@@ -333,7 +332,7 @@ TOPROCESS(EditorUpdate) {
 
 	if (EditorMode == 0)
 	{
-		getMapNamesFromDirectory(obj);
+		
 		if (MouseOverButton(obj, CreateNewMap_Rect) == 1)
 		{
 			MouseOverCreateNewMapButton = 1;
@@ -367,8 +366,6 @@ TOPROCESS(EditorUpdate) {
 	}
 	//END OF CONTROLL BUTTONS
 
-	TextTest = TTF_RenderText_Solid(MenuFont, (spaces + obj->MapNames.cFileName[0] + spaces).c_str(), MenuCol);
-	TextureTextTest = SDL_CreateTextureFromSurface(obj->Renderer, TextTest);
 
 	TextMapName = TTF_RenderText_Solid(MenuFont, (spaces + mapname + spaces).c_str() , MenuCol);
 	TextureTextMapName = SDL_CreateTextureFromSurface(obj->Renderer, TextMapName);
@@ -467,7 +464,7 @@ TOPROCESS(EditorRender) {
 		break;
 	}
 
-	if (MouseOverDeletButton == 1)
+	if (MouseOverDeleteButton == 1)
 		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[6]);
 	if (MouseOverCreateButton == 1)
 		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[7]);

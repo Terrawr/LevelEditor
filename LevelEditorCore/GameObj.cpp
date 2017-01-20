@@ -136,15 +136,5 @@ bool checkCollision(SDL_Rect a, SDL_Rect b)
 }
 
 
-/*Function to get all Containing Maps from the
-Directory /resources/maps/..
-ATTENTION: max Amount of Maps is 10!!!*/
-void getMapNamesFromDirectory(GameObj* obj)
-{
-	
-	
-
-
-}
 
 
