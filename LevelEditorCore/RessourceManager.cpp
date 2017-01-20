@@ -3,7 +3,10 @@
 
 #include <fstream>
 #include <sstream>
+
+#include "SDL_ttf.h"
 #include <SDL_ttf.h>
+
 
 
 

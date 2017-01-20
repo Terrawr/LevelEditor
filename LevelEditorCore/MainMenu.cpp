@@ -259,7 +259,7 @@ TOPROCESS(MainMenuUpdate) {
 	{
 		elapsedTime += elapsedTime_Lag;
 	}
-	if (elapsedTime >= 200)
+	if (elapsedTime >= 100)
 	{
 		leftButtonMouse = 0;
 		elapsedTime = 0;
