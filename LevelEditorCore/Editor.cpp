@@ -6,6 +6,8 @@
 #include "Texture.h"
 #include "SDL_ttf.h"
 #include "SDL.h"
+#include "guisan.hpp"
+#include "sdl.hpp"
 
 
 #include "Tiles.h"
@@ -15,6 +17,72 @@
 #include <io.h>
 
 #define FONTSIZE 25
+
+//GUISAN
+static GameObj*		Root = NULL;
+static GameState*			This = NULL;
+static gcn::SDLInput* input;             // Input driver
+static gcn::SDLGraphics* graphics;       // Graphics driver
+static gcn::SDLImageLoader* imageLoader; // For loading images
+static gcn::Gui* gui;            // A Gui object - binds it all together
+static gcn::ImageFont* font;     // A font
+static SDL_Surface* screen;
+static SDL_Texture* TextureScreen;
+static gcn::Container* top;
+static SDL_Rect screen_Rect;
+gcn::ListBox* MapNames_List;
+
+class ListModelMaps : public gcn::ListModel
+{
+
+	std::vector<std::string>  MapNames;
+
+public:
+
+	ListModelMaps()
+	{
+
+		MapNames = readDir(Root->Assets.MapsPath + std::string("*"));
+		printf("%s\n", Root->Assets.MapsPath.c_str());
+		for (int i = 0; i < MapNames.size(); i++)
+			printf("%s\n", MapNames[i].c_str());
+	}
+
+	int getNumberOfElements()
+	{
+		return MapNames.size();
+	}
+
+	std::string getElementAt(int i)
+	{
+		//switch (i) {
+		//case 0:
+		//	return std::string("zero");
+		//case 1:
+		//	return std::string("one");
+		//case 2:
+		//	return std::string("two");
+		//case 3:
+		//	return std::string("three");
+		//case 4:
+		//	return std::string("four");
+		//default: // Just to keep warnings away
+		//	return std::string("");
+		//}
+
+		return MapNames[i];
+	}
+};
+
+ListModelMaps* listModelMaps;
+
+class listAction : public gcn::ActionListener
+{
+	void action(const gcn::ActionEvent &e)
+	{
+
+	}
+};
 
 //All for Input, Update and stuffy stuff
 static int leftButtonMouse = 0;
@@ -46,6 +114,7 @@ static SDL_Color MenuCol = { 100,100,100 };
 static SDL_Rect EditorBackground;
 static SDL_Rect EditorWindow;
 static SDL_Rect MapName;
+
 
 SDL_Rect OldMapName;
 //ALL TEXTURES FOR TEXTS
@@ -86,6 +155,9 @@ static SDL_Rect ToolBar_Rect[15];
 
 
 CHANGESTATE(EditorOnEnterState) {
+
+	Root = obj;
+	This = Root->Collection[Root->CurrentStateIndex];
 
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = true;
 
@@ -220,10 +292,66 @@ CHANGESTATE(EditorOnEnterState) {
 		OldMapName.y = CreateNewMap_Rect.y - 0.4 * CreateOrLoad_Rect.h;
 	}
 
+	if (1)
+	{
+		
+		screen_Rect.w = MapName.w;
+		screen_Rect.h = CreateOrLoad_Rect.h * 0.5;
+		screen_Rect.x = MapName.x;
+		screen_Rect.y = MapName.y - 0.85 *screen_Rect.w;
+		screen = SDL_CreateRGBSurface(0, screen_Rect.w, screen_Rect.h, 32, 0, 0, 0, SDL_ALPHA_OPAQUE);
+
+		// We want to enable key repeat
+		//SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+
+		/*
+		* Now it's time for Guichan SDL stuff
+		*/
+		imageLoader = new gcn::SDLImageLoader();
+		// The ImageLoader in use is static and must be set to be
+		// able to load images
+		gcn::Image::setImageLoader(imageLoader);
+		graphics = new gcn::SDLGraphics();
+		// Set the target for the graphics object to be the screen.
+		// In other words, we will draw to the screen.
+		// Note, any surface will do, it doesn't have to be the screen.
+		graphics->setTarget(screen);
+		input = new gcn::SDLInput();
+
+		/*
+		* Last but not least it's time to initialize and create the gui
+		* with Guichan stuff.
+		*/
+		top = new gcn::Container();
+		// Set the dimension of the top container to match the screen.
+		top->setDimension(gcn::Rectangle(0, 0,screen_Rect.w,screen_Rect.h));
+		gui = new gcn::Gui();
+		// Set gui to use the SDLGraphics object.
+		gui->setGraphics(graphics);
+		// Set gui to use the SDLInput object
+		gui->setInput(input);
+		// Set the top container
+		gui->setTop(top);
+		// Load the image font.
+		font = new gcn::ImageFont("fixedfont.bmp", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.");
+		// The global font is static and must be set.
+		gcn::Widget::setGlobalFont(font);
+
+		listModelMaps = new ListModelMaps;
+		MapNames_List = new gcn::ListBox(listModelMaps);
+		MapNames_List->setDimension(gcn::Rectangle(0, 0, screen_Rect.w, screen_Rect.h));
+
+		//ALL WIDGETS FOR TOL
+		top->add(MapNames_List/*, screen_Rect.x, screen_Rect.y*/);
+
+		listAction* action = new listAction;
+		MapNames_List->addActionListener(action);
+	}
+
 	/*TextExitToMainMenu = TTF_RenderText_Solid(MenuFont, (char*)&text, MenuCol); text for mapname */
 	
 	SDL_StartTextInput();
-
+	TextureScreen = SDL_CreateTextureFromSurface(obj->Renderer, screen);
 
 }
 
@@ -256,7 +384,7 @@ CHANGESTATE(EditorOnResumeState) {
 
 //HIER KOMMT DEINE GAMELOGIC REIN BZW DEINE USERINTERFACE LOGIC ODER WAS AUCH IMMER AN LOGIC
 TOPROCESS(EditorUpdate) {
-	
+	gui->logic();
 
 	/*SDL_Log("FrameTime[s]: %f | FrameTime[ms]: %f | FPS: %f \n", (elapsedTime_Lag/1000.f), (elapsedTime_Lag ), ( 1000.f / elapsedTime_Lag ));*/
 
@@ -330,14 +458,19 @@ TOPROCESS(EditorUpdate) {
 			MouseOverNPCButton = 0;
 		}
 
+		if (EditorMode == 1 || EditorMode == 2)
+		{
+			std::fstream NewMapName((obj->Assets.MapsPath + mapname + emap).c_str(), std::ios_base::in | std::ios_base::out | std::ios_base::app);
+
+			///////EDITORIMPLEMENTIERUNG///////////
+
+		}
+
 	}
 
 	if (EditorMode == 0)
 	{
-		MapNames = readDir(obj->Assets.MapsPath + std::string("*"));
-		printf("%s\n", obj->Assets.MapsPath.c_str());
-		for (int i = 0; i < MapNames.size(); i++)
-			printf("%s\n", MapNames[i].c_str());
+	
 		if (MouseOverButton(obj, CreateNewMap_Rect) == 1)
 		{
 			MouseOverCreateNewMapButton = 1;
@@ -345,6 +478,7 @@ TOPROCESS(EditorUpdate) {
 			{
 				EditorMode = 1;
 				std::fstream NewMapName((obj->Assets.MapsPath + mapname + emap).c_str(), std::ios_base::in | std::ios_base::out | std::ios_base::app);
+				
 			}
 		}
 		else
@@ -416,6 +550,8 @@ TOPROCESS(EditorInput) {
 			elapsedTime = 0;
 			leftButtonMouse = 0;
 		}
+		//Forwarding Events to GUI
+		input->pushInput(e);
 
 	}
 		
@@ -424,9 +560,13 @@ TOPROCESS(EditorInput) {
 
 //HIER ZEICHNEST DU NUR HIER!!!!!
 TOPROCESS(EditorRender) {
+
+	gui->draw();
+	SDL_UpdateTexture(TextureScreen, NULL, screen->pixels, screen->pitch);
+
 	SDL_SetRenderDrawColor(obj->Renderer, 0xff, 0xff, 0xff, SDL_ALPHA_OPAQUE);
 	SDL_RenderClear(obj->Renderer);
-
+	
 
 	//CONTROLL BUTTONS
 	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &ExitToMainMenu_Rect);
@@ -504,6 +644,8 @@ TOPROCESS(EditorRender) {
 		SDL_RenderCopy(obj->Renderer, TextureTextMapName, NULL, &MapName);
 		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &OldMapName);
 		SDL_RenderCopy(obj->Renderer, TextureTextTest, NULL, &OldMapName);
+
+		SDL_RenderCopy(obj->Renderer, TextureScreen, NULL, &screen_Rect);
 	}
 
 	
