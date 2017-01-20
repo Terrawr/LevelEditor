@@ -83,7 +83,7 @@ namespace gcn
 
     ImageButton::~ImageButton()
     {
-	if (mInternalImage)
+		if (mInternalImage)
             delete mImage;
     }
 

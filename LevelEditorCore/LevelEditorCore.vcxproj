@@ -71,25 +71,25 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <CodeAnalysisRuleSet>BasicDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <IncludePath>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan;$(IncludePath)</IncludePath>
+    <IncludePath>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include\guisan;$(IncludePath)</IncludePath>
     <SourcePath>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <IncludePath>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan;$(IncludePath)</IncludePath>
+    <IncludePath>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include\guisan;$(IncludePath)</IncludePath>
     <SourcePath>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <IncludePath>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan;$(IncludePath)</IncludePath>
+    <IncludePath>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include\guisan;$(IncludePath)</IncludePath>
     <SourcePath>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <IncludePath>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan;$(IncludePath)</IncludePath>
+    <IncludePath>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include\guisan;$(IncludePath)</IncludePath>
     <SourcePath>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -97,7 +97,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\VisualStudio\VC\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include;D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include\guisan;D:\VisualStudio\VC\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
@@ -110,7 +110,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\VisualStudio\VC\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include;D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include\guisan;D:\VisualStudio\VC\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
@@ -125,7 +125,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\VisualStudio\VC\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include;D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include\guisan;D:\VisualStudio\VC\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
@@ -142,7 +142,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\VisualStudio\VC\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include;D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include\guisan;D:\VisualStudio\VC\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
@@ -157,6 +157,52 @@
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="GameObj.cpp" />
     <ClCompile Include="GameStateInterface.cpp" />
+    <ClCompile Include="guisan\src\actionevent.cpp" />
+    <ClCompile Include="guisan\src\basiccontainer.cpp" />
+    <ClCompile Include="guisan\src\cliprectangle.cpp" />
+    <ClCompile Include="guisan\src\color.cpp" />
+    <ClCompile Include="guisan\src\defaultfont.cpp" />
+    <ClCompile Include="guisan\src\event.cpp" />
+    <ClCompile Include="guisan\src\exception.cpp" />
+    <ClCompile Include="guisan\src\focushandler.cpp" />
+    <ClCompile Include="guisan\src\font.cpp" />
+    <ClCompile Include="guisan\src\genericinput.cpp" />
+    <ClCompile Include="guisan\src\graphics.cpp" />
+    <ClCompile Include="guisan\src\gui.cpp" />
+    <ClCompile Include="guisan\src\guisan.cpp" />
+    <ClCompile Include="guisan\src\image.cpp" />
+    <ClCompile Include="guisan\src\imagefont.cpp" />
+    <ClCompile Include="guisan\src\inputevent.cpp" />
+    <ClCompile Include="guisan\src\key.cpp" />
+    <ClCompile Include="guisan\src\keyevent.cpp" />
+    <ClCompile Include="guisan\src\keyinput.cpp" />
+    <ClCompile Include="guisan\src\mouseevent.cpp" />
+    <ClCompile Include="guisan\src\mouseinput.cpp" />
+    <ClCompile Include="guisan\src\rectangle.cpp" />
+    <ClCompile Include="guisan\src\sdl\sdl.cpp" />
+    <ClCompile Include="guisan\src\sdl\sdlgraphics.cpp" />
+    <ClCompile Include="guisan\src\sdl\sdlimage.cpp" />
+    <ClCompile Include="guisan\src\sdl\sdlimageloader.cpp" />
+    <ClCompile Include="guisan\src\sdl\sdlinput.cpp" />
+    <ClCompile Include="guisan\src\sdl\sdltruetypefont.cpp" />
+    <ClCompile Include="guisan\src\selectionevent.cpp" />
+    <ClCompile Include="guisan\src\widget.cpp" />
+    <ClCompile Include="guisan\src\widgets\button.cpp" />
+    <ClCompile Include="guisan\src\widgets\checkbox.cpp" />
+    <ClCompile Include="guisan\src\widgets\container.cpp" />
+    <ClCompile Include="guisan\src\widgets\dropdown.cpp" />
+    <ClCompile Include="guisan\src\widgets\icon.cpp" />
+    <ClCompile Include="guisan\src\widgets\imagebutton.cpp" />
+    <ClCompile Include="guisan\src\widgets\label.cpp" />
+    <ClCompile Include="guisan\src\widgets\listbox.cpp" />
+    <ClCompile Include="guisan\src\widgets\radiobutton.cpp" />
+    <ClCompile Include="guisan\src\widgets\scrollarea.cpp" />
+    <ClCompile Include="guisan\src\widgets\slider.cpp" />
+    <ClCompile Include="guisan\src\widgets\tab.cpp" />
+    <ClCompile Include="guisan\src\widgets\tabbedarea.cpp" />
+    <ClCompile Include="guisan\src\widgets\textbox.cpp" />
+    <ClCompile Include="guisan\src\widgets\textfield.cpp" />
+    <ClCompile Include="guisan\src\widgets\window.cpp" />
     <ClCompile Include="intro.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
@@ -240,6 +286,9 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Tiles.h" />
     <ClInclude Include="TileView.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="guisan\src\SConscript" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
