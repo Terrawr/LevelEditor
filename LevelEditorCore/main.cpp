@@ -23,6 +23,9 @@ void initGame(GameObj* obj) {
 
 	rm_storeString(obj, "TheMap.map", "Mapfile");
 
+	obj->Assets.MapsPath = "../resources/maps/";
+
+
 
 }
 
@@ -35,15 +38,15 @@ int main(int argc, char* argv[])
 
 	//The Order of initilization is IMPORTANT. I changed it. First Screen, now your Menu and then some demo
 
-	GameState* DEMOSTATE = createGameState_ObjectInstance(Root);
-	initializeGameState(DEMOSTATE, "DEMOSTATE", -1,
-		Demo_OnEnterState,
-		Demo_OnExitState,
-		Demo_OnPauseState,
-		Demo_OnResumeState,
-		Demo_Update,
-		Demo_Render,
-		Demo_Input);
+	//GameState* DEMOSTATE = createGameState_ObjectInstance(Root);
+	//initializeGameState(DEMOSTATE, "DEMOSTATE", -1,
+	//	Demo_OnEnterState,
+	//	Demo_OnExitState,
+	//	Demo_OnPauseState,
+	//	Demo_OnResumeState,
+	//	Demo_Update,
+	//	Demo_Render,
+	//	Demo_Input);
 
 	/*FIRST STATE*/
 	GameState* IntroScreen = createGameState_ObjectInstance(Root); //<---- INTRO
@@ -172,3 +175,4 @@ int main(int argc, char* argv[])
 
 	return 0;
 }
+

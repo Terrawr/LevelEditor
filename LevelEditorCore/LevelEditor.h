@@ -98,3 +98,4 @@ bool checkCollision(SDL_Rect a, SDL_Rect b);
 
 struct GameObj;
 int MouseOverButton(GameObj* obj, SDL_Rect Button);
+void getMapNamesFromDirectory(GameObj* obj);

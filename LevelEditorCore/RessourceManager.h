@@ -14,6 +14,8 @@ struct RessourceManager {
 
 	std::string RessourcePath;
 
+	std::string MapsPath;
+
 	std::map<std::string, Texture*>		 Textures;
 	std::map<std::string, TTF_Font*>     Fonts;
 	std::map<std::string, std::string>					 Texts;
