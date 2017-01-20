@@ -17,20 +17,12 @@
 #include <io.h>
 
 #define FONTSIZE 25
-
-//GUISAN
-static GameObj*		Root = NULL;
+static GameObj*				Root = NULL;
 static GameState*			This = NULL;
-static gcn::SDLInput* input;             // Input driver
-static gcn::SDLGraphics* graphics;       // Graphics driver
-static gcn::SDLImageLoader* imageLoader; // For loading images
-static gcn::Gui* gui;            // A Gui object - binds it all together
-static gcn::ImageFont* font;     // A font
-static SDL_Surface* screen;
-static SDL_Texture* TextureScreen;
-static gcn::Container* top;
-static SDL_Rect screen_Rect;
-gcn::ListBox* MapNames_List;
+
+
+
+///Klassendefinitionen
 
 class ListModelMaps : public gcn::ListModel
 {
@@ -74,8 +66,6 @@ public:
 	}
 };
 
-ListModelMaps* listModelMaps;
-
 class listAction : public gcn::ActionListener
 {
 	void action(const gcn::ActionEvent &e)
@@ -83,6 +73,8 @@ class listAction : public gcn::ActionListener
 
 	}
 };
+
+
 
 //All for Input, Update and stuffy stuff
 static int leftButtonMouse = 0;
@@ -115,6 +107,8 @@ static SDL_Rect EditorBackground;
 static SDL_Rect EditorWindow;
 static SDL_Rect MapName;
 
+static SDL_Rect screen_Rect;
+
 
 SDL_Rect OldMapName;
 //ALL TEXTURES FOR TEXTS
@@ -137,8 +131,21 @@ std::string spaces = "    ";
 std::string emap = ".map";
 
 
+//GUI
+static gcn::SDLInput*					input = nullptr;             // Input driver
+static gcn::SDLGraphics*				graphics = nullptr;       // Graphics driver
+static gcn::SDLImageLoader*				imageLoader = nullptr; // For loading images
+static gcn::Gui*						gui = nullptr;            // A Gui object - binds it all together
+static gcn::ImageFont*					font = nullptr;     // A font
+static gcn::Container*					top = nullptr;
+static gcn::ListBox*					MapNames_List = nullptr;
 
 
+static ListModelMaps*					listModelMaps = nullptr;
+
+
+static SDL_Surface*						screen = nullptr;
+static SDL_Texture*						TextureScreen = nullptr;
 
 
 /*0 delet, 1 create, 2 quest, 3 NPCS, 4/5 Arrows right/left ... ALL DESTINATIONS ON PIC!
@@ -158,8 +165,7 @@ CHANGESTATE(EditorOnEnterState) {
 
 	Root = obj;
 	This = Root->Collection[Root->CurrentStateIndex];
-
-	obj->Collection[obj->CurrentStateIndex]->isInitialized = true;
+	This->isInitialized = true;
 
 	rm_loadTextureFromFile(obj, "resources.png", "Resources");
 	rm_loadTextureFromFile(obj, "NewGameBackGround.png", "WindowBackground");
@@ -295,58 +301,59 @@ CHANGESTATE(EditorOnEnterState) {
 	if (1)
 	{
 		
-		screen_Rect.w = MapName.w;
-		screen_Rect.h = CreateOrLoad_Rect.h * 0.5;
-		screen_Rect.x = MapName.x;
-		screen_Rect.y = MapName.y - 0.85 *screen_Rect.w;
-		screen = SDL_CreateRGBSurface(0, screen_Rect.w, screen_Rect.h, 32, 0, 0, 0, SDL_ALPHA_OPAQUE);
-
-		// We want to enable key repeat
-		//SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
-
-		/*
-		* Now it's time for Guichan SDL stuff
-		*/
-		imageLoader = new gcn::SDLImageLoader();
-		// The ImageLoader in use is static and must be set to be
-		// able to load images
-		gcn::Image::setImageLoader(imageLoader);
-		graphics = new gcn::SDLGraphics();
-		// Set the target for the graphics object to be the screen.
-		// In other words, we will draw to the screen.
-		// Note, any surface will do, it doesn't have to be the screen.
-		graphics->setTarget(screen);
-		input = new gcn::SDLInput();
-
-		/*
-		* Last but not least it's time to initialize and create the gui
-		* with Guichan stuff.
-		*/
-		top = new gcn::Container();
-		// Set the dimension of the top container to match the screen.
-		top->setDimension(gcn::Rectangle(0, 0,screen_Rect.w,screen_Rect.h));
-		gui = new gcn::Gui();
-		// Set gui to use the SDLGraphics object.
-		gui->setGraphics(graphics);
-		// Set gui to use the SDLInput object
-		gui->setInput(input);
-		// Set the top container
-		gui->setTop(top);
-		// Load the image font.
-		font = new gcn::ImageFont("fixedfont.bmp", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.");
-		// The global font is static and must be set.
-		gcn::Widget::setGlobalFont(font);
-
-		listModelMaps = new ListModelMaps;
-		MapNames_List = new gcn::ListBox(listModelMaps);
-		MapNames_List->setDimension(gcn::Rectangle(0, 0, screen_Rect.w, screen_Rect.h));
-
-		//ALL WIDGETS FOR TOL
-		top->add(MapNames_List/*, screen_Rect.x, screen_Rect.y*/);
-
-		listAction* action = new listAction;
-		MapNames_List->addActionListener(action);
+		
 	}
+
+	screen_Rect.w = MapName.w;
+	screen_Rect.h = CreateOrLoad_Rect.h * 0.5;
+	screen_Rect.x = MapName.x;
+	screen_Rect.y = MapName.y - 0.85 *screen_Rect.w;
+	screen = SDL_CreateRGBSurface(0, screen_Rect.w, screen_Rect.h, 32, 0, 0, 0, SDL_ALPHA_OPAQUE);
+
+	// We want to enable key repeat
+	//SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+
+	/*
+	* Now it's time for Guichan SDL stuff
+	*/
+	// Load the image font.
+	
+	imageLoader = new gcn::SDLImageLoader();
+	graphics = new gcn::SDLGraphics();
+	input = new gcn::SDLInput();
+	top = new gcn::Container();
+	gui = new gcn::Gui();
+	// The ImageLoader in use is static and must be set to be
+	// able to load images
+	gcn::Image::setImageLoader(imageLoader);
+	font = new gcn::ImageFont("fixedfont.bmp", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.");
+	
+	// Set the target for the graphics object to be the screen.
+	// In other words, we will draw to the screen.
+	// Note, any surface will do, it doesn't have to be the screen.
+	graphics->setTarget(screen);
+	
+	
+	// Set the dimension of the top container to match the screen.
+	top->setDimension(gcn::Rectangle(0, 0, screen_Rect.w, screen_Rect.h));
+	// Set gui to use the SDLGraphics object.
+	gui->setGraphics(graphics);
+	// Set gui to use the SDLInput object
+	gui->setInput(input);
+	// Set the top container
+	gui->setTop(top);
+	// The global font is static and must be set.
+	gcn::Widget::setGlobalFont(font);
+
+	listModelMaps = new ListModelMaps;
+	MapNames_List = new gcn::ListBox(listModelMaps);
+	MapNames_List->setDimension(gcn::Rectangle(0, 0, screen_Rect.w, screen_Rect.h));
+
+	//ALL WIDGETS FOR TOL
+	top->add(MapNames_List/*, screen_Rect.x, screen_Rect.y*/);
+
+	listAction* action = new listAction;
+	MapNames_List->addActionListener(action);
 
 	/*TextExitToMainMenu = TTF_RenderText_Solid(MenuFont, (char*)&text, MenuCol); text for mapname */
 	
