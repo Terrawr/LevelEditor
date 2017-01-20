@@ -52,38 +52,20 @@
     <Filter Include="Source Files\IO">
       <UniqueIdentifier>{44be14a0-8242-4031-ae1b-d12b1b310e73}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Graphic\UserInterface\IO">
-      <UniqueIdentifier>{c6b3bc96-fb20-480f-aba6-6568e4c756ae}</UniqueIdentifier>
+    <Filter Include="Header Files\Graphic\UserInterface\Widget">
+      <UniqueIdentifier>{1ed3dc0c-971b-4c7c-80a0-9b997b4455bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphic\UserInterface\SDL">
+      <UniqueIdentifier>{9eb67c8d-4d70-4be8-bbfe-01521ecafe87}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Graphic\UserInterface">
-      <UniqueIdentifier>{bb879749-2082-47b4-af65-8f2fc5debd7d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Graphic\UserInterface\IO">
-      <UniqueIdentifier>{b7bcb7f0-7f87-4455-9dda-23f6261d6a9e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Graphic\UserInterface\IO\Keyboard">
-      <UniqueIdentifier>{36914c7d-c2ba-44ac-b639-c30433f25280}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Graphic\UserInterface\IO\Mouse">
-      <UniqueIdentifier>{6fb306a8-a8a0-461e-9241-5c9bdd99a6b3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Graphic\UserInterface\Widget">
-      <UniqueIdentifier>{abc46470-4339-4dd0-a989-20f66810e5ac}</UniqueIdentifier>
+      <UniqueIdentifier>{55d78dbb-004c-4844-9b78-de457fa738a9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Graphic\UserInterface\Widget">
-      <UniqueIdentifier>{5c665696-8c65-43b7-9539-500f0e629ce9}</UniqueIdentifier>
+      <UniqueIdentifier>{921ec9e4-67c1-4b31-8578-36fc1e92ee8c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphic\UserInterface\IO\Keyboard">
-      <UniqueIdentifier>{b10e39cd-4d7d-41d3-b7a4-06d8a225bac1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Graphic\UserInterface\IO\Mouse">
-      <UniqueIdentifier>{baa5af9b-c8af-491c-a4bd-a71a8d6175c8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Graphic\UserInterface\Platform">
-      <UniqueIdentifier>{d96b5cf0-9531-4e7c-9617-500d474d4672}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Graphic\UserInterface\Platform">
-      <UniqueIdentifier>{5283311f-4845-4e18-a141-b1b5ad8a2ff7}</UniqueIdentifier>
+    <Filter Include="Source Files\Graphic\UserInterface\SDL">
+      <UniqueIdentifier>{57b8f4d5-17af-4e33-aead-a3cab094d62b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -95,9 +77,6 @@
     </ClInclude>
     <ClInclude Include="EditorState.h">
       <Filter>Header Files\GameDepended\GameStates</Filter>
-    </ClInclude>
-    <ClInclude Include="UserInterface.h">
-      <Filter>Header Files\Graphic\UserInterface</Filter>
     </ClInclude>
     <ClInclude Include="IntroScreen.h">
       <Filter>Header Files\GameDepended\GameStates</Filter>
@@ -126,116 +105,188 @@
     <ClInclude Include="Demo_State_jojo.h">
       <Filter>Header Files\GameDepended\GameStates</Filter>
     </ClInclude>
-    <ClInclude Include="InterfaceInput.h">
-      <Filter>Header Files\Graphic\UserInterface\IO</Filter>
+    <ClInclude Include="guisan\include\guisan.hpp">
+      <Filter>Header Files\Graphic</Filter>
     </ClInclude>
-    <ClInclude Include="Event.h">
-      <Filter>Header Files\Graphic\UserInterface\IO</Filter>
+    <ClInclude Include="guisan\include\guisan\actionevent.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
     </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>Header Files\Graphic\UserInterface\IO</Filter>
+    <ClInclude Include="guisan\include\guisan\actionlistener.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
     </ClInclude>
-    <ClInclude Include="GenericInput.h">
-      <Filter>Header Files\Graphic\UserInterface\IO</Filter>
+    <ClInclude Include="guisan\include\guisan\basiccontainer.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
     </ClInclude>
-    <ClInclude Include="Key.h">
-      <Filter>Header Files\Graphic\UserInterface\IO\Keyboard</Filter>
+    <ClInclude Include="guisan\include\guisan\cliprectangle.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
     </ClInclude>
-    <ClInclude Include="KeyEvent.h">
-      <Filter>Header Files\Graphic\UserInterface\IO\Keyboard</Filter>
+    <ClInclude Include="guisan\include\guisan\color.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
     </ClInclude>
-    <ClInclude Include="KeyInput.h">
-      <Filter>Header Files\Graphic\UserInterface\IO\Keyboard</Filter>
+    <ClInclude Include="guisan\include\guisan\deathlistener.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
     </ClInclude>
-    <ClInclude Include="KeyListner.h">
-      <Filter>Header Files\Graphic\UserInterface\IO\Keyboard</Filter>
+    <ClInclude Include="guisan\include\guisan\defaultfont.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
     </ClInclude>
-    <ClInclude Include="MouseInput.h">
-      <Filter>Header Files\Graphic\UserInterface\IO\Mouse</Filter>
+    <ClInclude Include="guisan\include\guisan\event.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
     </ClInclude>
-    <ClInclude Include="MouseEvent.h">
-      <Filter>Header Files\Graphic\UserInterface\IO\Mouse</Filter>
+    <ClInclude Include="guisan\include\guisan\exception.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
     </ClInclude>
-    <ClInclude Include="MouseListner.h">
-      <Filter>Header Files\Graphic\UserInterface\IO\Mouse</Filter>
+    <ClInclude Include="guisan\include\guisan\focushandler.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
     </ClInclude>
-    <ClInclude Include="Widget.h">
+    <ClInclude Include="guisan\include\guisan\focuslistener.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\font.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\genericinput.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\glut.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\graphics.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\gui.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\image.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\imagefont.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\imageloader.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\input.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\inputevent.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\key.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\keyevent.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\keyinput.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\keylistener.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\listmodel.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\mouseevent.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\mouseinput.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\mouselistener.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\opengl.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\platform.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\rectangle.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\sdl.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\selectionevent.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\selectionlistener.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\widget.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\widgetlistener.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\x.hpp">
+      <Filter>Header Files\Graphic\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\widgets\button.hpp">
       <Filter>Header Files\Graphic\UserInterface\Widget</Filter>
     </ClInclude>
-    <ClInclude Include="WidgetListner.h">
+    <ClInclude Include="guisan\include\guisan\widgets\checkbox.hpp">
       <Filter>Header Files\Graphic\UserInterface\Widget</Filter>
     </ClInclude>
-    <ClInclude Include="SelectEvent.h">
-      <Filter>Header Files\Graphic\UserInterface\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="SDL_Input.h">
-      <Filter>Header Files\Graphic\UserInterface\Platform</Filter>
-    </ClInclude>
-    <ClInclude Include="UI.h">
-      <Filter>Header Files\Graphic\UserInterface</Filter>
-    </ClInclude>
-    <ClInclude Include="DeathListneer.h">
+    <ClInclude Include="guisan\include\guisan\widgets\container.hpp">
       <Filter>Header Files\Graphic\UserInterface\Widget</Filter>
     </ClInclude>
-    <ClInclude Include="BaseContainer.h">
-      <Filter>Header Files\Graphic\UserInterface</Filter>
-    </ClInclude>
-    <ClInclude Include="FocusListneer.h">
+    <ClInclude Include="guisan\include\guisan\widgets\dropdown.hpp">
       <Filter>Header Files\Graphic\UserInterface\Widget</Filter>
     </ClInclude>
-    <ClInclude Include="FocusHandler.h">
+    <ClInclude Include="guisan\include\guisan\widgets\icon.hpp">
       <Filter>Header Files\Graphic\UserInterface\Widget</Filter>
     </ClInclude>
-    <ClInclude Include="ActionListneer.h">
+    <ClInclude Include="guisan\include\guisan\widgets\imagebutton.hpp">
       <Filter>Header Files\Graphic\UserInterface\Widget</Filter>
     </ClInclude>
-    <ClInclude Include="ActionEvent.h">
-      <Filter>Header Files\Graphic\UserInterface\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageLoader.h">
-      <Filter>Header Files\Graphic\UserInterface</Filter>
-    </ClInclude>
-    <ClInclude Include="Image.h">
-      <Filter>Header Files\Graphic\UserInterface</Filter>
-    </ClInclude>
-    <ClInclude Include="Color.h">
-      <Filter>Header Files\Graphic\UserInterface</Filter>
-    </ClInclude>
-    <ClInclude Include="ClipRectangle.h">
-      <Filter>Header Files\Graphic\UserInterface</Filter>
-    </ClInclude>
-    <ClInclude Include="Rectangle.h">
-      <Filter>Header Files\Graphic\UserInterface</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageFont.h">
-      <Filter>Header Files\Graphic\UserInterface</Filter>
-    </ClInclude>
-    <ClInclude Include="SelectionListneer.h">
+    <ClInclude Include="guisan\include\guisan\widgets\label.hpp">
       <Filter>Header Files\Graphic\UserInterface\Widget</Filter>
     </ClInclude>
-    <ClInclude Include="Exception.h">
-      <Filter>Header Files\Graphic\UserInterface</Filter>
+    <ClInclude Include="guisan\include\guisan\widgets\listbox.hpp">
+      <Filter>Header Files\Graphic\UserInterface\Widget</Filter>
     </ClInclude>
-    <ClInclude Include="Font.h">
-      <Filter>Header Files\Graphic\UserInterface\IO</Filter>
+    <ClInclude Include="guisan\include\guisan\widgets\radiobutton.hpp">
+      <Filter>Header Files\Graphic\UserInterface\Widget</Filter>
     </ClInclude>
-    <ClInclude Include="Graphic.h">
-      <Filter>Header Files\Graphic\UserInterface\Platform</Filter>
+    <ClInclude Include="guisan\include\guisan\widgets\scrollarea.hpp">
+      <Filter>Header Files\Graphic\UserInterface\Widget</Filter>
     </ClInclude>
-    <ClInclude Include="DefaultFont.h">
-      <Filter>Header Files\Graphic\UserInterface\IO</Filter>
+    <ClInclude Include="guisan\include\guisan\widgets\slider.hpp">
+      <Filter>Header Files\Graphic\UserInterface\Widget</Filter>
     </ClInclude>
-    <ClInclude Include="SDL_Graphic.h">
-      <Filter>Header Files\Graphic\UserInterface\Platform</Filter>
+    <ClInclude Include="guisan\include\guisan\widgets\tab.hpp">
+      <Filter>Header Files\Graphic\UserInterface\Widget</Filter>
     </ClInclude>
-    <ClInclude Include="SDL_IMAGE.h">
-      <Filter>Header Files\Graphic\UserInterface\Platform</Filter>
+    <ClInclude Include="guisan\include\guisan\widgets\tabbedarea.hpp">
+      <Filter>Header Files\Graphic\UserInterface\Widget</Filter>
     </ClInclude>
-    <ClInclude Include="SDL_ImageLoader.h">
-      <Filter>Header Files\Graphic\UserInterface\Platform</Filter>
+    <ClInclude Include="guisan\include\guisan\widgets\textbox.hpp">
+      <Filter>Header Files\Graphic\UserInterface\Widget</Filter>
     </ClInclude>
-    <ClInclude Include="SDL_Font.h">
-      <Filter>Header Files\Graphic\UserInterface\Platform</Filter>
+    <ClInclude Include="guisan\include\guisan\widgets\textfield.hpp">
+      <Filter>Header Files\Graphic\UserInterface\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\widgets\window.hpp">
+      <Filter>Header Files\Graphic\UserInterface\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\sdl\sdlgraphics.hpp">
+      <Filter>Header Files\Graphic\UserInterface\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\sdl\sdlimage.hpp">
+      <Filter>Header Files\Graphic\UserInterface\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\sdl\sdlimageloader.hpp">
+      <Filter>Header Files\Graphic\UserInterface\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\sdl\sdlinput.hpp">
+      <Filter>Header Files\Graphic\UserInterface\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\sdl\sdlpixel.hpp">
+      <Filter>Header Files\Graphic\UserInterface\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="guisan\include\guisan\sdl\sdltruetypefont.hpp">
+      <Filter>Header Files\Graphic\UserInterface\SDL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -275,89 +326,148 @@
     <ClCompile Include="Demo_State_jojo.cpp">
       <Filter>Source Files\GameStates</Filter>
     </ClCompile>
-    <ClCompile Include="Event.cpp">
-      <Filter>Source Files\Graphic\UserInterface\IO</Filter>
+    <ClCompile Include="guisan\src\actionevent.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
     </ClCompile>
-    <ClCompile Include="Input.cpp">
-      <Filter>Source Files\Graphic\UserInterface\IO</Filter>
+    <ClCompile Include="guisan\src\basiccontainer.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
     </ClCompile>
-    <ClCompile Include="GenericInput.cpp">
-      <Filter>Source Files\Graphic\UserInterface\IO</Filter>
+    <ClCompile Include="guisan\src\cliprectangle.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
     </ClCompile>
-    <ClCompile Include="Widget.cpp">
+    <ClCompile Include="guisan\src\color.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\defaultfont.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\event.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\exception.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\focushandler.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\font.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\genericinput.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\graphics.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\gui.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\guisan.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\image.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\imagefont.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\inputevent.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\key.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\keyevent.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\keyinput.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\mouseevent.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\mouseinput.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\rectangle.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\selectionevent.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\widget.cpp">
+      <Filter>Source Files\Graphic\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\widgets\button.cpp">
       <Filter>Source Files\Graphic\UserInterface\Widget</Filter>
     </ClCompile>
-    <ClCompile Include="SelectionEvent.cpp">
-      <Filter>Source Files\Graphic\UserInterface\IO</Filter>
-    </ClCompile>
-    <ClCompile Include="Key.cpp">
-      <Filter>Source Files\Graphic\UserInterface\IO\Keyboard</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyEvent.cpp">
-      <Filter>Source Files\Graphic\UserInterface\IO\Keyboard</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyInput.cpp">
-      <Filter>Source Files\Graphic\UserInterface\IO\Keyboard</Filter>
-    </ClCompile>
-    <ClCompile Include="SDL_Input.cpp">
-      <Filter>Source Files\Graphic\UserInterface\Platform</Filter>
-    </ClCompile>
-    <ClCompile Include="UI.cpp">
-      <Filter>Source Files\Graphic\UserInterface</Filter>
-    </ClCompile>
-    <ClCompile Include="UserInterface.cpp">
-      <Filter>Source Files\Graphic\UserInterface</Filter>
-    </ClCompile>
-    <ClCompile Include="MouseEvent.cpp">
-      <Filter>Source Files\Graphic\UserInterface\IO\Mouse</Filter>
-    </ClCompile>
-    <ClCompile Include="MouseInput.cpp">
-      <Filter>Source Files\Graphic\UserInterface\IO\Mouse</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseContainer.cpp">
-      <Filter>Source Files\Graphic\UserInterface</Filter>
-    </ClCompile>
-    <ClCompile Include="ActionEvent.cpp">
-      <Filter>Source Files\Graphic\UserInterface\IO</Filter>
-    </ClCompile>
-    <ClCompile Include="Color.cpp">
-      <Filter>Source Files\Graphic\UserInterface</Filter>
-    </ClCompile>
-    <ClCompile Include="FocusHandler.cpp">
+    <ClCompile Include="guisan\src\widgets\checkbox.cpp">
       <Filter>Source Files\Graphic\UserInterface\Widget</Filter>
     </ClCompile>
-    <ClCompile Include="Image.cpp">
+    <ClCompile Include="guisan\src\widgets\container.cpp">
+      <Filter>Source Files\Graphic\UserInterface\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\widgets\dropdown.cpp">
+      <Filter>Source Files\Graphic\UserInterface\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\widgets\icon.cpp">
+      <Filter>Source Files\Graphic\UserInterface\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\widgets\imagebutton.cpp">
+      <Filter>Source Files\Graphic\UserInterface\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\widgets\label.cpp">
+      <Filter>Source Files\Graphic\UserInterface\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\widgets\listbox.cpp">
+      <Filter>Source Files\Graphic\UserInterface\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\widgets\radiobutton.cpp">
+      <Filter>Source Files\Graphic\UserInterface\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\widgets\scrollarea.cpp">
+      <Filter>Source Files\Graphic\UserInterface\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\widgets\slider.cpp">
+      <Filter>Source Files\Graphic\UserInterface\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\widgets\tab.cpp">
+      <Filter>Source Files\Graphic\UserInterface\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\widgets\tabbedarea.cpp">
+      <Filter>Source Files\Graphic\UserInterface\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\widgets\textbox.cpp">
+      <Filter>Source Files\Graphic\UserInterface\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\widgets\textfield.cpp">
+      <Filter>Source Files\Graphic\UserInterface\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\widgets\window.cpp">
+      <Filter>Source Files\Graphic\UserInterface\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\sdl\sdl.cpp">
+      <Filter>Source Files\Graphic\UserInterface\SDL</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\sdl\sdlgraphics.cpp">
+      <Filter>Source Files\Graphic\UserInterface\SDL</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\sdl\sdlimage.cpp">
+      <Filter>Source Files\Graphic\UserInterface\SDL</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\sdl\sdlimageloader.cpp">
+      <Filter>Source Files\Graphic\UserInterface\SDL</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\sdl\sdlinput.cpp">
+      <Filter>Source Files\Graphic\UserInterface\SDL</Filter>
+    </ClCompile>
+    <ClCompile Include="guisan\src\sdl\sdltruetypefont.cpp">
+      <Filter>Source Files\Graphic\UserInterface\SDL</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="guisan\src\SConscript">
       <Filter>Source Files\Graphic\UserInterface</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageFont.cpp">
-      <Filter>Source Files\Graphic\UserInterface</Filter>
-    </ClCompile>
-    <ClCompile Include="Exception.cpp">
-      <Filter>Source Files\Graphic\UserInterface</Filter>
-    </ClCompile>
-    <ClCompile Include="Font.cpp">
-      <Filter>Source Files\Graphic\UserInterface\IO</Filter>
-    </ClCompile>
-    <ClCompile Include="DefaultFont.cpp">
-      <Filter>Source Files\Graphic\UserInterface\IO</Filter>
-    </ClCompile>
-    <ClCompile Include="SDL_Graphic.cpp">
-      <Filter>Source Files\Graphic\UserInterface\Platform</Filter>
-    </ClCompile>
-    <ClCompile Include="SDL_IMAGE.cpp">
-      <Filter>Source Files\Graphic\UserInterface\Platform</Filter>
-    </ClCompile>
-    <ClCompile Include="SDL_Imageloader.cpp">
-      <Filter>Source Files\Graphic\UserInterface\Platform</Filter>
-    </ClCompile>
-    <ClCompile Include="Rectangle.cpp">
-      <Filter>Source Files\Graphic\UserInterface</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphic.cpp">
-      <Filter>Source Files\Graphic\UserInterface</Filter>
-    </ClCompile>
-    <ClCompile Include="ClipRectangle.cpp">
-      <Filter>Source Files\Graphic\UserInterface</Filter>
-    </ClCompile>
+    </None>
   </ItemGroup>
 </Project>

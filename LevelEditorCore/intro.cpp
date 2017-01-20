@@ -1,7 +1,6 @@
 //Includes
 #include "GameState.h"
 #include "GameObject.h"
-#include "UserInterface.h"
 #include "Texture.h"
 #include <SDL_image.h>
 #include "Texture.h"

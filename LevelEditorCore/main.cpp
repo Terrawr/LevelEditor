@@ -17,11 +17,14 @@
 
 
 
+
 void initGame(GameObj* obj) {
 	obj->Assets.RessourcePath = "../resources/";
+
 	rm_storeString(obj, "TheMap.map", "Mapfile");
 
 	obj->Assets.MapsPath = "../resources/maps/";
+
 
 
 }
