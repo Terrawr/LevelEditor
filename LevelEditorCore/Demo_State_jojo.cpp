@@ -78,10 +78,6 @@ using namespace gcn;
 SDL_Surface* screen;
 SDL_Texture* _Texture;
 
-//gcn::SDLInput* input;             // Input driver
-//gcn::SDLGraphics* graphics;       // Graphics driver
-//gcn::SDLImageLoader* imageLoader; // For loading images
-
 gcn::SDLInput* input;             // Input driver
 gcn::SDLGraphics* graphics;       // Graphics driver
 gcn::SDLImageLoader* imageLoader; // For loading images
@@ -439,7 +435,7 @@ CHANGESTATE(Demo_OnEnterState)
 	
 	// The ImageLoader in use is static and must be set to be
 	// able to load images
-	gcn::Image::setImageLoader(imageLoader);
+	
 
 	// Set the target for the graphics object to be the screen.
 	// In other words, we will draw to the screen.
