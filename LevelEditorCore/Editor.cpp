@@ -12,9 +12,9 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <io.h>
 
 #define FONTSIZE 25
-
 
 //All for Input, Update and stuffy stuff
 static int leftButtonMouse = 0;
@@ -32,6 +32,7 @@ static int elapsedTime = 0;
 1 = Create New Map
 2 = Load Old Map*/
 static int EditorMode = 0;
+static std::vector<std::string> MapNames;
 
 
 //allRects
@@ -275,6 +276,7 @@ TOPROCESS(EditorUpdate) {
 
 	if (!EditorMode == 0)
 	{
+		
 		if (MouseOverButton(obj, ToolBar_Rect[6]) == 1)
 		{
 			MouseOverDeleteButton = 1;
@@ -332,7 +334,10 @@ TOPROCESS(EditorUpdate) {
 
 	if (EditorMode == 0)
 	{
-		
+		MapNames = readDir(obj->Assets.MapsPath + std::string("*"));
+		printf("%s\n", obj->Assets.MapsPath.c_str());
+		for (int i = 0; i < MapNames.size(); i++)
+			printf("%s\n", MapNames[i].c_str());
 		if (MouseOverButton(obj, CreateNewMap_Rect) == 1)
 		{
 			MouseOverCreateNewMapButton = 1;
