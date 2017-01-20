@@ -12,10 +12,6 @@
 
 #define __WIN__
 
-#ifdef __WIN__
-#include <Windows.h>
-#else
-#endif
 
 
 
@@ -88,7 +84,7 @@ public:
 
 		// Here we use the widget pointer to check which widget the action
 		// originated from.
-		if (actionEvent.getSource() == button1)
+		if (actionEvent.getId() == "button1")
 		{
 			clickCountButton1++;
 			os << "Button1 clicks " << clickCountButton1;
@@ -97,7 +93,14 @@ public:
 			// Adjust the label to fit the new caption
 			label1->adjustSize();
 
+
+
+
 			registerCommand(Root, CMD_EXIT, EXIT);
+
+		
+
+
 
 		}
 		// Here we use the event id in order to check what action occured.
@@ -253,8 +256,7 @@ public:
 
 DemoListModel demoListModel;
 
-void
-initWidgets()
+void initWidgets()
 {
 
 	/*
@@ -278,10 +280,11 @@ initWidgets()
 		"vehicula libero blandit at pellentesque\n"
 		"ipsum vehicula Mauris id turpis hendrerit\n"
 		"tempor velit nec hendrerit nulla");
+
 	textBoxScrollArea = new gcn::ScrollArea(textBox);
 	textBoxScrollArea->setWidth(270);
 	textBoxScrollArea->setHeight(100);
-	textBoxScrollArea->setBorderSize(10);
+	textBoxScrollArea->setBorderSize(50);
 
 	listBox = new gcn::ListBox(&demoListModel);
 	listBox->setBorderSize(2);
@@ -301,11 +304,13 @@ initWidgets()
 
 	window = new gcn::Window("I am a window  Drag me");
 	window->setBaseColor(gcn::Color(212, 255, 150, 190));
-
+	window->setSize(300, 300);
 	guisanLogoImage = gcn::Image::load("guisan-logo.png");
 	guisanLogoIcon = new gcn::Icon(guisanLogoImage);
-	window->add(guisanLogoIcon);
-	window->resizeToContent();
+	
+	dropDown->setPosition(0, 0);
+
+	window->add(listBox);
 
 	nestedSlider = new gcn::Slider(0, 10);
 	nestedSlider->setSize(100, 10);
@@ -327,7 +332,7 @@ initWidgets()
 	top->add(button, 325, 10);
 	top->add(textField, 375, 10);
 	top->add(textBoxScrollArea, 290, 50);
-	top->add(listBox, 290, 200);
+	top->add(listBox, 0, 0);
 	top->add(dropDown, 580, 10);
 	top->add(checkBox1, 580, 50);
 	top->add(checkBox2, 580, 70);
@@ -340,37 +345,37 @@ initWidgets()
 
 
 
-	//// Create buttons
-	//button1 = new gcn::Button("Button 1");
-	//button2 = new gcn::Button("Button 2");
-	//// Set the buttons position
-	//button1->setPosition(320, 230);
-	//button2->setPosition(420, 230);
-	//// Add the buttons to the top container
-	//top->add(button1);
-	//top->add(button2);
+	// Create buttons
+	button1 = new gcn::Button("Button 1");
+	button2 = new gcn::Button("Button 2");
+	// Set the buttons position
+	button1->setPosition(320, 230);
+	button2->setPosition(420, 230);
+	// Add the buttons to the top container
+	top->add(button1);
+	top->add(button2);
 
-	//// Create labels
-	//label1 = new gcn::Label("Button1 clicks 0");
-	//label2 = new gcn::Label("Button2 clicks 0");
-	//// Set the labels position
-	//label1->setPosition(300, 200);
-	//label2->setPosition(400, 200);
-	//// Add the labels to the top container
-	//top->add(label1);
-	//top->add(label2);
+	// Create labels
+	label1 = new gcn::Label("Button1 clicks 0");
+	label2 = new gcn::Label("Button2 clicks 0");
+	// Set the labels position
+	label1->setPosition(300, 200);
+	label2->setPosition(400, 200);
+	// Add the labels to the top container
+	top->add(label1);
+	top->add(label2);
 
 
-	//// Set the buttons action event id's.
-	//button1->setActionEventId("button1");
-	//button2->setActionEventId("button2");
+	// Set the buttons action event id's.
+	button1->setActionEventId("button1");
+	button2->setActionEventId("button2");
 
-	//// Make an instance of the ButtonActionListener
-	//buttonActionListener = new ButtonActionListener();
+	// Make an instance of the ButtonActionListener
+	buttonActionListener = new ButtonActionListener();
 
-	//// Add the ButtonActionListener to the buttons action listeners
-	//button1->addActionListener(buttonActionListener);
-	//button2->addActionListener(buttonActionListener);
+	// Add the ButtonActionListener to the buttons action listeners
+	button1->addActionListener(buttonActionListener);
+	button2->addActionListener(buttonActionListener);
 }
 
 /**
@@ -405,6 +410,10 @@ init()
 	top = new gcn::Container();
 	// Set the dimension of the top container to match the screen.
 	top->setDimension(gcn::Rectangle(150, 100, 700, 480));
+
+
+
+
 	gui = new gcn::Gui();
 	// Set gui to use the SDLGraphics object.
 	gui->setGraphics(graphics);
@@ -615,6 +624,8 @@ TOPROCESS(Demo_Render){
 	// Draw the gui
 	gui->draw();
 	SDL_UpdateTexture(_Texture, NULL, screen->pixels, screen->pitch);
+
+
 
 	SDL_SetRenderDrawColor(obj->Renderer, 0xff, 0xff, 0xff, SDL_ALPHA_OPAQUE);
 	SDL_RenderClear(obj->Renderer);
