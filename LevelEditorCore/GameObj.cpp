@@ -166,6 +166,13 @@ bool checkCollision(SDL_Rect a, SDL_Rect b)
 	return true;
 }
 
+void changeButtonStateIf(GameObj* obj, SDL_Rect* ButtonRect, int* state) {
+	if (isMouseOverButton(obj, *ButtonRect) == 1)
+		*state = 1;
+	else
+		*state = 0;
+}
+
 
 
 

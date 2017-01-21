@@ -1,4 +1,4 @@
-//Includes
+#pragma region "includes"
 #include "GameState.h"
 #include "GameObject.h"
 #include "Texture.h"
@@ -14,14 +14,14 @@
 
 #include "NewGame.h"
 #include "mainmenu.h"
+#pragma endregion
 
 #define FONTSIZE 25 //is not the original font size, its how much ppx it has...
 #define ON 1
 #define OFF 0
 
 
-
-//Globals
+#pragma region "globals"
 static GameObj*				Root = NULL;
 static GameState*			This = NULL;
 
@@ -91,12 +91,12 @@ static SDL_Rect CharacterFrame_Rect[4];//0 is destination on png pic, 1 is with 
 //static SDL_Texture* TexGuy = nullptr;
 //static SDL_Surface* Guy = nullptr;
 
+#pragma endregion
 
-//Implementation
-///State Initialization/////////////////
-//Hier initialisierst du ALLE deine VARIABLEN
-//NUR HIER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+#pragma region "Interface Implementiation"
+
+#pragma region "Behaviour if state is changing!!!"
 CHANGESTATE(MainMenuOnEnterState) {
 	Root = obj;
 	This = Root->Collection[Root->CurrentStateIndex];
@@ -268,8 +268,10 @@ CHANGESTATE(MainMenuOnResumeState) {
 	SDL_Log("----ON RESUME NOW----\n");
 }
 
+#pragma endregion
 
 
+#pragma region "Behaviour of the State itself!!!"
 //HIER KOMMT DEINE GAMELOGIC REIN BZW DEINE USERINTERFACE LOGIC ODER WAS AUCH IMMER AN LOGIC
 TOPROCESS(MainMenuUpdate) {
 	//SDL_Log("----UPDATE LOGIC NOW----\n");
@@ -417,19 +419,15 @@ TOPROCESS(MainMenuRender) {
 	
 }
 
+#pragma endregion
 
-void changeButtonStateIf(GameObj* obj, SDL_Rect* ButtonRect, int* state) {
-	if (isMouseOverButton(obj, *ButtonRect) == 1)
-		*state = 1;
-	else
-		*state = 0;
-}
-
+#pragma endregion
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////Command Behaviour ///////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma region "Command Behaviour"
 COMMAND_CALLBACK(CMD_EXIT) {
 	obj->isRunning = true;
 }
@@ -449,3 +447,5 @@ void StateGoesUp(GameObj* obj, float deltatime) {
 void StateGoesDown(GameObj* obj, float deltatime) {
 	obj->CurrentStateIndex--;
 }
+
+#pragma endregion

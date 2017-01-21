@@ -210,6 +210,7 @@
     <ClCompile Include="RessourceManager.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TileMapEditor_State.cpp" />
     <ClCompile Include="Tiles.cpp" />
     <ClCompile Include="TileView.cpp" />
   </ItemGroup>
@@ -281,11 +282,13 @@
     <ClInclude Include="guisan\include\guisan\widgets\window.hpp" />
     <ClInclude Include="guisan\include\guisan\x.hpp" />
     <ClInclude Include="IntroScreen.h" />
+    <ClInclude Include="json.h" />
     <ClInclude Include="LevelEditor.h" />
     <ClInclude Include="mainmenu.h" />
     <ClInclude Include="NewGame.h" />
     <ClInclude Include="RessourceManager.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TileMapEditor_State.h" />
     <ClInclude Include="Tiles.h" />
     <ClInclude Include="TileView.h" />
   </ItemGroup>
