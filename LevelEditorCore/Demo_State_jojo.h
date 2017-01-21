@@ -1,6 +1,4 @@
 #pragma once
-
-
 #include "GameState.h"
 
 CHANGESTATE(Demo_OnEnterState);

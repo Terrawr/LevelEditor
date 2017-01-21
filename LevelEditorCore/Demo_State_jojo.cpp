@@ -52,16 +52,16 @@ gcn::Label* label2;       // And another label for button2 click count display
 ////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////Command Callbacks////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////
-COMMAND_CALLBACK(CMD_EXIT); //!<-- Terminates the Game
-COMMAND_CALLBACK(CMD_TERMINATE_STATE); //!<-- Terminats this State
+PRIVATE COMMAND_CALLBACK(CMD_EXIT); //!<-- Terminates the Game
+PRIVATE COMMAND_CALLBACK(CMD_TERMINATE_STATE); //!<-- Terminats this State
 
-COMMAND_CALLBACK(CMD_NEXT_STATE); //!<-- Moves this state to the next one. 
-COMMAND_CALLBACK(CMD_PREVIOUS_STATE); //!<-- Moves this state to the previous one. 
+PRIVATE COMMAND_CALLBACK(CMD_NEXT_STATE); //!<-- Moves this state to the next one. 
+PRIVATE COMMAND_CALLBACK(CMD_PREVIOUS_STATE); //!<-- Moves this state to the previous one. 
 
-COMMAND_CALLBACK(CMD_CURRENT_PAUSE);
-COMMAND_CALLBACK(CMD_CURRENT_RESUME);
+PRIVATE COMMAND_CALLBACK(CMD_CURRENT_PAUSE);
+PRIVATE COMMAND_CALLBACK(CMD_CURRENT_RESUME);
 
-COMMAND_CALLBACK(CMD_RELOAD_MAP);
+PRIVATE COMMAND_CALLBACK(CMD_RELOAD_MAP);
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////Private Global Variables//////////////////////////////////
@@ -69,7 +69,7 @@ COMMAND_CALLBACK(CMD_RELOAD_MAP);
 static GameObj*		Root			= NULL;
 GameState*			This			= NULL;
 
-static TileMap		ExampleMap;
+//static TileMap		ExampleMap;
 static TileSet*		ExampeTileset	= NULL;
 
 static std::vector<Tile> Renderables;
@@ -589,6 +589,6 @@ COMMAND_CALLBACK(CMD_TERMINATE_STATE) {
 
 
 COMMAND_CALLBACK(CMD_RELOAD_MAP) {
-	ExampleMap = te_LoadTileMap(obj, obj->Assets.RessourcePath + rm_getText(obj, "Mapfile"));
-	Renderables = te_createRenderableTiles(obj, &ExampleMap);
+	//ExampleMap = te_LoadTileMap(obj, obj->Assets.RessourcePath + rm_getText(obj, "Mapfile"));
+	//Renderables = te_createRenderableTiles(obj, &ExampleMap);
 }

@@ -206,6 +206,7 @@
     <ClCompile Include="intro.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="NewGame.cpp" />
     <ClCompile Include="RessourceManager.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -282,6 +283,7 @@
     <ClInclude Include="IntroScreen.h" />
     <ClInclude Include="LevelEditor.h" />
     <ClInclude Include="mainmenu.h" />
+    <ClInclude Include="NewGame.h" />
     <ClInclude Include="RessourceManager.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Tiles.h" />

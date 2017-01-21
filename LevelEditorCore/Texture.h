@@ -55,6 +55,8 @@ extern "C" {
 	/// to ensure it fits the resulotion of the screen the best.
 	bool loadFromFile(Texture* t, char* path);
 
+	bool loadFromSurface(Texture* t, SDL_Surface*);
+
 //#ifdef _SDL_TTF_H
 	//Creates image from font string
 	bool loadFromRenderedText(Texture* t, TTF_Font* font, char* textureText, SDL_Color textColor);

@@ -36,6 +36,8 @@ void rm_storeString(GameObj* obj, const std::string& String, const std::string& 
 void rm_storeTexture(GameObj* obj, Texture* tex, const std::string& Key);
 void rm_storeFont(GameObj* obj, TTF_Font* font, const std::string& Key);
 
+void rm_storeTextureFromSurface(GameObj* obj, SDL_Surface*, const std::string& Key);
+
 void rm_loadTextureFromFile(GameObj* obj, const std::string& FilePath, const std::string& RessourceName);
 void rm_loadFontsFromFile(GameObj* obj, const std::string& FilePath, const std::string& RessourceName);
 void rm_loadTextsFromFile(GameObj* obj, const std::string& FilePath, const std::string& RessourceName);

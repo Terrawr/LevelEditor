@@ -288,6 +288,9 @@
     <ClInclude Include="guisan\include\guisan\sdl\sdltruetypefont.hpp">
       <Filter>Header Files\Graphic\UserInterface\SDL</Filter>
     </ClInclude>
+    <ClInclude Include="NewGame.h">
+      <Filter>Header Files\GameDepended\GameStates\InternalStates</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -463,6 +466,9 @@
     </ClCompile>
     <ClCompile Include="guisan\src\sdl\sdltruetypefont.cpp">
       <Filter>Source Files\Graphic\UserInterface\SDL</Filter>
+    </ClCompile>
+    <ClCompile Include="NewGame.cpp">
+      <Filter>Source Files\GameStates\InternalStates</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

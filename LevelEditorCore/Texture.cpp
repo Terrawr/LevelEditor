@@ -107,6 +107,16 @@ bool loadFromFile(Texture* t, char* path)
 	return (t->mTexture != NULL);
 }
 
+bool loadFromSurface(Texture* t, SDL_Surface* s) {
+	t->mHeight = s->h;
+	t->mWidth = s->w;
+	t->mPitch = s->pitch;
+	t->mPixels = NULL;
+	t->mTexture = SDL_CreateTextureFromSurface(t->mRenderer, s);
+
+	return (t->mTexture != NULL);
+}
+
 //#ifdef _SDL_TTF_H
 //Creates image from font string
 bool loadFromRenderedText(Texture* t,TTF_Font* font, char* textureText, SDL_Color textColor) {

@@ -8,6 +8,21 @@
 #include <string>
 #include <fstream>
 
+#include "Command.h"
+
+//////////////////////////////////////////////
+static COMMAND_CALLBACK(CMD_EXIT); //!<-- Terminates the Game
+static COMMAND_CALLBACK(CMD_TERMINATE_STATE); //!<-- Terminats this State
+
+static COMMAND_CALLBACK(CMD_NEXT_STATE); //!<-- Moves this state to the next one. 
+static COMMAND_CALLBACK(CMD_PREVIOUS_STATE); //!<-- Moves this state to the previous one. 
+
+static COMMAND_CALLBACK(CMD_CURRENT_PAUSE);
+static COMMAND_CALLBACK(CMD_CURRENT_RESUME);
+
+static COMMAND_CALLBACK(CMD_RELOAD_MAP);
+//////////////////////////////////////////////
+
 #define FADE_SPEED 0.07f
 
 static int leftButtonMouse = 0;
@@ -45,8 +60,8 @@ CHANGESTATE(IntroOnEnterState) {
 	//Load all Ressources here
 
 
-	TextureBanner = IMG_Load("..\\resources\\firstbanner.png");
-	Banner = SDL_CreateTextureFromSurface(obj->Renderer, TextureBanner);
+	//TextureBanner = IMG_Load("..\\resources\\firstbanner.png");
+	//Banner = SDL_CreateTextureFromSurface(obj->Renderer, TextureBanner);
 	Banner_Rect.w = 0.4 * obj->Width;
 	Banner_Rect.h = 0.4 * obj->Height;
 	Banner_Rect.x = (obj->Width / 2) - (Banner_Rect.w / 2);
@@ -55,15 +70,15 @@ CHANGESTATE(IntroOnEnterState) {
 	
 
 
-	TextureCopyright = IMG_Load("..\\resources\\copy.png");
-	Copyright = SDL_CreateTextureFromSurface(obj->Renderer, TextureCopyright);
+	//TextureCopyright = IMG_Load("..\\resources\\copy.png");
+	//Copyright = SDL_CreateTextureFromSurface(obj->Renderer, TextureCopyright);
 	Copy_Rect.x = 0;
 	Copy_Rect.y = 0.7 * obj->Height;
 	Copy_Rect.w = obj->Width;
 	Copy_Rect.h = 0.2 * obj->Height;
 	
-	initilizeTexture(&Fade, obj->Renderer);
-	loadFromFile(&Fade, "..\\resources\\firstbanner.png");
+	/*initilizeTexture(&Fade, obj->Renderer);
+	loadFromFile(&Fade, "..\\resources\\firstbanner.png");*/
 	Fade.mWidth = Banner_Rect.w;
 	Fade.mHeight = Banner_Rect.h;
 
@@ -77,13 +92,13 @@ CHANGESTATE(IntroOnExitState) {
 	obj->Collection[obj->CurrentStateIndex]->isActive = false;
 	obj->Collection[obj->CurrentStateIndex]->isOnPause = true;
 	printf("ONEXIT NOW---\n");
-	obj->CurrentStateIndex++;
-	SDL_DestroyTexture(Banner);
+	/*SDL_DestroyTexture(Banner);
 	SDL_DestroyTexture(Copyright);
-	destroyTexture(&Fade);
+	destroyTexture(&Fade);*/
 	alpha = 0;
 	alphaCalc = 0;
 	TimeCount = 0;
+	obj->CurrentStateIndex++;
 }
 
 ///State pausing/////////////////
@@ -102,7 +117,7 @@ CHANGESTATE(IntroOnResumeState) {
 TOPROCESS(IntroUpdate) {
 	
 
-		setAlpha(&Fade, alpha);
+		setAlpha(rm_getTexture(obj, "firstbanner"), alpha);
 
 		if (alpha < SDL_ALPHA_OPAQUE)
 		{
@@ -147,9 +162,9 @@ TOPROCESS(IntroInput) {
 			
 		}
 		if (e.key.keysym.sym == SDLK_RETURN) {
-			IntroOnExitState(obj);
-			SDL_FlushEvents(SDL_USEREVENT, SDL_LASTEVENT);
-			while (SDL_PollEvent(&e));
+			registerCommand(obj, CMD_TERMINATE_STATE, TERMINATE_STATE);
+			//IntroOnExitState(obj);
+			
 		}
 		//SDL_Mouse MotionAndButtons:
 		if (e.button.button == SDL_BUTTON_LEFT)
@@ -174,11 +189,14 @@ TOPROCESS(IntroRender) {
 	//get on screen things and stuffy stuff
 	/*SDL_RenderCopy(obj->Renderer, Banner, NULL, &Banner_Rect);*/
 
-	render(&Fade, Banner_Rect.x, Banner_Rect.y, NULL, 0, 0, SDL_FLIP_NONE);
-	SDL_RenderCopy(obj->Renderer, Copyright, NULL, &Copy_Rect);
+	render(rm_getTexture(obj,"firstbanner"), Banner_Rect.x*0.5f, Banner_Rect.y*0.5f, NULL, 0, 0, SDL_FLIP_NONE);
+	render(rm_getTexture(obj, "copy"), Copy_Rect.x, Copy_Rect.y, NULL, 0, 0, SDL_FLIP_NONE);
+	//L_RenderCopy(obj->Renderer, Copyright, NULL, &Copy_Rect);
 
 	SDL_RenderPresent(obj->Renderer);
 }
+
+
 
 int MouseOverButton(GameObj* obj, SDL_Rect Button)
 {
@@ -191,4 +209,12 @@ int MouseOverButton(GameObj* obj, SDL_Rect Button)
 	}
 	else
 		return 0;
+}
+
+COMMAND_CALLBACK(CMD_EXIT) {
+	obj->isRunning = true;
+}
+
+COMMAND_CALLBACK(CMD_TERMINATE_STATE) {
+	IntroOnExitState(obj);
 }

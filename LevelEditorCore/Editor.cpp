@@ -167,9 +167,7 @@ CHANGESTATE(EditorOnEnterState) {
 	This = Root->Collection[Root->CurrentStateIndex];
 	This->isInitialized = true;
 
-	rm_loadTextureFromFile(obj, "resources.png", "Resources");
-	rm_loadTextureFromFile(obj, "NewGameBackGround.png", "WindowBackground");
-	rm_loadTextureFromFile(obj, "test.bmp", "EditorBackground");
+	
 	MenuFont = TTF_OpenFont("..\\resources\\test.ttf", FONTSIZE);
 	if (!MenuFont)
 	{
@@ -569,47 +567,47 @@ TOPROCESS(EditorInput) {
 TOPROCESS(EditorRender) {
 
 	gui->draw();
-	SDL_UpdateTexture(TextureScreen, NULL, screen->pixels, screen->pitch);
+	
 
 	SDL_SetRenderDrawColor(obj->Renderer, 0xff, 0xff, 0xff, SDL_ALPHA_OPAQUE);
 	SDL_RenderClear(obj->Renderer);
 	
 
 	//CONTROLL BUTTONS
-	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &ExitToMainMenu_Rect);
+	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[12], &ExitToMainMenu_Rect);
 	SDL_RenderCopy(obj->Renderer, TextureTextExitToMainMenu, NULL, &ExitToMainMenu_Rect);
-	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &ToolBar_Rect[6]);
-	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[0], &ToolBar_Rect[6]);
-	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[1], &ToolBar_Rect[7]);
-	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[2], &ToolBar_Rect[8]);
-	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[3], &ToolBar_Rect[9]);
-	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &ToolBar_Rect[7]);
-	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &ToolBar_Rect[8]);
-	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &ToolBar_Rect[9]);
+	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[12], &ToolBar_Rect[6]);
+	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[0], &ToolBar_Rect[6]);
+	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[1], &ToolBar_Rect[7]);
+	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[2], &ToolBar_Rect[8]);
+	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[3], &ToolBar_Rect[9]);
+	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[12], &ToolBar_Rect[7]);
+	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[12], &ToolBar_Rect[8]);
+	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[12], &ToolBar_Rect[9]);
 
 	if (MouseOverExitButton == 1)
-		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ExitToMainMenu_Rect);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[13], &ExitToMainMenu_Rect);
 
 	switch (ToolChosen)
 	{
 	case 1: //del
 	{
-		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[14], &ToolBar_Rect[6]);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[14], &ToolBar_Rect[6]);
 		break;
 	}
 	case 2:
 	{
-		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[14], &ToolBar_Rect[7]);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[14], &ToolBar_Rect[7]);
 		break;
 	}
 	case 3:
 	{
-		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[14], &ToolBar_Rect[8]);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[14], &ToolBar_Rect[8]);
 		break;
 	}
 	case 4:
 	{
-		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[14], &ToolBar_Rect[9]);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[14], &ToolBar_Rect[9]);
 		break;
 	}
 	default:
@@ -617,39 +615,39 @@ TOPROCESS(EditorRender) {
 	}
 
 	if (MouseOverDeleteButton == 1)
-		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[6]);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[6]);
 	if (MouseOverCreateButton == 1)
-		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[7]);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[7]);
 	if (MouseOverQuestButton == 1)
-		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[8]);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[8]);
 	if (MouseOverNPCButton == 1)
-		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[9]);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[13], &ToolBar_Rect[9]);
 
 	//END OF CONTROLL BUTTONS
 
 	//Start of Editor dependend
 	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "WindowBackground")->mTexture, NULL, &EditorBackground);
 	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "EditorBackground")->mTexture, NULL, &EditorWindow);
-	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[4], &ToolBar_Rect[10]);
-	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[5], &ToolBar_Rect[11]);
+	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[4], &ToolBar_Rect[10]);
+	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[5], &ToolBar_Rect[11]);
 
 	if (EditorMode == 0)
 	{
 		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "WindowBackground")->mTexture, NULL, &CreateOrLoad_Rect);
-		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &CreateNewMap_Rect);
-		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12],  &LoadOldMap_Rect);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[12], &CreateNewMap_Rect);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[12],  &LoadOldMap_Rect);
 		SDL_RenderCopy(obj->Renderer, TextureTextCreateNewMap, NULL, &CreateNewMap_Rect);
 		SDL_RenderCopy(obj->Renderer, TextureTextLoadOldMap, NULL, &LoadOldMap_Rect);
 
 
 		if(MouseOverCreateNewMapButton == 1)
-			SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &CreateNewMap_Rect);
+			SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[13], &CreateNewMap_Rect);
 		if(MouseOverLoadOldMapButton == 1)
-			SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[13], &LoadOldMap_Rect);
+			SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[13], &LoadOldMap_Rect);
 
-		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &MapName);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[12], &MapName);
 		SDL_RenderCopy(obj->Renderer, TextureTextMapName, NULL, &MapName);
-		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "Resources")->mTexture, &ToolBar_Rect[12], &OldMapName);
+		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[12], &OldMapName);
 		SDL_RenderCopy(obj->Renderer, TextureTextTest, NULL, &OldMapName);
 
 		SDL_RenderCopy(obj->Renderer, TextureScreen, NULL, &screen_Rect);
@@ -661,6 +659,6 @@ TOPROCESS(EditorRender) {
 	/*re_renderSingleTile(&theMap.mCurrentTileset, "lava", 300, 300);
 	render(&theMap.mCurrentTileset.Tilesheet, 100, 100, NULL, 45, NULL, SDL_FLIP_NONE);*/
 
-
+	SDL_UpdateTexture(TextureScreen, NULL, screen->pixels, screen->pitch);
 	SDL_RenderPresent(obj->Renderer);
 }
