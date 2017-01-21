@@ -96,9 +96,11 @@ void initValues(GameObj* obj) {
 	Guy_Rect[7].x = 641;
 	Guy_Rect[7].y = 255;
 	Guy_Rect[7].w = 62;
-	Guy_Rect[7].h = 63;/*
-					   Guy = IMG_Load("..\\resources\\characters.png");
-					   TexGuy = SDL_CreateTextureFromSurface(obj->Renderer, Guy);*/
+	Guy_Rect[7].h = 63;
+	/*
+	Guy = IMG_Load("..\\resources\\characters.png");
+	TexGuy = SDL_CreateTextureFromSurface(obj->Renderer, Guy);
+	*/
 
 	TextCancel = TTF_RenderText_Solid(MenuFont, "    Cancel    ", MenuCol);
 	//TextureTextCancel = SDL_CreateTextureFromSurface(obj->Renderer, TextCancel);
@@ -184,14 +186,14 @@ TOPROCESS(NewGameUpdate) {
 	changeButtonStateIf(obj, &Create_Rect, &MouseOnCreate);
 
 
-	if (MouseOverButton(obj, Arrows_Rect[2]) == 1 && leftButtonMouse == 1)
+	if (isMouseOverButton(obj, Arrows_Rect[2]) == 1 && leftButtonMouse == 1)
 	{
 		justOneTurn++;
 		if (justOneTurn == 1)
 			characterchoice--;
 		leftButtonMouse = 0;
 	}
-	if (MouseOverButton(obj, Arrows_Rect[3]) == 1 && leftButtonMouse == 1)
+	if (isMouseOverButton(obj, Arrows_Rect[3]) == 1 && leftButtonMouse == 1)
 	{
 		justOneTurn++;
 		if (justOneTurn == 1)
@@ -207,7 +209,7 @@ TOPROCESS(NewGameUpdate) {
 
 
 	//End NewGameState
-	if ((MouseOverButton(obj, Cancel_Rect) == 1) && leftButtonMouse == 1)
+	if ((isMouseOverButton(obj, Cancel_Rect) == 1) && leftButtonMouse == 1)
 	{
 		NewGameOnExitState(obj);
 		MainMenuOnResumeState(obj);

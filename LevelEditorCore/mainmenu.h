@@ -52,6 +52,7 @@ COMMAND_CALLBACK(StateGoesDown);
 
 void changeButtonStateIf(GameObj* obj, SDL_Rect* ButtonRect, int* state);
 
+
 CHANGESTATE(MainMenuOnEnterState);
 CHANGESTATE(MainMenuOnExitState);
 CHANGESTATE(MainMenuOnPauseState);

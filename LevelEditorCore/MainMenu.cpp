@@ -228,11 +228,11 @@ CHANGESTATE(MainMenuOnExitState) {
 	SDL_FreeSurface(TextCreate);*/
 
 
-	if (MouseOverButton(obj, Exit_Rect) == 1)
+	if (isMouseOverButton(obj, Exit_Rect) == 1)
 	{
 		registerCommand(obj, StateGoesDown, STATEDOWN);
 	}
-	if (MouseOverButton(obj, LevelEditor_Rect) == 1)
+	if (isMouseOverButton(obj, LevelEditor_Rect) == 1)
 	{
 		registerCommand(obj, StateGoesUp, STATEUP);
 	}
@@ -272,7 +272,7 @@ CHANGESTATE(MainMenuOnResumeState) {
 
 //HIER KOMMT DEINE GAMELOGIC REIN BZW DEINE USERINTERFACE LOGIC ODER WAS AUCH IMMER AN LOGIC
 TOPROCESS(MainMenuUpdate) {
-	SDL_Log("----UPDATE LOGIC NOW----\n");
+	//SDL_Log("----UPDATE LOGIC NOW----\n");
 	///should never be empty unless you plan to do nothing in your state!!!
 
 	
@@ -311,7 +311,7 @@ TOPROCESS(MainMenuUpdate) {
 	{
 		NewGameUpdate(obj, elapsedTime_Lag); //after thinking about should directly not be called here
 	}
-	if (MouseOverButton(obj, LevelEditor_Rect) == 1 && leftButtonMouse == 1)
+	if (isMouseOverButton(obj, LevelEditor_Rect) == 1 && leftButtonMouse == 1)
 		//registerCommand(Root, CMD_TERMINATE_STATE, TERMINATE_STATE); //Cannot  add abstraction layer otherwise game brakes...
 		MainMenuOnExitState(obj); 
 		
@@ -319,7 +319,7 @@ TOPROCESS(MainMenuUpdate) {
 
 //HIER NIMMST DIE BENUTZTER EINGABE ENTGEGEN UND VERARBEITES SDL EVENTS
 TOPROCESS(MainMenuInput) {
-	SDL_Log("----UPDATE USERINPUT NOW----\n");
+	//SDL_Log("----UPDATE USERINPUT NOW----\n");
 	
 	SDL_Event e;
 	while (SDL_PollEvent(&e))
@@ -353,7 +353,7 @@ TOPROCESS(MainMenuInput) {
 
 //HIER ZEICHNEST DU NUR HIER!!!!!
 TOPROCESS(MainMenuRender) {
-	SDL_Log("----UPDATE DRAWING NOW----\n");
+	//SDL_Log("----UPDATE DRAWING NOW----\n");
 	SDL_RenderClear(obj->Renderer);
 
 	//Render all Frames and Background resources
@@ -410,16 +410,16 @@ TOPROCESS(MainMenuRender) {
 	
 	
 	
-	printf("%d %d %d %d", obj->MouseX, obj->MouseY, MouseOnNewGame, leftButtonMouse);
+	//printf("%d %d %d %d", obj->MouseX, obj->MouseY, MouseOnNewGame, leftButtonMouse);
 
 	if(chosenwindow == 0)
-	SDL_RenderPresent(obj->Renderer);
+		SDL_RenderPresent(obj->Renderer);
 	
 }
 
 
 void changeButtonStateIf(GameObj* obj, SDL_Rect* ButtonRect, int* state) {
-	if (MouseOverButton(obj, *ButtonRect) == 1)
+	if (isMouseOverButton(obj, *ButtonRect) == 1)
 		*state = 1;
 	else
 		*state = 0;

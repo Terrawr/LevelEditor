@@ -101,7 +101,11 @@ inline RECTANGLESHAPE createRectShape(float x, float y, float w, float h) {
 bool checkCollision(SDL_Rect a, SDL_Rect b);
 
 struct GameObj;
-int MouseOverButton(GameObj* obj, SDL_Rect Button);
+
+int isMouseOverButton(GameObj* obj, SDL_Rect Button);
+bool hasMouseButtonLeftClicked(GameObj* obj, SDL_Event* e);
+bool hasMouseButtonRightClicked(GameObj* obj, SDL_Event* e);
+
 
 static std::string Chop(std::string &str)
 {

@@ -198,7 +198,7 @@ TOPROCESS(IntroRender) {
 
 
 
-int MouseOverButton(GameObj* obj, SDL_Rect Button)
+int isMouseOverButton(GameObj* obj, SDL_Rect Button)
 {
 	//Testing if Mouse is over Button
 	//Return 1 == true, Return 0 == false

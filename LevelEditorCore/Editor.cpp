@@ -16,6 +16,10 @@
 #include <iostream>
 #include <io.h>
 
+
+#include "Command.h"
+#include "mainmenu.h"
+
 #define FONTSIZE 25
 static GameObj*				Root = NULL;
 static GameState*			This = NULL;
@@ -132,10 +136,7 @@ std::string emap = ".map";
 
 
 //GUI
-static gcn::SDLInput*					input = nullptr;             // Input driver
-static gcn::SDLGraphics*				graphics = nullptr;       // Graphics driver
-static gcn::SDLImageLoader*				imageLoader = nullptr; // For loading images
-static gcn::Gui*						gui = nullptr;            // A Gui object - binds it all together
+// A Gui object - binds it all together
 static gcn::ImageFont*					font = nullptr;     // A font
 static gcn::Container*					top = nullptr;
 static gcn::ListBox*					MapNames_List = nullptr;
@@ -174,6 +175,7 @@ CHANGESTATE(EditorOnEnterState) {
 		printf("TTF_OpenFont: %s\n", TTF_GetError());
 		abort();
 	}
+	
 	TextExitToMainMenu = TTF_RenderText_Solid( MenuFont, "   Exit to Main Menu   ", MenuCol);
 	TextureTextExitToMainMenu = SDL_CreateTextureFromSurface(obj->Renderer, TextExitToMainMenu);
 
@@ -296,57 +298,34 @@ CHANGESTATE(EditorOnEnterState) {
 		OldMapName.y = CreateNewMap_Rect.y - 0.4 * CreateOrLoad_Rect.h;
 	}
 
-	if (1)
-	{
-		
-		
-	}
 
 	screen_Rect.w = MapName.w;
 	screen_Rect.h = CreateOrLoad_Rect.h * 0.5;
 	screen_Rect.x = MapName.x;
 	screen_Rect.y = MapName.y - 0.85 *screen_Rect.w;
-	screen = SDL_CreateRGBSurface(0, screen_Rect.w, screen_Rect.h, 32, 0, 0, 0, SDL_ALPHA_OPAQUE);
 
-	// We want to enable key repeat
-	//SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+	SDL_FreeSurface(Root->UserInterface_Display);
+	Root->UserInterface_Display = SDL_CreateRGBSurface(0, screen_Rect.w, screen_Rect.h, 32, 0, 0, 0, 0);
+	Root->graphics->setTarget(Root->UserInterface_Display);
 
-	/*
-	* Now it's time for Guichan SDL stuff
-	*/
-	// Load the image font.
 	
-	imageLoader = new gcn::SDLImageLoader();
-	graphics = new gcn::SDLGraphics();
-	input = new gcn::SDLInput();
+
 	top = new gcn::Container();
-	gui = new gcn::Gui();
-	// The ImageLoader in use is static and must be set to be
-	// able to load images
-	gcn::Image::setImageLoader(imageLoader);
-	font = new gcn::ImageFont("fixedfont.bmp", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.");
-	
-	// Set the target for the graphics object to be the screen.
-	// In other words, we will draw to the screen.
-	// Note, any surface will do, it doesn't have to be the screen.
-	graphics->setTarget(screen);
-	
-	
-	// Set the dimension of the top container to match the screen.
+	top->setOpaque(false);
 	top->setDimension(gcn::Rectangle(0, 0, screen_Rect.w, screen_Rect.h));
-	// Set gui to use the SDLGraphics object.
-	gui->setGraphics(graphics);
-	// Set gui to use the SDLInput object
-	gui->setInput(input);
-	// Set the top container
-	gui->setTop(top);
-	// The global font is static and must be set.
-	gcn::Widget::setGlobalFont(font);
+
+	Root->UserInterface->setTop(top);
+	
 
 	listModelMaps = new ListModelMaps;
 	MapNames_List = new gcn::ListBox(listModelMaps);
 	MapNames_List->setDimension(gcn::Rectangle(0, 0, screen_Rect.w, screen_Rect.h));
 
+	MapNames_List->setEnabled(true);
+	MapNames_List->setFocusable(true);
+	MapNames_List->setSelected(1);
+	MapNames_List->setTabInEnabled(true);
+	MapNames_List->setWrappingEnabled(true);
 	//ALL WIDGETS FOR TOL
 	top->add(MapNames_List/*, screen_Rect.x, screen_Rect.y*/);
 
@@ -355,15 +334,18 @@ CHANGESTATE(EditorOnEnterState) {
 
 	/*TextExitToMainMenu = TTF_RenderText_Solid(MenuFont, (char*)&text, MenuCol); text for mapname */
 	
-	SDL_StartTextInput();
-	TextureScreen = SDL_CreateTextureFromSurface(obj->Renderer, screen);
+	
+	SDL_DestroyTexture(obj->UserInterface_TextureDisplay);
+	obj->UserInterface_TextureDisplay = SDL_CreateTextureFromSurface(obj->Renderer, Root->UserInterface_Display);
 
 }
 
 ///State destruction/////////////////
 CHANGESTATE(EditorOnExitState) {
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = false;
-	obj->CurrentStateIndex--;
+	
+	registerCommand(obj, StateGoesDown, PREVIOUS_STATE);
+	//obj->CurrentStateIndex--;
 	EditorMode = 0;
 	SDL_DestroyTexture(TextureTextCreateNewMap);
 	SDL_DestroyTexture(TextureTextExitToMainMenu);
@@ -371,8 +353,6 @@ CHANGESTATE(EditorOnExitState) {
 	SDL_FreeSurface(TextCreateNewMap);
 	SDL_FreeSurface(TextExitToMainMenu);
 	SDL_FreeSurface(TextLoadOldMap);
-
-	mapname = "";
 }
 
 ///State pausing/////////////////
@@ -389,12 +369,12 @@ CHANGESTATE(EditorOnResumeState) {
 
 //HIER KOMMT DEINE GAMELOGIC REIN BZW DEINE USERINTERFACE LOGIC ODER WAS AUCH IMMER AN LOGIC
 TOPROCESS(EditorUpdate) {
-	gui->logic();
+	Root->UserInterface->logic();
 
 	/*SDL_Log("FrameTime[s]: %f | FrameTime[ms]: %f | FPS: %f \n", (elapsedTime_Lag/1000.f), (elapsedTime_Lag ), ( 1000.f / elapsedTime_Lag ));*/
 
 	//CONTROLL BUTTONS 
-	if (MouseOverButton(obj, ExitToMainMenu_Rect) == 1)
+	if (isMouseOverButton(obj, ExitToMainMenu_Rect) == 1)
 	{
 		MouseOverExitButton = 1;
 		if (leftButtonMouse == 1)
@@ -410,7 +390,7 @@ TOPROCESS(EditorUpdate) {
 	if (!EditorMode == 0)
 	{
 		
-		if (MouseOverButton(obj, ToolBar_Rect[6]) == 1)
+		if (isMouseOverButton(obj, ToolBar_Rect[6]) == 1)
 		{
 			MouseOverDeleteButton = 1;
 			if (leftButtonMouse == 1)
@@ -423,7 +403,7 @@ TOPROCESS(EditorUpdate) {
 			MouseOverDeleteButton = 0;
 		}
 
-		if (MouseOverButton(obj, ToolBar_Rect[7]) == 1)
+		if (isMouseOverButton(obj, ToolBar_Rect[7]) == 1)
 		{
 			MouseOverCreateButton = 1;
 			if (leftButtonMouse == 1)
@@ -437,7 +417,7 @@ TOPROCESS(EditorUpdate) {
 			MouseOverCreateButton = 0;
 		}
 
-		if (MouseOverButton(obj, ToolBar_Rect[8]) == 1)
+		if (isMouseOverButton(obj, ToolBar_Rect[8]) == 1)
 		{
 			MouseOverQuestButton = 1;
 			if (leftButtonMouse == 1)
@@ -450,7 +430,7 @@ TOPROCESS(EditorUpdate) {
 			MouseOverQuestButton = 0;
 		}
 
-		if (MouseOverButton(obj, ToolBar_Rect[9]) == 1)
+		if (isMouseOverButton(obj, ToolBar_Rect[9]) == 1)
 		{
 			MouseOverNPCButton = 1;
 			if (leftButtonMouse == 1)
@@ -476,7 +456,7 @@ TOPROCESS(EditorUpdate) {
 	if (EditorMode == 0)
 	{
 	
-		if (MouseOverButton(obj, CreateNewMap_Rect) == 1)
+		if (isMouseOverButton(obj, CreateNewMap_Rect) == 1)
 		{
 			MouseOverCreateNewMapButton = 1;
 			if (leftButtonMouse == 1)
@@ -490,7 +470,7 @@ TOPROCESS(EditorUpdate) {
 		{
 			MouseOverCreateNewMapButton = 0;
 		}
-		if (MouseOverButton(obj, LoadOldMap_Rect) == 1)
+		if (isMouseOverButton(obj, LoadOldMap_Rect) == 1)
 		{
 			MouseOverLoadOldMapButton = 1;
 			if (leftButtonMouse == 1)
@@ -521,31 +501,35 @@ TOPROCESS(EditorUpdate) {
 //HIER NIMMST DIE BENUTZTER EINGABE ENTGEGEN UND VERARBEITES SDL EVENTS
 TOPROCESS(EditorInput) {
 	SDL_Event e;
+	//SDL_StartTextInput();
 	while (SDL_PollEvent(&e))
 	{
+		//Forwarding Events to GUI
+		Root->input->pushInput(e);
+
 		if (e.type == SDL_TEXTINPUT || e.type == SDL_KEYDOWN)
 		{
-		system("cls");
+		//system("cls");
 		/*system("clear");*/
-		if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_BACKSPACE && mapname.length() > 0)
-			mapname = mapname.substr(0, mapname.length() - 1);
-		else if (e.type == SDL_TEXTINPUT)
-			mapname += e.text.text;
-
-		std::cout << mapname << std::endl;
+			if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_BACKSPACE && mapname.length() > 0){
+				mapname = mapname.substr(0, mapname.length() - 1);
+			}
+			else if (e.type == SDL_TEXTINPUT)
+			{
+				mapname += e.text.text;
+			}
+			//std::cout << mapname << std::endl;
 		}
+
+
 		if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE)
 		{
 			obj->isRunning = true;
 		}
-		if (e.button.button == SDL_BUTTON_LEFT)
-		{
-			leftButtonMouse = 1;
-		}
-		if (e.button.button == SDL_BUTTON_RIGHT)
-		{
-			rightButtonMouse = 1;
-		}
+
+		leftButtonMouse = hasMouseButtonLeftClicked(obj, &e);
+		rightButtonMouse = hasMouseButtonRightClicked(obj, &e);
+
 		if (leftButtonMouse == 1)
 		{
 			elapsedTime += elapsedTime_Lag;
@@ -555,19 +539,17 @@ TOPROCESS(EditorInput) {
 			elapsedTime = 0;
 			leftButtonMouse = 0;
 		}
-		//Forwarding Events to GUI
-		input->pushInput(e);
-
-	}
 		
+	}
+	//SDL_StopTextInput();
 	SDL_GetMouseState(&obj->MouseX, &obj->MouseY);
 }
 
 //HIER ZEICHNEST DU NUR HIER!!!!!
 TOPROCESS(EditorRender) {
 
-	gui->draw();
-	
+	Root->UserInterface->draw();
+	SDL_UpdateTexture(Root->UserInterface_TextureDisplay, NULL, Root->UserInterface_Display->pixels, Root->UserInterface_Display->pitch);
 
 	SDL_SetRenderDrawColor(obj->Renderer, 0xff, 0xff, 0xff, SDL_ALPHA_OPAQUE);
 	SDL_RenderClear(obj->Renderer);
@@ -650,7 +632,10 @@ TOPROCESS(EditorRender) {
 		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[12], &OldMapName);
 		SDL_RenderCopy(obj->Renderer, TextureTextTest, NULL, &OldMapName);
 
-		SDL_RenderCopy(obj->Renderer, TextureScreen, NULL, &screen_Rect);
+		
+		SDL_UpdateTexture(Root->UserInterface_TextureDisplay, NULL, Root->UserInterface_Display->pixels, Root->UserInterface_Display->pitch);
+		SDL_RenderCopy(obj->Renderer, Root->UserInterface_TextureDisplay, NULL, &screen_Rect);
+	
 	}
 
 	
@@ -659,6 +644,24 @@ TOPROCESS(EditorRender) {
 	/*re_renderSingleTile(&theMap.mCurrentTileset, "lava", 300, 300);
 	render(&theMap.mCurrentTileset.Tilesheet, 100, 100, NULL, 45, NULL, SDL_FLIP_NONE);*/
 
-	SDL_UpdateTexture(TextureScreen, NULL, screen->pixels, screen->pitch);
+	
+	//SDL_RenderCopy(obj->Renderer, Root->UserInterface_TextureDisplay, NULL, &screen_Rect);
+
 	SDL_RenderPresent(obj->Renderer);
+}
+
+
+
+
+
+bool hasMouseButtonLeftClicked(GameObj* obj, SDL_Event* e) {
+	if (e->button.button == SDL_BUTTON_LEFT)
+		return 1;
+	return 0;
+}
+
+bool hasMouseButtonRightClicked(GameObj* obj, SDL_Event* e) {
+	if (e->button.button == SDL_BUTTON_RIGHT)
+		return 1;
+	return 0;
 }
