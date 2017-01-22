@@ -16,27 +16,27 @@
 * All of the default widgets
 */
 gcn::Container* top;                 // A top container
-gcn::Label* label;                   // A label
-gcn::Icon* icon;                     // An icon (image)
-gcn::Button* button;                 // A button
-gcn::TextField* textField;           // One-line text field
-gcn::TextBox* textBox;               // Multi-line text box
-gcn::ScrollArea* textBoxScrollArea;  // Scroll area for the text box
+//gcn::Label* label;                   // A label
+//gcn::Icon* icon;                     // An icon (image)
+//gcn::Button* button;                 // A button
+//gcn::TextField* textField;           // One-line text field
+//gcn::TextBox* textBox;               // Multi-line text box
+//gcn::ScrollArea* textBoxScrollArea;  // Scroll area for the text box
 gcn::ListBox* listBox;               // A list box
-gcn::DropDown* dropDown;             // Drop down
-gcn::CheckBox* checkBox1;            // Two checkboxes
-gcn::CheckBox* checkBox2;
-gcn::RadioButton* radioButton1;      // Three radio buttons
-gcn::RadioButton* radioButton2;
-gcn::RadioButton* radioButton3;
-gcn::Slider* slider;                 // A slider
-gcn::Image *image;                   // An image for the icon
-gcn::Window *window;
-gcn::Image *guisanLogoImage;
-gcn::Icon* guisanLogoIcon;
-gcn::ScrollArea* nestedScrollArea;
-gcn::Container* nestedContainer;
-gcn::Slider* nestedSlider;
+//gcn::DropDown* dropDown;             // Drop down
+//gcn::CheckBox* checkBox1;            // Two checkboxes
+//gcn::CheckBox* checkBox2;
+//gcn::RadioButton* radioButton1;      // Three radio buttons
+//gcn::RadioButton* radioButton2;
+//gcn::RadioButton* radioButton3;
+//gcn::Slider* slider;                 // A slider
+//gcn::Image *image;                   // An image for the icon
+//gcn::Window *window;
+//gcn::Image *guisanLogoImage;
+//gcn::Icon* guisanLogoIcon;
+//gcn::ScrollArea* nestedScrollArea;
+//gcn::Container* nestedContainer;
+//gcn::Slider* nestedSlider;
 
 int clickCountButton1 = 0; // Count clicks for button1
 int clickCountButton2 = 0; // Count clicks for button2
@@ -52,16 +52,16 @@ gcn::Label* label2;       // And another label for button2 click count display
 ////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////Command Callbacks////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////
-COMMAND_CALLBACK(CMD_EXIT); //!<-- Terminates the Game
-COMMAND_CALLBACK(CMD_TERMINATE_STATE); //!<-- Terminats this State
+PRIVATE COMMAND_CALLBACK(CMD_EXIT); //!<-- Terminates the Game
+PRIVATE COMMAND_CALLBACK(CMD_TERMINATE_STATE); //!<-- Terminats this State
 
-COMMAND_CALLBACK(CMD_NEXT_STATE); //!<-- Moves this state to the next one. 
-COMMAND_CALLBACK(CMD_PREVIOUS_STATE); //!<-- Moves this state to the previous one. 
+PRIVATE COMMAND_CALLBACK(CMD_NEXT_STATE); //!<-- Moves this state to the next one. 
+PRIVATE COMMAND_CALLBACK(CMD_PREVIOUS_STATE); //!<-- Moves this state to the previous one. 
 
-COMMAND_CALLBACK(CMD_CURRENT_PAUSE);
-COMMAND_CALLBACK(CMD_CURRENT_RESUME);
+PRIVATE COMMAND_CALLBACK(CMD_CURRENT_PAUSE);
+PRIVATE COMMAND_CALLBACK(CMD_CURRENT_RESUME);
 
-COMMAND_CALLBACK(CMD_RELOAD_MAP);
+PRIVATE COMMAND_CALLBACK(CMD_RELOAD_MAP);
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////Private Global Variables//////////////////////////////////
@@ -78,11 +78,6 @@ using namespace gcn;
 SDL_Surface* screen;
 SDL_Texture* _Texture;
 
-gcn::SDLInput* input;             // Input driver
-gcn::SDLGraphics* graphics;       // Graphics driver
-gcn::SDLImageLoader* imageLoader; // For loading images
-
-gcn::Gui* gui;            // A Gui object - binds it all together
 gcn::ImageFont* font;     // A font
 
 
@@ -264,127 +259,127 @@ public:
 
 DirList DirectoryEntries;
 
-void initWidgets()
-{
-
-	/*
-	* Create all the widgets
-	*/
-	label = new gcn::Label("Label");
-
-	image = gcn::Image::load("guisan.png");
-	icon = new gcn::Icon(image);
-	
-
-	button = new gcn::Button("Button");
-	textField = new gcn::TextField("Text field");
-
-	textBox = new gcn::TextBox("Lorem ipsum dolor sit amet consectetur\n"
-		"adipiscing elit Integer vitae ultrices\n"
-		"eros Curabitur malesuada dolor imperdieat\n"
-		"ante facilisis ut convallis sem rutrum\n"
-		"Praesent consequat urna convallis leo\n"
-		"aliquam pellentesque Integer laoreet enim\n"
-		"vehicula libero blandit at pellentesque\n"
-		"ipsum vehicula Mauris id turpis hendrerit\n"
-		"tempor velit nec hendrerit nulla");
-
-	textBoxScrollArea = new gcn::ScrollArea(textBox);
-	textBoxScrollArea->setWidth(270);
-	textBoxScrollArea->setHeight(100);
-	textBoxScrollArea->setBorderSize(50);
-
-	/*listBox = new gcn::ListBox(&demoListModel);
-	listBox->setBorderSize(2);
-	listBox->setSize(200, 500);*/
-
-	/*dropDown = new gcn::DropDown(&demoListModel);*/
-
-	checkBox1 = new gcn::CheckBox("Checkbox 1");
-	checkBox2 = new gcn::CheckBox("Checkbox 2");
-
-	radioButton1 = new gcn::RadioButton("Radio Button 1", "radiogroup", true);
-	radioButton2 = new gcn::RadioButton("Radio Button 2", "radiogroup");
-	radioButton3 = new gcn::RadioButton("Radio Button 3", "radiogroup");
-
-	slider = new gcn::Slider(0, 10);
-	slider->setSize(100, 10);
-
-	window = new gcn::Window("I am a window  Drag me");
-	window->setBaseColor(gcn::Color(212, 255, 150, 190));
-	window->setSize(300, 300);
-	guisanLogoImage = gcn::Image::load("guisan-logo.png");
-	guisanLogoIcon = new gcn::Icon(guisanLogoImage);
-	
-	dropDown->setPosition(0, 0);
-
-	window->add(listBox);
-
-	nestedSlider = new gcn::Slider(0, 10);
-	nestedSlider->setSize(100, 10);
-
-	nestedContainer = new gcn::Container();
-	nestedContainer->setSize(400, 200);
-	nestedContainer->add(listBox, 0, 0);
-	nestedContainer->add(nestedSlider, 50, 70);
-
-	nestedScrollArea = new gcn::ScrollArea(nestedContainer);
-	nestedScrollArea->setSize(180, 90);
-	nestedScrollArea->setBorderSize(1);
-
-	/*
-	* Add them to the top container
-	*/
-	top->add(label, 290, 10);
-	top->add(icon, 10, 10);
-	top->add(button, 325, 10);
-	top->add(textField, 375, 10);
-	top->add(textBoxScrollArea, 290, 50);
-	top->add(listBox, 0, 0);
-	top->add(dropDown, 580, 10);
-	top->add(checkBox1, 580, 50);
-	top->add(checkBox2, 580, 70);
-	top->add(radioButton1, 580, 120);
-	top->add(radioButton2, 580, 140);
-	top->add(radioButton3, 580, 160);
-	top->add(slider, 580, 200);
-	top->add(window, 100, 350);
-	top->add(nestedScrollArea, 440, 350);
-
-
-
-	// Create buttons
-	button1 = new gcn::Button("Button 1");
-	button2 = new gcn::Button("Button 2");
-	// Set the buttons position
-	button1->setPosition(320, 230);
-	button2->setPosition(420, 230);
-	// Add the buttons to the top container
-	top->add(button1);
-	top->add(button2);
-
-	// Create labels
-	label1 = new gcn::Label("Button1 clicks 0");
-	label2 = new gcn::Label("Button2 clicks 0");
-	// Set the labels position
-	label1->setPosition(300, 200);
-	label2->setPosition(400, 200);
-	// Add the labels to the top container
-	top->add(label1);
-	top->add(label2);
-
-
-	// Set the buttons action event id's.
-	button1->setActionEventId("button1");
-	button2->setActionEventId("button2");
-
-	// Make an instance of the ButtonActionListener
-	buttonActionListener = new ButtonActionListener();
-
-	// Add the ButtonActionListener to the buttons action listeners
-	button1->addActionListener(buttonActionListener);
-	button2->addActionListener(buttonActionListener);
-}
+//void initWidgets()
+//{
+//
+//	/*
+//	* Create all the widgets
+//	*/
+//	label = new gcn::Label("Label");
+//
+//	image = gcn::Image::load("guisan.png");
+//	icon = new gcn::Icon(image);
+//	
+//
+//	button = new gcn::Button("Button");
+//	textField = new gcn::TextField("Text field");
+//
+//	textBox = new gcn::TextBox("Lorem ipsum dolor sit amet consectetur\n"
+//		"adipiscing elit Integer vitae ultrices\n"
+//		"eros Curabitur malesuada dolor imperdieat\n"
+//		"ante facilisis ut convallis sem rutrum\n"
+//		"Praesent consequat urna convallis leo\n"
+//		"aliquam pellentesque Integer laoreet enim\n"
+//		"vehicula libero blandit at pellentesque\n"
+//		"ipsum vehicula Mauris id turpis hendrerit\n"
+//		"tempor velit nec hendrerit nulla");
+//
+//	textBoxScrollArea = new gcn::ScrollArea(textBox);
+//	textBoxScrollArea->setWidth(270);
+//	textBoxScrollArea->setHeight(100);
+//	textBoxScrollArea->setBorderSize(50);
+//
+//	/*listBox = new gcn::ListBox(&demoListModel);
+//	listBox->setBorderSize(2);
+//	listBox->setSize(200, 500);*/
+//
+//	/*dropDown = new gcn::DropDown(&demoListModel);*/
+//
+//	checkBox1 = new gcn::CheckBox("Checkbox 1");
+//	checkBox2 = new gcn::CheckBox("Checkbox 2");
+//
+//	radioButton1 = new gcn::RadioButton("Radio Button 1", "radiogroup", true);
+//	radioButton2 = new gcn::RadioButton("Radio Button 2", "radiogroup");
+//	radioButton3 = new gcn::RadioButton("Radio Button 3", "radiogroup");
+//
+//	slider = new gcn::Slider(0, 10);
+//	slider->setSize(100, 10);
+//
+//	window = new gcn::Window("I am a window  Drag me");
+//	window->setBaseColor(gcn::Color(212, 255, 150, 190));
+//	window->setSize(300, 300);
+//	guisanLogoImage = gcn::Image::load("guisan-logo.png");
+//	guisanLogoIcon = new gcn::Icon(guisanLogoImage);
+//	
+//	dropDown->setPosition(0, 0);
+//
+//	window->add(listBox);
+//
+//	nestedSlider = new gcn::Slider(0, 10);
+//	nestedSlider->setSize(100, 10);
+//
+//	nestedContainer = new gcn::Container();
+//	nestedContainer->setSize(400, 200);
+//	nestedContainer->add(listBox, 0, 0);
+//	nestedContainer->add(nestedSlider, 50, 70);
+//
+//	nestedScrollArea = new gcn::ScrollArea(nestedContainer);
+//	nestedScrollArea->setSize(180, 90);
+//	nestedScrollArea->setBorderSize(1);
+//
+//	/*
+//	* Add them to the top container
+//	*/
+//	top->add(label, 290, 10);
+//	top->add(icon, 10, 10);
+//	top->add(button, 325, 10);
+//	top->add(textField, 375, 10);
+//	top->add(textBoxScrollArea, 290, 50);
+//	top->add(listBox, 0, 0);
+//	top->add(dropDown, 580, 10);
+//	top->add(checkBox1, 580, 50);
+//	top->add(checkBox2, 580, 70);
+//	top->add(radioButton1, 580, 120);
+//	top->add(radioButton2, 580, 140);
+//	top->add(radioButton3, 580, 160);
+//	top->add(slider, 580, 200);
+//	top->add(window, 100, 350);
+//	top->add(nestedScrollArea, 440, 350);
+//
+//
+//
+//	// Create buttons
+//	button1 = new gcn::Button("Button 1");
+//	button2 = new gcn::Button("Button 2");
+//	// Set the buttons position
+//	button1->setPosition(320, 230);
+//	button2->setPosition(420, 230);
+//	// Add the buttons to the top container
+//	top->add(button1);
+//	top->add(button2);
+//
+//	// Create labels
+//	label1 = new gcn::Label("Button1 clicks 0");
+//	label2 = new gcn::Label("Button2 clicks 0");
+//	// Set the labels position
+//	label1->setPosition(300, 200);
+//	label2->setPosition(400, 200);
+//	// Add the labels to the top container
+//	top->add(label1);
+//	top->add(label2);
+//
+//
+//	// Set the buttons action event id's.
+//	button1->setActionEventId("button1");
+//	button2->setActionEventId("button2");
+//
+//	// Make an instance of the ButtonActionListener
+//	buttonActionListener = new ButtonActionListener();
+//
+//	// Add the ButtonActionListener to the buttons action listeners
+//	button1->addActionListener(buttonActionListener);
+//	button2->addActionListener(buttonActionListener);
+//}
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -397,7 +392,7 @@ class ListAction : public gcn::ActionListener {
 		for (auto element : DirectoryEntries.getFiles()) {
 
 			if (element == actionEvent.getId())
-				registerCommand(Root, CMD_EXIT, EXIT);
+				;//registerCommand(Root, CMD_EXIT, EXIT);
 		}
 	}
 };
@@ -416,47 +411,18 @@ CHANGESTATE(Demo_OnEnterState)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	SDL_FreeSurface(Root->UserInterface_Display);
 	screen = SDL_CreateRGBSurface(0, Root->Width, Root->Height, 32, 0, 0, 0, SDL_ALPHA_OPAQUE);
-
-	/*
-	* Now it's time for Guichan SDL stuff
-	*/
-	imageLoader = new gcn::SDLImageLoader();
-	graphics = new gcn::SDLGraphics();
-	input = new gcn::SDLInput();
+	Root->UserInterface_Display = screen;
+	Root->graphics->setTarget(screen);	
+	// Set the top container
 	top = new gcn::Container();
-	gui = new gcn::Gui();
-
-	/*
-	* Last but not least it's time to initialize and create the gui
-	* with Guichan stuff.
-	*/
-	
-	// The ImageLoader in use is static and must be set to be
-	// able to load images
-	
-
-	// Set the target for the graphics object to be the screen.
-	// In other words, we will draw to the screen.
-	// Note, any surface will do, it doesn't have to be the screen.
-	graphics->setTarget(screen);
-	// Set the dimension of the top container to match the screen.
 	top->setDimension(gcn::Rectangle(50, 0, 700, 480));
 
+	top->setOpaque(false);
 
-
-		
-	// Set gui to use the SDLGraphics object.
-	gui->setGraphics(graphics);
-	// Set gui to use the SDLInput object
-	gui->setInput(input);
-	// Set the top container
-	gui->setTop(top);
-	// Load the image font.
-	font = new gcn::ImageFont("fixedfont.bmp", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.");
-	// The global font is static and must be set.
-	gcn::Widget::setGlobalFont(font);
+	Root->UserInterface->setTop(top);
+	
 
 
 	listBox = new gcn::ListBox(&DirectoryEntries);
@@ -464,15 +430,14 @@ CHANGESTATE(Demo_OnEnterState)
 	top->add(listBox);
 
 	ListAction* action = new ListAction;
-
 	for (auto element : DirectoryEntries.getFiles()) {
-
 		listBox->setActionEventId(element);
 	}
 
 	listBox->addActionListener(action);
 
-	_Texture = SDL_CreateTextureFromSurface(Root->Renderer, screen);
+	_Texture = SDL_CreateTextureFromSurface(Root->Renderer, Root->UserInterface_Display);
+	Root->UserInterface_TextureDisplay;
 	
 }
 CHANGESTATE(Demo_OnExitState){
@@ -490,7 +455,7 @@ CHANGESTATE(Demo_OnResumeState){
 
 TOPROCESS(Demo_Update){
 	// Let the gui perform it's logic (like handle input)
-	gui->logic();
+	Root->UserInterface->logic();
 }
 TOPROCESS(Demo_Input){
 
@@ -499,6 +464,8 @@ TOPROCESS(Demo_Input){
 	SDL_Event e;
 	while (SDL_PollEvent(&e))
 	{
+		//Forwarding Events to GUI
+		Root->input->pushInput(e);
 		if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE)
 		{
 			registerCommand(obj, CMD_EXIT, EXIT);
@@ -533,8 +500,7 @@ TOPROCESS(Demo_Input){
 			SDL_GetMouseState(&obj->MouseX, &obj->MouseX);
 		}
 
-		//Forwarding Events to GUI
-		input->pushInput(e);
+		
 	}
 
 	
@@ -542,7 +508,7 @@ TOPROCESS(Demo_Input){
 TOPROCESS(Demo_Render){
 
 	// Draw the gui
-	gui->draw();
+	Root->UserInterface->draw();
 	SDL_UpdateTexture(_Texture, NULL, screen->pixels, screen->pitch);
 
 
@@ -562,8 +528,8 @@ TOPROCESS(Demo_Render){
 							te_translateTypeInformation(&ExampleMap.mCurrentTileset,tile.TileType),
 							tile.x,tile.y);
 		SDL_Log("Tilelayerindex: %d | TileType[%d,%s]\n", tile.LayerIndex,tile.TileType, te_translateTypeInformation(&ExampleMap.mCurrentTileset, tile.TileType).c_str());
-	}
-*/
+	}*/
+
 
 	/*re_renderSingleTile(&ExampleMap.mCurrentTileset, "lava", 300, 300);
 	render(&ExampleMap.mCurrentTileset.Tilesheet, 100, 100, NULL, 45, NULL, SDL_FLIP_NONE);*/

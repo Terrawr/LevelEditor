@@ -11,10 +11,16 @@
 #include "IntroScreen.h"
 #include "mainmenu.h"
 
+#include <>
 
 #include "Command.h"
 
+#pragma region "test"
 
+
+
+
+#pragma endregion
 
 
 
@@ -23,6 +29,18 @@ void initGame(GameObj* obj) {
 
 	rm_storeString(obj, "TheMap.map", "Mapfile");
 
+	rm_loadTextureFromFile(obj, "firstbanner.png", "firstbanner");
+	rm_loadTextureFromFile(obj, "copy.png", "copy");
+
+	rm_loadTextureFromFile(obj, "resources.png", "resources");
+	rm_loadTextureFromFile(obj, "NewGameBackGround.png", "WindowBackground");
+	rm_loadTextureFromFile(obj, "test.bmp", "EditorBackground");
+
+	rm_loadTextureFromFile(obj, "background.png", "background");
+	rm_loadTextureFromFile(obj, "resources.png", "resources");
+
+	rm_loadTextureFromFile(obj, "newgamebackground.png", "newgame_background");
+	rm_loadTextureFromFile(obj, "characters.png", "characters");
 	obj->Assets.MapsPath = "..\\resources\\maps\\";
 
 
@@ -38,7 +56,7 @@ int main(int argc, char* argv[])
 
 	//The Order of initilization is IMPORTANT. I changed it. First Screen, now your Menu and then some demo
 
-	GameState* DEMOSTATE = createGameState_ObjectInstance(Root);
+	/*GameState* DEMOSTATE = createGameState_ObjectInstance(Root);
 	initializeGameState(DEMOSTATE, "DEMOSTATE", -1,
 		Demo_OnEnterState,
 		Demo_OnExitState,
@@ -46,7 +64,7 @@ int main(int argc, char* argv[])
 		Demo_OnResumeState,
 		Demo_Update,
 		Demo_Render,
-		Demo_Input);
+		Demo_Input);*/
 
 	/*FIRST STATE*/
 	GameState* IntroScreen = createGameState_ObjectInstance(Root); //<---- INTRO
@@ -113,39 +131,44 @@ int main(int argc, char* argv[])
 				Command* cmd = Root->HolyCommands.back();
 				switch (cmd->Type)
 				{
-				case EXIT:
-				case TERMINATE_GAME:
-				{
-					cmd->action(Root, 0.f);
-					Root->HolyCommands.pop_back();
-				}break;
-				case STATEUP:
-				case NEXT_STATE:
-				{
-					cmd->action(Root, 0);
-					Root->HolyCommands.pop_back();
-				}break;
-				case PREVIOUS_STATE:
-				case STATEDOWN:
-				{
-					cmd->action(Root, 0);
-					Root->HolyCommands.pop_back();
-				}break;
-				case PAUSE_STATE:
-				{
-					cmd->action(Root, 0);
-					Root->HolyCommands.pop_back();
-				}break;
-				case RESUME_STATE:
-				{
-					cmd->action(Root, 0);
-					Root->HolyCommands.pop_back();
-				}break;
-				case UNKOWN:
-				{
-					cmd->action(Root, 0);
-					Root->HolyCommands.pop_back();
-				}break;
+					case EXIT:
+					case TERMINATE_GAME:
+					{
+						cmd->action(Root, 0.f);
+						Root->HolyCommands.pop_back();
+					}break;
+					case STATEUP:
+					case NEXT_STATE:
+					{
+						cmd->action(Root, 0);
+						Root->HolyCommands.pop_back();
+					}break;
+					case PREVIOUS_STATE:
+					case STATEDOWN:
+					{
+						cmd->action(Root, 0);
+						Root->HolyCommands.pop_back();
+					}break;
+					case PAUSE_STATE:
+					{
+						cmd->action(Root, 0);
+						Root->HolyCommands.pop_back();
+					}break;
+					case RESUME_STATE:
+					{
+						cmd->action(Root, 0);
+						Root->HolyCommands.pop_back();
+					}break;
+					case UNKOWN:
+					{
+						cmd->action(Root, 0);
+						Root->HolyCommands.pop_back();
+					}break;
+					case TERMINATE_STATE:
+					{
+						cmd->action(Root, 0);
+						Root->HolyCommands.pop_back();
+					}break;
 
 				}
 			}

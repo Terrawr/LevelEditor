@@ -13,17 +13,8 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\GameDepended">
-      <UniqueIdentifier>{05ac3f3a-0533-436d-b433-c7b99a0b27b9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\GameDepended\GameStates">
-      <UniqueIdentifier>{9794ddee-f553-405a-9a1c-e291154b557f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\GameStates">
       <UniqueIdentifier>{d912501b-184d-4027-92a2-1f4f4793b33e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\GameDepended\GameStates\InternalStates">
-      <UniqueIdentifier>{10044b02-f52e-46d9-a263-149a0d39c648}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\GameStates\InternalStates">
       <UniqueIdentifier>{d945482d-fc4e-43b6-b253-087f31011bf8}</UniqueIdentifier>
@@ -67,25 +58,31 @@
     <Filter Include="Source Files\Graphic\UserInterface\SDL">
       <UniqueIdentifier>{57b8f4d5-17af-4e33-aead-a3cab094d62b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameStates">
+      <UniqueIdentifier>{9794ddee-f553-405a-9a1c-e291154b557f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameStates\InternalStates">
+      <UniqueIdentifier>{10044b02-f52e-46d9-a263-149a0d39c648}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameStates\TileMap_State">
+      <UniqueIdentifier>{e482ca51-5dd4-4f36-966d-cc4f82a068c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameStates\TileMap_State">
+      <UniqueIdentifier>{bd666650-bb78-4160-9e67-12960c8f2dff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameObject.h">
-      <Filter>Header Files\GameDepended</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelEditor.h">
-      <Filter>Header Files\GameDepended</Filter>
-    </ClInclude>
     <ClInclude Include="EditorState.h">
-      <Filter>Header Files\GameDepended\GameStates</Filter>
+      <Filter>Header Files\GameStates</Filter>
     </ClInclude>
     <ClInclude Include="IntroScreen.h">
-      <Filter>Header Files\GameDepended\GameStates</Filter>
+      <Filter>Header Files\GameStates</Filter>
     </ClInclude>
     <ClInclude Include="mainmenu.h">
-      <Filter>Header Files\GameDepended\GameStates</Filter>
+      <Filter>Header Files\GameStates</Filter>
     </ClInclude>
     <ClInclude Include="TileView.h">
-      <Filter>Header Files\GameDepended\GameStates\InternalStates</Filter>
+      <Filter>Header Files\GameStates\InternalStates</Filter>
     </ClInclude>
     <ClInclude Include="Tiles.h">
       <Filter>Header Files\TileEngine</Filter>
@@ -100,10 +97,10 @@
       <Filter>Header Files\Graphic</Filter>
     </ClInclude>
     <ClInclude Include="GameState.h">
-      <Filter>Header Files\GameDepended\GameStates</Filter>
+      <Filter>Header Files\GameStates</Filter>
     </ClInclude>
     <ClInclude Include="Demo_State_jojo.h">
-      <Filter>Header Files\GameDepended\GameStates</Filter>
+      <Filter>Header Files\GameStates</Filter>
     </ClInclude>
     <ClInclude Include="guisan\include\guisan.hpp">
       <Filter>Header Files\Graphic</Filter>
@@ -288,6 +285,21 @@
     <ClInclude Include="guisan\include\guisan\sdl\sdltruetypefont.hpp">
       <Filter>Header Files\Graphic\UserInterface\SDL</Filter>
     </ClInclude>
+    <ClInclude Include="NewGame.h">
+      <Filter>Header Files\GameStates\InternalStates</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMapEditor_State.h">
+      <Filter>Header Files\GameStates\TileMap_State</Filter>
+    </ClInclude>
+    <ClInclude Include="json.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -463,6 +475,12 @@
     </ClCompile>
     <ClCompile Include="guisan\src\sdl\sdltruetypefont.cpp">
       <Filter>Source Files\Graphic\UserInterface\SDL</Filter>
+    </ClCompile>
+    <ClCompile Include="NewGame.cpp">
+      <Filter>Source Files\GameStates\InternalStates</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMapEditor_State.cpp">
+      <Filter>Source Files\GameStates\TileMap_State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -11,12 +11,10 @@
 #include "LevelEditor.h"
 #include "Texture.h"
 
-typedef std::vector<
-	std::vector<
-	std::vector< int
-	>
-	>
->  array3D;
+
+#pragma region "oldtileengine interface version"
+
+typedef std::vector<std::vector<std::vector< int>>>  array3D;
 
 //Describes the possible Types for Tiles
 typedef enum {
@@ -111,32 +109,31 @@ TileMap				te_LoadTileMap(GameObj* obj, const std::string& PathToMap);
 std::vector<Tile>	te_createRenderableTiles(GameObj* obj, TileMap* mapdata);
 std::string te_translateTypeInformation(TileSet* Set, int type);
 
+#pragma endregion
 
 
+typedef union  _TM_Userdefined_Property_UNION	TM_UserData;
+typedef struct _TM_PropertyHoldingStruct		TM_Property;
+typedef struct _TM_TILEMETAINFORMATION			TM_Tile;
+typedef struct _TM_TILESETMETAINFORMATION		TM_Tileset;
 
-//
-//35 7
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//-
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//-
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
+enum TM_PropertyType { INT, FLOAT, STRING, FILE };
+
+ union _TM_Userdefined_Property_UNION {
+	int			Integer;
+	float		Decimal;
+	void*		anyProperty;
+};
+
+struct _TM_PropertyHoldingStruct {
+	PropertyType	Type;
+	TM_UserData		value;
+};
+
+struct _TM_TILEMETAINFORMATION {
+
+	int					GlobalID;
+	TM_Tileset*			OriginOfTheTile;
+
+};
 

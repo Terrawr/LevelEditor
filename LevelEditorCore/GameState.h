@@ -3,6 +3,10 @@
 #include <vector>
 #include <SDL.h>
 
+#define PUBLIC extern
+#define PROTECTED
+#define PRIVATE static 
+
 //forward Declaration of structs to prevent circular dependencies
 struct GameState;
 struct GameObj;
