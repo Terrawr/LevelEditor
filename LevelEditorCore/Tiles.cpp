@@ -3,16 +3,7 @@
 #include <fstream>
 #include <sstream>
 
-/***
-/path/to/tilesheet/imagefile.bmp
-//TYPENAME TYPE INDEX X Y W H
-grass 0 0 0 0 30 30
-ground 1 0 0 30 30 30
-door  2 0 0 60 60 30
-...
-...
-...
-*/
+#pragma region "old"
 
 Tile te_createTile(int x, int y, int w, int h, int index, int type) {
 	Tile tmp;
@@ -218,4 +209,93 @@ std::vector<Tile>	te_createRenderableTiles(GameObj* obj, TileMap* mapdata) {
 	//std::sort(std::begin(TemporaryCopy), std::end(TemporaryCopy), [&](Tile a, Tile b) { return a.LayerIndex < b.LayerIndex; });
 
 	return TemporaryCopy;//Copys the copy
+}
+
+#pragma endregion
+
+
+
+json TM_loadTileMapJSON(const std::string& PathToMap) {
+	std::fstream Map(PathToMap.c_str());
+	std::string  fileContent;
+	char ch;
+
+	while ((ch = Map.get()) != EOF)
+	{
+		fileContent += ch;
+	}
+
+	auto j = json::parse(fileContent);
+
+	return j;
+}
+
+TM_TileMap TM_InitializeTileMapFromJSON(const json& Map) {
+
+	TM_TileMap World;
+
+	for (auto Iter = Map.begin(); Iter != Map.end(); Iter++)
+	{
+		if (Iter.key() == "Mapname") 
+			World.Name = Iter.value();
+		if (Iter.key() == "tileset") {
+			TM_Tileset* Tileset = new TM_Tileset;
+			TM_TilesetImage* TS_Image = new TM_TilesetImage;
+
+			auto TilesetJSONobject = Iter.value();
+			for (auto Set = TilesetJSONobject.begin(); Set != TilesetJSONobject.end(); Set++)
+			{
+				if (Set.key() == "Name") 
+					Tileset->Name = Set.value();
+				if (Set.key() == "GID")
+					Tileset->GID = Set.value();
+				if (Set.key() == "TileWidth")
+					Tileset->TileW = Set.value();
+				if (Set.key() == "TileHeight")
+					Tileset->TileH = Set.value();
+				if (Set.key() == "Image") {
+					auto ImageJSONobject = Set.value();
+					for (auto Image = ImageJSONobject.begin(); Image != ImageJSONobject.end(); Image++) {
+						if (Image.key() == "path")
+							TS_Image->path = Image.value();
+						if (Image.key() == "width")
+							TS_Image->width = Image.value();
+						if (Image.key() == "height")
+							TS_Image->height = Image.value();
+					}
+					Tileset->TilesetImage = TS_Image;
+				}
+				
+			}
+			World.Tilesets.push_back(*Tileset);
+		}
+		if (Iter.key() == "layer") {
+			TM_Layer* WorldLayer = new TM_Layer;
+
+			auto LayerJSONobject = Iter.value();
+			for (auto Layer = LayerJSONobject.begin(); Layer != LayerJSONobject.end(); Layer++) {
+				if (Layer.key() == "name")
+					WorldLayer->Name = Layer.value();
+				if (Layer.key() == "width")
+					WorldLayer->width = Layer.value();
+				if (Layer.key() == "height")
+					WorldLayer->height = Layer.value();
+				if (Layer.key() == "data") {
+					auto DataJSONobject = Layer.value();
+					for (auto data = DataJSONobject.begin(); data != DataJSONobject.end(); data++) {
+						if (data.key() == "tileID") {
+							auto arraydata = data.value();
+							for (auto id = arraydata.begin(); id != arraydata.end(); id++) {
+								WorldLayer->TileID.push_back(id.value());
+							}
+						}
+						//TODO(jojo): ObjectGroup
+					}
+				}
+			}
+			World.Layers.push_back(*WorldLayer);
+		}
+	}
+
+	return World;
 }

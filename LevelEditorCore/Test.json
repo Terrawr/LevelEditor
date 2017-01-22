@@ -1,0 +1,27 @@
+{
+  "Mapname": "ExampleMap",
+  "tileset": {
+    "Name": "Alpha",
+    "GID": 5,
+    "TileWidth": 50,
+    "TileHeight": 50,
+    "Image": {
+      "path": "../resources/demo_tiles.bmp",
+      "width": 100,
+      "height": 100
+    }
+  },
+  "layer": {
+    "name": "Background",
+    "width": 10,
+    "height": 10,
+    "data": {
+      "tileID": [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
+      "ObjectGroup": [
+        {
+          "CollisionGroup1": [ 0, 0, 100, 100 ],
+          "CollisionGroup2": [ 100, 100, 100, 100 ]
+        }]
+    }
+  }
+}

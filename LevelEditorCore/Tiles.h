@@ -11,6 +11,9 @@
 #include "LevelEditor.h"
 #include "Texture.h"
 
+#include "json.h"
+
+using json = nlohmann::json;
 
 #pragma region "oldtileengine interface version"
 
@@ -111,29 +114,36 @@ std::string te_translateTypeInformation(TileSet* Set, int type);
 
 #pragma endregion
 
-
-typedef union  _TM_Userdefined_Property_UNION	TM_UserData;
-typedef struct _TM_PropertyHoldingStruct		TM_Property;
-typedef struct _TM_TILEMETAINFORMATION			TM_Tile;
-typedef struct _TM_TILESETMETAINFORMATION		TM_Tileset;
-
-enum TM_PropertyType { INT, FLOAT, STRING, FILE };
-
- union _TM_Userdefined_Property_UNION {
-	int			Integer;
-	float		Decimal;
-	void*		anyProperty;
+struct TM_TilesetImage {
+	std::string path;
+	int width, height;
 };
 
-struct _TM_PropertyHoldingStruct {
-	PropertyType	Type;
-	TM_UserData		value;
+struct TM_Tileset {
+	std::string		Name;
+	int GID;
+	int TileW, TileH;
+	TM_TilesetImage* TilesetImage;
 };
 
-struct _TM_TILEMETAINFORMATION {
-
-	int					GlobalID;
-	TM_Tileset*			OriginOfTheTile;
-
+struct TM_Layer {
+	std::string		Name;
+	int				width;
+	int				height;
+	std::vector<int>	TileID;
 };
+
+struct TM_TileMap {
+	std::string		Name;
+	std::vector<TM_Tileset> Tilesets;
+	std::vector<TM_Layer>	Layers;
+};
+
+
+json TM_loadTileMapJSON(const std::string& PathToMap);
+TM_TileMap TM_InitializeTileMapFromJSON(const json& Map);
+
+
+
+
 

@@ -89,55 +89,55 @@ gcn::ImageFont* font;     // A font
 * that widget calls the action function for all its action listeners.
 * Below we make a class to be able to recieve our buttons actions.
 */
-class ButtonActionListener : public gcn::ActionListener
-{
-public:
-	// Implement the action function in ActionListener to recieve actions
-	// The eventId tells us which widget called the action function.
-	void action(const gcn::ActionEvent& actionEvent)
-	{
-		std::string str;
-		std::ostringstream os(str);
-
-		// Here we use the widget pointer to check which widget the action
-		// originated from.
-		if (actionEvent.getId() == "button1")
-		{
-			clickCountButton1++;
-			os << "Button1 clicks " << clickCountButton1;
-			// Change the caption to show number of clicks
-			label1->setCaption(os.str());
-			// Adjust the label to fit the new caption
-			label1->adjustSize();
-
-
-
-
-			registerCommand(Root, CMD_EXIT, EXIT);
-
-		
-
-
-
-		}
-		// Here we use the event id in order to check what action occured.
-		else if (actionEvent.getId() == "button2")
-		{
-			clickCountButton2++;
-			os << "Button2 clicks " << clickCountButton2;
-			// Change the caption to show number of clicks
-			label2->setCaption(os.str());
-			// Adjust the label to fit the new caption
-			label2->adjustSize();
-		}
-	}
-};
-
-								 
+//class ButtonActionListener : public gcn::ActionListener
+//{
+//public:
+//	// Implement the action function in ActionListener to recieve actions
+//	// The eventId tells us which widget called the action function.
+//	void action(const gcn::ActionEvent& actionEvent)
+//	{
+//		std::string str;
+//		std::ostringstream os(str);
+//
+//		// Here we use the widget pointer to check which widget the action
+//		// originated from.
+//		if (actionEvent.getId() == "button1")
+//		{
+//			clickCountButton1++;
+//			os << "Button1 clicks " << clickCountButton1;
+//			// Change the caption to show number of clicks
+//			label1->setCaption(os.str());
+//			// Adjust the label to fit the new caption
+//			label1->adjustSize();
+//
+//
+//
+//
+//			registerCommand(Root, CMD_EXIT, EXIT);
+//
+//		
+//
+//
+//
+//		}
+//		// Here we use the event id in order to check what action occured.
+//		else if (actionEvent.getId() == "button2")
+//		{
+//			clickCountButton2++;
+//			os << "Button2 clicks " << clickCountButton2;
+//			// Change the caption to show number of clicks
+//			label2->setCaption(os.str());
+//			// Adjust the label to fit the new caption
+//			label2->adjustSize();
+//		}
+//	}
+//};
+//
+//								 
 								  
 
 
-ButtonActionListener* buttonActionListener; // A pointer to the above class
+/*ButtonActionListener* buttonActionListener; */// A pointer to the above class
 
 //std::string Chop(std::string &str)
 //{

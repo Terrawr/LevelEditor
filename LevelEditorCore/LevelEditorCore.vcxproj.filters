@@ -487,5 +487,8 @@
     <None Include="guisan\src\SConscript">
       <Filter>Source Files\Graphic\UserInterface</Filter>
     </None>
+    <None Include="Test.json">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

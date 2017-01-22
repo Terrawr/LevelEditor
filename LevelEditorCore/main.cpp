@@ -11,9 +11,10 @@
 #include "IntroScreen.h"
 #include "mainmenu.h"
 
-#include <>
+
 
 #include "Command.h"
+#include "Tiles.h"
 
 #pragma region "test"
 
@@ -42,6 +43,10 @@ void initGame(GameObj* obj) {
 	rm_loadTextureFromFile(obj, "newgamebackground.png", "newgame_background");
 	rm_loadTextureFromFile(obj, "characters.png", "characters");
 	obj->Assets.MapsPath = "..\\resources\\maps\\";
+
+
+	auto map = TM_loadTileMapJSON("Test.json");
+	auto World = TM_InitializeTileMapFromJSON(map);
 
 
 
