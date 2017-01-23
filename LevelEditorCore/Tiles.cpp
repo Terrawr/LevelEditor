@@ -3,6 +3,8 @@
 #include <fstream>
 #include <sstream>
 
+#include <SDL2/SDL_image.h>
+
 #pragma region "old"
 
 Tile te_createTile(int x, int y, int w, int h, int index, int type) {
@@ -301,4 +303,55 @@ TM_TileMap TM_InitializeTileMapFromJSON(const json& Map) {
 	}
 
 	return World;
+}
+
+SDL_Rect getTileRect(TM_Tileset* Set,int ID) {
+	SDL_Rect tmp = { 0,0,Set->TileW,Set->TileH };
+
+	tmp.y = std::floor((ID - 1) / (Set->TilesetImage->width / Set->TileW)) * Set->TileH;
+	tmp.x = (ID - 1) - ((Set->TilesetImage->width / Set->TileW)*tmp.y) * Set->TileW;
+	return tmp;
+}
+
+SDL_Texture* findAppropriateTileSheet(TM_TileMap* Map,int ID,SDL_Renderer* ren) {
+	
+	auto pic = IMG_Load(Map->Tilesets[0].TilesetImage->path.c_str());
+	auto tex = SDL_CreateTextureFromSurface(ren, pic);
+	return tex;
+}
+
+void renderTileMap(TM_TileMap* Map, SDL_Renderer* renderer)
+{
+	Texture t;
+	initilizeTexture(&t, renderer);
+	loadFromFile(&t, "../resources/demo_tiles.bmp");
+
+	for (auto layer : Map->Layers)
+	{
+		for (int i = 0, index = 0; i < layer.height; i++)
+		{
+			for (int j = 0; j < layer.width; j++)
+			{
+				int ID =0 ;
+				if (index < layer.TileID.size())
+				{
+					ID = layer.TileID.at(index++);
+				}
+				SDL_Rect source = getTileRect(&Map->Tilesets[0], ID);
+				SDL_Rect dest = { 0,0,source.w,source.h };
+
+				dest.x = j* Map->Tilesets[0].TileW;
+				dest.y = i* Map->Tilesets[0].TileH;
+
+				SDL_RenderCopy(renderer, t.mTexture, &source, &dest);
+
+			}
+		}
+	}
+
+
+	
+
+	destroyTexture(&t);
+	
 }

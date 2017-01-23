@@ -134,7 +134,7 @@ struct TM_Layer {
 };
 
 struct TM_TileMap {
-	std::string		Name;
+	std::string				Name;
 	std::vector<TM_Tileset> Tilesets;
 	std::vector<TM_Layer>	Layers;
 };
@@ -142,6 +142,8 @@ struct TM_TileMap {
 
 json		TM_loadTileMapJSON(const std::string& PathToMap);
 TM_TileMap	TM_InitializeTileMapFromJSON(const json& Map);
+
+void renderTileMap(TM_TileMap* Map, SDL_Renderer* renderer);
 
 
 

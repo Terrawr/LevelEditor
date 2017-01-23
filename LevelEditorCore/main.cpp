@@ -10,6 +10,7 @@
 #include "EditorState.h"
 #include "IntroScreen.h"
 #include "mainmenu.h"
+#include "TileMapEditor_State.h"
 
 
 
@@ -45,8 +46,7 @@ void initGame(GameObj* obj) {
 	obj->Assets.MapsPath = "..\\resources\\maps\\";
 
 
-	auto map = TM_loadTileMapJSON("Test.json");
-	 World = TM_InitializeTileMapFromJSON(map);
+	
 
 
 
@@ -70,6 +70,17 @@ int main(int argc, char* argv[])
 		Demo_Update,
 		Demo_Render,
 		Demo_Input);*/
+
+	/*FIRST STATE*/
+	GameState* TileEditor = createGameState_ObjectInstance(Root);
+	initializeGameState(TileEditor, "TileEditor", -1,
+		TileMapEditor_OnEnter,
+		TileMapEditor_OnExit,
+		TileMapEditor_OnPause,
+		TileMapEditor_OnResume,
+		TileMapEditor_Update,
+		TileMapEditor_Render,
+		TileMapEditor_Input);
 
 	/*FIRST STATE*/
 	GameState* IntroScreen = createGameState_ObjectInstance(Root); //<---- INTRO
@@ -108,34 +119,34 @@ int main(int argc, char* argv[])
 
 	
 
-	
-	while (!Root->isRunning) {
+	try {
+		while (!Root->isRunning) {
 
-		auto timePoint1(std::chrono::high_resolution_clock::now());
-		//SDL_Log(".....CurrentState %d\n", Root->CurrentStateIndex); //<---- added this so you can see on your CONSOLE which state you are currently in. Thats the reason i remove fullscreen mode everytime you putt it back to see the console ;P 
-		if(!Root->Collection.empty()){
+			auto timePoint1(std::chrono::high_resolution_clock::now());
+			//SDL_Log(".....CurrentState %d\n", Root->CurrentStateIndex); //<---- added this so you can see on your CONSOLE which state you are currently in. Thats the reason i remove fullscreen mode everytime you putt it back to see the console ;P 
+			if (!Root->Collection.empty()) {
 
-			if (!Root->Collection[Root->CurrentStateIndex]->isInitialized)
-				Root->Collection[Root->CurrentStateIndex]->onEnter(Root);
+				if (!Root->Collection[Root->CurrentStateIndex]->isInitialized)
+					Root->Collection[Root->CurrentStateIndex]->onEnter(Root);
 
-			if (Root->Collection[Root->CurrentStateIndex]->isActive)
-				Root->Collection[Root->CurrentStateIndex]->onResume(Root);
+				if (Root->Collection[Root->CurrentStateIndex]->isActive)
+					Root->Collection[Root->CurrentStateIndex]->onResume(Root);
 
-			if (Root->Collection[Root->CurrentStateIndex]->isOnPause)
-				Root->Collection[Root->CurrentStateIndex]->onPause(Root);
+				if (Root->Collection[Root->CurrentStateIndex]->isOnPause)
+					Root->Collection[Root->CurrentStateIndex]->onPause(Root);
 
-			Root->Collection[Root->CurrentStateIndex]->Input(Root, Root->lastFrameTime);
-			Root->Collection[Root->CurrentStateIndex]->Update(Root, Root->lastFrameTime);
-			Root->Collection[Root->CurrentStateIndex]->Render(Root, Root->lastFrameTime);
+				Root->Collection[Root->CurrentStateIndex]->Input(Root, Root->lastFrameTime);
+				Root->Collection[Root->CurrentStateIndex]->Update(Root, Root->lastFrameTime);
+				Root->Collection[Root->CurrentStateIndex]->Render(Root, Root->lastFrameTime);
 
-			/////////////////////////////////////////////////////////////////////////
-			///////////////////Commands are Processed here///////////////////////////
-			/////////////////////////////////////////////////////////////////////////
+				/////////////////////////////////////////////////////////////////////////
+				///////////////////Commands are Processed here///////////////////////////
+				/////////////////////////////////////////////////////////////////////////
 
-			while (!Root->HolyCommands.empty()) {
-				Command* cmd = Root->HolyCommands.back();
-				switch (cmd->Type)
-				{
+				while (!Root->HolyCommands.empty()) {
+					Command* cmd = Root->HolyCommands.back();
+					switch (cmd->Type)
+					{
 					case EXIT:
 					case TERMINATE_GAME:
 					{
@@ -188,30 +199,39 @@ int main(int argc, char* argv[])
 						delete cmd;
 					}
 
+					}
 				}
-			}
 
-		} else {
-			SDL_Event e;
-			while (SDL_PollEvent(&e))
-			{
-				if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE)
+			}
+			else {
+				SDL_Event e;
+				while (SDL_PollEvent(&e))
 				{
-					Root->isRunning = true;
+					if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE)
+					{
+						Root->isRunning = true;
+					}
 				}
 			}
+
+
+
+			auto timePoint2(std::chrono::high_resolution_clock::now());
+			auto elapsedTime(timePoint2 - timePoint1);
+			float ft{ std::chrono::duration_cast<std::chrono::duration<float, std::milli>>(
+				elapsedTime)
+				.count() };
+			Root->lastFrameTime = ft; //<-- Saves last frame time in milliseconds and stores them NOW globally
+
 		}
-
-
-
-		auto timePoint2(std::chrono::high_resolution_clock::now());
-		auto elapsedTime(timePoint2 - timePoint1);
-		float ft{ std::chrono::duration_cast<std::chrono::duration<float, std::milli>>(
-			elapsedTime)
-			.count() };
-		Root->lastFrameTime = ft; //<-- Saves last frame time in milliseconds and stores them NOW globally
-	
 	}
+	catch (std::exception& e) {
+		std::cerr << "Some Stupid error occured: "<<e.what()<<"\n";
+	}
+	catch (...) {
+		std::cerr << "Some Stupid error occured\n";
+	}
+	
 
 
 	return 0;
