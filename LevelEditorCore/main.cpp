@@ -23,7 +23,7 @@
 
 #pragma endregion
 
-
+TM_TileMap World;
 
 void initGame(GameObj* obj) {
 	obj->Assets.RessourcePath = "../resources/";
@@ -46,7 +46,7 @@ void initGame(GameObj* obj) {
 
 
 	auto map = TM_loadTileMapJSON("Test.json");
-	auto World = TM_InitializeTileMapFromJSON(map);
+	 World = TM_InitializeTileMapFromJSON(map);
 
 
 
@@ -141,39 +141,52 @@ int main(int argc, char* argv[])
 					{
 						cmd->action(Root, 0.f);
 						Root->HolyCommands.pop_back();
+						delete cmd;
 					}break;
 					case STATEUP:
 					case NEXT_STATE:
 					{
 						cmd->action(Root, 0);
 						Root->HolyCommands.pop_back();
+						delete cmd;
 					}break;
 					case PREVIOUS_STATE:
 					case STATEDOWN:
 					{
 						cmd->action(Root, 0);
 						Root->HolyCommands.pop_back();
+						delete cmd;
 					}break;
 					case PAUSE_STATE:
 					{
 						cmd->action(Root, 0);
 						Root->HolyCommands.pop_back();
+						delete cmd;
 					}break;
 					case RESUME_STATE:
 					{
 						cmd->action(Root, 0);
 						Root->HolyCommands.pop_back();
+						delete cmd;
 					}break;
 					case UNKOWN:
 					{
 						cmd->action(Root, 0);
 						Root->HolyCommands.pop_back();
+						delete cmd;
 					}break;
 					case TERMINATE_STATE:
 					{
 						cmd->action(Root, 0);
 						Root->HolyCommands.pop_back();
+						delete cmd;
 					}break;
+					default:
+					{
+						cmd->action(Root, 0);
+						Root->HolyCommands.pop_back();
+						delete cmd;
+					}
 
 				}
 			}

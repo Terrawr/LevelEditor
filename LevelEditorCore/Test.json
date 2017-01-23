@@ -11,17 +11,132 @@
       "height": 100
     }
   },
-  "layer": {
-    "name": "Background",
-    "width": 10,
-    "height": 10,
-    "data": {
-      "tileID": [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
-      "ObjectGroup": [
-        {
-          "CollisionGroup1": [ 0, 0, 100, 100 ],
-          "CollisionGroup2": [ 100, 100, 100, 100 ]
-        }]
+  "layer": [
+    {
+      "name": "Background",
+      "width": 10,
+      "height": 10,
+      "data": {
+        "tileID": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ],
+        "ObjectGroup": [
+          {
+            "CollisionGroup1": [ 0, 0, 100, 100 ],
+            "CollisionGroup2": [ 100, 100, 100, 100 ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Middleground",
+      "width": 10,
+      "height": 10,
+      "data": {
+        "tileID": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ],
+        "ObjectGroup": [
+          {
+            "CollisionGroup1": [ 0, 0, 100, 100 ],
+            "CollisionGroup2": [ 100, 100, 100, 100 ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Forground",
+      "width": 10,
+      "height": 10,
+      "data": {
+        "tileID": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ],
+        "ObjectGroup": [
+          {
+            "CollisionGroup1": [ 0, 0, 100, 100 ],
+            "CollisionGroup2": [ 100, 100, 100, 100 ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Background",
+      "width": 10,
+      "height": 10,
+      "data": {
+        "tileID": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ],
+        "ObjectGroup": [
+          {
+            "CollisionGroup1": [ 0, 0, 100, 100 ],
+            "CollisionGroup2": [ 100, 100, 100, 100 ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Middleground",
+      "width": 10,
+      "height": 10,
+      "data": {
+        "tileID": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ],
+        "ObjectGroup": [
+          {
+            "CollisionGroup1": [ 0, 0, 100, 100 ],
+            "CollisionGroup2": [ 100, 100, 100, 100 ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Forground",
+      "width": 10,
+      "height": 10,
+      "data": {
+        "tileID": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ],
+        "ObjectGroup": [
+          {
+            "CollisionGroup1": [ 0, 0, 100, 100 ],
+            "CollisionGroup2": [ 100, 100, 100, 100 ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Background",
+      "width": 10,
+      "height": 10,
+      "data": {
+        "tileID": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ],
+        "ObjectGroup": [
+          {
+            "CollisionGroup1": [ 0, 0, 100, 100 ],
+            "CollisionGroup2": [ 100, 100, 100, 100 ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Middleground",
+      "width": 10,
+      "height": 10,
+      "data": {
+        "tileID": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ],
+        "ObjectGroup": [
+          {
+            "CollisionGroup1": [ 0, 0, 100, 100 ],
+            "CollisionGroup2": [ 100, 100, 100, 100 ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Forground",
+      "width": 10,
+      "height": 10,
+      "data": {
+        "tileID": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ],
+        "ObjectGroup": [
+          {
+            "CollisionGroup1": [ 0, 0, 100, 100 ],
+            "CollisionGroup2": [ 100, 100, 100, 100 ]
+          }
+        ]
+      }
     }
-  }
+  ]
 }

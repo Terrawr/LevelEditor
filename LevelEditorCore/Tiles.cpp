@@ -270,30 +270,33 @@ TM_TileMap TM_InitializeTileMapFromJSON(const json& Map) {
 			World.Tilesets.push_back(*Tileset);
 		}
 		if (Iter.key() == "layer") {
-			TM_Layer* WorldLayer = new TM_Layer;
-
-			auto LayerJSONobject = Iter.value();
-			for (auto Layer = LayerJSONobject.begin(); Layer != LayerJSONobject.end(); Layer++) {
-				if (Layer.key() == "name")
-					WorldLayer->Name = Layer.value();
-				if (Layer.key() == "width")
-					WorldLayer->width = Layer.value();
-				if (Layer.key() == "height")
-					WorldLayer->height = Layer.value();
-				if (Layer.key() == "data") {
-					auto DataJSONobject = Layer.value();
-					for (auto data = DataJSONobject.begin(); data != DataJSONobject.end(); data++) {
-						if (data.key() == "tileID") {
-							auto arraydata = data.value();
-							for (auto id = arraydata.begin(); id != arraydata.end(); id++) {
-								WorldLayer->TileID.push_back(id.value());
+			auto LayerArrayJSONobject = Iter.value(); //Get The Array Data
+			for (auto LayerArray = LayerArrayJSONobject.begin(); LayerArray != LayerArrayJSONobject.end(); LayerArray++) {
+				TM_Layer* WorldLayer = new TM_Layer;
+				auto LayerArrayElement = LayerArray.value(); //Get an Single Array Element which is an JSON Object
+				for (auto Layer = LayerArrayElement.begin(); Layer != LayerArrayElement.end();Layer++) {//Iterate through the Object
+					if (Layer.key() == "name")
+						WorldLayer->Name = Layer.value();
+					if (Layer.key() == "width")
+						WorldLayer->width = Layer.value();
+					if (Layer.key() == "height")
+						WorldLayer->height = Layer.value();
+					if (Layer.key() == "data") {
+						auto DataJSONobject = Layer.value();
+						for (auto data = DataJSONobject.begin(); data != DataJSONobject.end(); data++) {
+							if (data.key() == "tileID") {
+								auto arraydata = data.value();
+								for (auto id = arraydata.begin(); id != arraydata.end(); id++) {
+									WorldLayer->TileID.push_back(id.value());
+								}
 							}
+							//TODO(jojo): ObjectGroup
 						}
-						//TODO(jojo): ObjectGroup
 					}
 				}
+				World.Layers.push_back(*WorldLayer);
 			}
-			World.Layers.push_back(*WorldLayer);
+			
 		}
 	}
 

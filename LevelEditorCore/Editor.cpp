@@ -155,6 +155,18 @@ static SDL_Texture*						TextureScreen = nullptr;
 static SDL_Rect ToolBar_Rect[15];	
 
 
+static COMMAND_CALLBACK(CMD_EXIT); //!<-- Terminates the Game
+static COMMAND_CALLBACK(CMD_TERMINATE_STATE); //!<-- Terminats this State
+
+static COMMAND_CALLBACK(CMD_NEXT_STATE); //!<-- Moves this state to the next one. 
+static COMMAND_CALLBACK(CMD_PREVIOUS_STATE); //!<-- Moves this state to the previous one. 
+static COMMAND_CALLBACK(CMD_CURRENT_PAUSE);
+static COMMAND_CALLBACK(CMD_CURRENT_RESUME);
+static COMMAND_CALLBACK(CMD_RELOAD_MAP);
+static COMMAND_CALLBACK(StateGoesUp);
+static COMMAND_CALLBACK(StateGoesDown);
+
+
 
 
 //allFonts
@@ -347,8 +359,9 @@ CHANGESTATE(EditorOnExitState) {
 	registerCommand(obj, StateGoesDown, PREVIOUS_STATE);
 	//obj->CurrentStateIndex--;
 	EditorMode = 0;
-	SDL_DestroyTexture(TextureTextCreateNewMap);
+	
 	SDL_DestroyTexture(TextureTextExitToMainMenu);
+	SDL_DestroyTexture(TextureTextCreateNewMap);
 	SDL_DestroyTexture(TextureTextLoadOldMap);
 	SDL_FreeSurface(TextCreateNewMap);
 	SDL_FreeSurface(TextExitToMainMenu);
@@ -379,6 +392,7 @@ TOPROCESS(EditorUpdate) {
 		MouseOverExitButton = 1;
 		if (leftButtonMouse == 1)
 		{
+			//registerCommand(obj, CMD_EXIT, TERMINATE_STATE);
 			EditorOnExitState(obj);
 		}
 	}
@@ -386,6 +400,8 @@ TOPROCESS(EditorUpdate) {
 	{
 	MouseOverExitButton = 0;
 	}
+
+#pragma region "create Map Dialog"
 
 	if (!EditorMode == 0)
 	{
@@ -488,6 +504,7 @@ TOPROCESS(EditorUpdate) {
 
 
 	}
+#pragma endregion
 	//END OF CONTROLL BUTTONS
 
 
@@ -548,12 +565,17 @@ TOPROCESS(EditorInput) {
 //HIER ZEICHNEST DU NUR HIER!!!!!
 TOPROCESS(EditorRender) {
 
+#pragma region "Draw the user interface"
+
 	Root->UserInterface->draw();
 	SDL_UpdateTexture(Root->UserInterface_TextureDisplay, NULL, Root->UserInterface_Display->pixels, Root->UserInterface_Display->pitch);
+#pragma endregion
 
 	SDL_SetRenderDrawColor(obj->Renderer, 0xff, 0xff, 0xff, SDL_ALPHA_OPAQUE);
 	SDL_RenderClear(obj->Renderer);
 	
+
+#pragma region "Draw this State"
 
 	//CONTROLL BUTTONS
 	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[12], &ExitToMainMenu_Rect);
@@ -613,8 +635,17 @@ TOPROCESS(EditorRender) {
 	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[4], &ToolBar_Rect[10]);
 	SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[5], &ToolBar_Rect[11]);
 
+#pragma endregion
+
+#pragma region "Create new mapfile Dialog"
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	if (EditorMode == 0)
 	{
+		//Creation of a new Map file should not be handled by this state. Seperate State is needed
 		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "WindowBackground")->mTexture, NULL, &CreateOrLoad_Rect);
 		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[12], &CreateNewMap_Rect);
 		SDL_RenderCopy(obj->Renderer, rm_getTexture(obj, "resources")->mTexture, &ToolBar_Rect[12],  &LoadOldMap_Rect);
@@ -637,20 +668,39 @@ TOPROCESS(EditorRender) {
 		SDL_RenderCopy(obj->Renderer, Root->UserInterface_TextureDisplay, NULL, &screen_Rect);
 	
 	}
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma endregion
 
-	
-	//SDL_RenderCopy(obj->Renderer, getTexture(obj, "Resources")->mTexture, NULL, NULL);
-
-	/*re_renderSingleTile(&theMap.mCurrentTileset, "lava", 300, 300);
-	render(&theMap.mCurrentTileset.Tilesheet, 100, 100, NULL, 45, NULL, SDL_FLIP_NONE);*/
-
-	
-	//SDL_RenderCopy(obj->Renderer, Root->UserInterface_TextureDisplay, NULL, &screen_Rect);
 
 	SDL_RenderPresent(obj->Renderer);
 }
 
 
+#pragma region "Command Behaviour"
+COMMAND_CALLBACK(CMD_EXIT) {
+	obj->isRunning = true;
+}
+
+COMMAND_CALLBACK(CMD_TERMINATE_STATE) {
+	EditorOnExitState(obj);
+}
+
+COMMAND_CALLBACK(CMD_CURRENT_PAUSE) {
+	EditorOnPauseState(obj);
+}
+
+void StateGoesUp(GameObj* obj, float deltatime) {
+	obj->CurrentStateIndex++;
+}
+
+void StateGoesDown(GameObj* obj, float deltatime) {
+	obj->CurrentStateIndex--;
+}
+
+#pragma endregion
 
 
 

@@ -140,8 +140,8 @@ struct TM_TileMap {
 };
 
 
-json TM_loadTileMapJSON(const std::string& PathToMap);
-TM_TileMap TM_InitializeTileMapFromJSON(const json& Map);
+json		TM_loadTileMapJSON(const std::string& PathToMap);
+TM_TileMap	TM_InitializeTileMapFromJSON(const json& Map);
 
 
 
