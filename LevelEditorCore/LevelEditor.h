@@ -1,5 +1,9 @@
 #pragma once
-#include<SDL.h>
+#include <SDL.h>
+#include <io.h>
+#include <vector>
+#include <string>
+#include <iostream>
 
 //////////////////////////////////////////////////////////////////////////
 ///////////////////////TYPEDEFS///////////////////////////////////////////
@@ -97,4 +101,70 @@ inline RECTANGLESHAPE createRectShape(float x, float y, float w, float h) {
 bool checkCollision(SDL_Rect a, SDL_Rect b);
 
 struct GameObj;
-int MouseOverButton(GameObj* obj, SDL_Rect Button);
+
+int isMouseOverButton(GameObj* obj, SDL_Rect Button);
+bool hasMouseButtonLeftClicked(GameObj* obj, SDL_Event* e);
+bool hasMouseButtonRightClicked(GameObj* obj, SDL_Event* e);
+
+
+static std::string Chop(std::string &str)
+{
+	std::string res = str;
+	int len = str.length();
+	if (str[len - 1] == 'r')
+	{
+		res.replace(len - 1, 1, "");
+	}
+	len = str.length();
+	if (str[len - 1] == 'n')
+	{
+		res.replace(len - 1, 1, "");
+	}
+	return res;
+}
+static std::string DumpEntry(_finddata_t &data)
+{
+	//auto  s = (ctime(&data.time_create));
+	//std::wstring createtime;
+	//createtime.insert(std::end(createtime), std::begin(s), std::end(s));
+	//std::cout << Chop(createtime) << "t";
+	//std::cout << data.size << "t";
+	if ((data.attrib & _A_SUBDIR) == _A_SUBDIR)
+	{
+		std::cout << "[" << data.name << "]" << std::endl;
+	}
+	else
+	{
+		std::cout << data.name << std::endl;
+	}
+
+	for (int i = 0; data.name[i] != '\0'; i++) {
+
+		if (data.name[i] == '\\')
+			data.name[i] = '/';
+	}
+
+	return std::string(data.name);
+}
+static std::vector<std::string> readDir(const std::string& path)
+{
+	std::vector<std::string> tmp;
+
+
+
+	_finddata_t data;
+	int ff = _findfirst(path.c_str(), &data);
+	if (ff != -1)
+	{
+		int res = 0;
+		while (res != -1)
+		{
+			tmp.push_back(DumpEntry(data));
+			res = _findnext(ff, &data);
+		}
+		_findclose(ff);
+	}
+
+
+	return tmp;
+}

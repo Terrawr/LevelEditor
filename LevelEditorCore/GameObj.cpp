@@ -4,9 +4,20 @@
 #include <SDL_ttf.h>
 
 #include "SDL_opengl.h"
+#include <Windows.h>
+#include <SDL_messagebox.h>
+#include <tchar.h>
+#include <strsafe.h>
+#include <stdio.h>
+#include <conio.h>
+#include <direct.h>
+
+#include "guisan.hpp"
+#include "guisan\sdl.hpp"
 
 static int screenwidth = 800;
 static int screenheight = 480;
+
 //
 //GameObj* createGameObjectHandle() {
 //	GameObj* tmp = (GameObj*) malloc(sizeof(GameObj));
@@ -38,11 +49,8 @@ void getScreenResolution()
 			SDL_Log("Display #%d: current display mode is %dx%dpx @ %dhz.", i, currentscreen.w, currentscreen.h, currentscreen.refresh_rate);
 
 		//for fullscreen with 1 display
-		screenheight = currentscreen.h;
-		screenwidth = currentscreen.w;
-
-		/*screenwidth = 1600;
-		screenheight = 900;*/
+		/*screenheight = currentscreen.h;
+		screenwidth = currentscreen.w;*/
 		
 	}
 }
@@ -63,8 +71,8 @@ void initializeGameObj(GameObj* obj, char*Title,int width, int height) {
 	getScreenResolution();
 	/*obj->Height =  screenheight;
 	obj->Width =  screenwidth;*/
-	obj->Width = 1600;
-	obj->Height = 900;
+	obj->Width = 1000;
+	obj->Height = 800;
 
 	obj->Window = SDL_CreateWindow(Title, 50, 50, obj->Width, obj->Height, SDL_WINDOW_SHOWN| SDL_WINDOW_OPENGL);
 	if (obj->Window == NULL){
@@ -78,7 +86,36 @@ void initializeGameObj(GameObj* obj, char*Title,int width, int height) {
 
 	obj->CurrentStateIndex = -1;
 	obj->lastFrameTime = 0.0f;
+
+
+	///////////////////////////////////
+	obj->UserInterface = new gcn::Gui();
+	obj->imageLoader = new gcn::SDLImageLoader();
+	obj->graphics = new gcn::SDLGraphics();
+	obj->input = new gcn::SDLInput();
 	
+	// The ImageLoader in use is static and must be set to be
+	// able to load images
+	
+	obj->UserInterface_Display = SDL_CreateRGBSurface(0, obj->Width, obj->Height, 24, 255, 0, 255, 255);
+	
+	if (obj->UserInterface_Display != NULL)
+		obj->graphics->setTarget(obj->UserInterface_Display);
+	else
+	{
+		
+		fprintf(stderr, "Error: %s", SDL_GetError());
+		abort();
+	}
+	obj->UserInterface_TextureDisplay = SDL_CreateTextureFromSurface(obj->Renderer, obj->UserInterface_Display);
+
+
+	obj->UserInterface->setGraphics(obj->graphics);
+	obj->UserInterface->setInput(obj->input);
+	gcn::Image::setImageLoader(obj->imageLoader);
+	// Load the image font.
+	obj->font = new gcn::ImageFont("fixedfont.bmp", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.");
+	gcn::Widget::setGlobalFont(obj->font);
 }
 
 
@@ -128,4 +165,14 @@ bool checkCollision(SDL_Rect a, SDL_Rect b)
 	//If none of the sides from A are outside B
 	return true;
 }
+
+void changeButtonStateIf(GameObj* obj, SDL_Rect* ButtonRect, int* state) {
+	if (isMouseOverButton(obj, *ButtonRect) == 1)
+		*state = 1;
+	else
+		*state = 0;
+}
+
+
+
 

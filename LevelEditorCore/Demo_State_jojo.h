@@ -9,3 +9,4 @@ CHANGESTATE(Demo_OnResumeState);
 TOPROCESS(Demo_Update);
 TOPROCESS(Demo_Input);
 TOPROCESS(Demo_Render);
+

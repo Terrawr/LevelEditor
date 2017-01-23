@@ -14,6 +14,8 @@ struct RessourceManager {
 
 	std::string RessourcePath;
 
+	std::string MapsPath;
+
 	std::map<std::string, Texture*>		 Textures;
 	std::map<std::string, TTF_Font*>     Fonts;
 	std::map<std::string, std::string>					 Texts;
@@ -33,6 +35,8 @@ void rm_storeBox(GameObj* obj,int x, int y, int w, int h, const std::string& Key
 void rm_storeString(GameObj* obj, const std::string& String, const std::string& Key);
 void rm_storeTexture(GameObj* obj, Texture* tex, const std::string& Key);
 void rm_storeFont(GameObj* obj, TTF_Font* font, const std::string& Key);
+
+void rm_storeTextureFromSurface(GameObj* obj, SDL_Surface*, const std::string& Key);
 
 void rm_loadTextureFromFile(GameObj* obj, const std::string& FilePath, const std::string& RessourceName);
 void rm_loadFontsFromFile(GameObj* obj, const std::string& FilePath, const std::string& RessourceName);

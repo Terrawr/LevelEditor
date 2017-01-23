@@ -70,7 +70,40 @@ std::string&    rm_getText(GameObj*obj, const std::string& ResourceName) {
 
 
 void rm_storeString(GameObj* obj, const std::string& String, const std::string& Key) {
+	
 	obj->Assets.Texts.insert(
 		std::make_pair(Key, String)
 	);
+}
+
+void rm_storeBox(GameObj* obj, int x, int y, int w, int h, const std::string& Key) {
+	SDL_Rect* rect = new SDL_Rect;
+	rect->x = x;
+	rect->y = y;
+	rect->h = h;
+	rect->w = w;
+	
+	obj->Assets.Boxes.insert(
+		std::make_pair(Key, rect)
+	);
+}
+void rm_storeTexture(GameObj* obj, Texture* tex, const std::string& Key) {
+	obj->Assets.Textures.insert(
+		std::make_pair(Key, tex)
+	);
+}
+void rm_storeFont(GameObj* obj, TTF_Font* font, const std::string& Key) {
+	obj->Assets.Fonts.insert(
+		std::make_pair(Key, font)
+	);
+}
+
+void rm_storeTextureFromSurface(GameObj* obj, SDL_Surface* surf, const std::string& Key) {
+	
+	Texture* tex = new Texture;
+	initilizeTexture(tex, obj->Renderer);
+	if (!loadFromSurface(tex, surf) || surf == NULL)
+		abort();
+
+	rm_storeTexture(obj,tex,Key);
 }

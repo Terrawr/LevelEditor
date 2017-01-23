@@ -4,7 +4,9 @@
 #include <vector>
 #include <queue>
 #include "RessourceManager.h"
-
+#include <io.h>
+#include "guisan.hpp"
+#include "guisan\sdl.hpp"
 
 
 struct GameState;
@@ -26,6 +28,17 @@ struct GameObj
 
 	SDL_Window*				Window;
 	SDL_Renderer*			Renderer;
+
+
+	///////////////////////////////////////////
+	gcn::Gui*				UserInterface;
+	SDL_Surface*			UserInterface_Display;
+	SDL_Texture*			UserInterface_TextureDisplay;
+
+	gcn::SDLImageLoader*	imageLoader;
+	gcn::SDLGraphics*		graphics;
+	gcn::SDLInput*			input;
+	gcn::ImageFont*			font;
 
 	
 };

@@ -11,12 +11,13 @@
 #include "LevelEditor.h"
 #include "Texture.h"
 
-typedef std::vector<
-	std::vector<
-	std::vector< int
-	>
-	>
->  array3D;
+#include "json.h"
+
+using json = nlohmann::json;
+
+#pragma region "oldtileengine interface version"
+
+typedef std::vector<std::vector<std::vector< int>>>  array3D;
 
 //Describes the possible Types for Tiles
 typedef enum {
@@ -111,32 +112,38 @@ TileMap				te_LoadTileMap(GameObj* obj, const std::string& PathToMap);
 std::vector<Tile>	te_createRenderableTiles(GameObj* obj, TileMap* mapdata);
 std::string te_translateTypeInformation(TileSet* Set, int type);
 
+#pragma endregion
+
+struct TM_TilesetImage {
+	std::string path;
+	int width, height;
+};
+
+struct TM_Tileset {
+	std::string		Name;
+	int GID;
+	int TileW, TileH;
+	TM_TilesetImage* TilesetImage;
+};
+
+struct TM_Layer {
+	std::string		Name;
+	int				width;
+	int				height;
+	std::vector<int>	TileID;
+};
+
+struct TM_TileMap {
+	std::string		Name;
+	std::vector<TM_Tileset> Tilesets;
+	std::vector<TM_Layer>	Layers;
+};
+
+
+json		TM_loadTileMapJSON(const std::string& PathToMap);
+TM_TileMap	TM_InitializeTileMapFromJSON(const json& Map);
 
 
 
-//
-//35 7
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//-
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//-
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
-//00000000000000000000000000000000000
+
 
