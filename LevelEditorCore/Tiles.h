@@ -144,7 +144,7 @@ json		TM_loadTileMapJSON(const std::string& PathToMap);
 TM_TileMap	TM_InitializeTileMapFromJSON(const json& Map);
 
 void renderTileMap(TM_TileMap* Map, SDL_Renderer* renderer);
-
+void renderTileSheetView(TM_Tileset* Set, SDL_Renderer*);
 
 
 

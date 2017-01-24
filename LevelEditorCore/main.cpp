@@ -55,21 +55,24 @@ void initGame(GameObj* obj) {
 struct Command;
 int main(int argc, char* argv[]) 
 {
+
+	std::cerr << "------------------------------------" << std::ceil(0.5) << "\n";
+
 	GameObj*  Root = createGameObjectHandle();
 	initializeGameObj(Root,"LevelEditor", 1440,786);
 	initGame(Root);
 
 	//The Order of initilization is IMPORTANT. I changed it. First Screen, now your Menu and then some demo
 
-	/*GameState* DEMOSTATE = createGameState_ObjectInstance(Root);
-	initializeGameState(DEMOSTATE, "DEMOSTATE", -1,
-		Demo_OnEnterState,
-		Demo_OnExitState,
-		Demo_OnPauseState,
-		Demo_OnResumeState,
-		Demo_Update,
-		Demo_Render,
-		Demo_Input);*/
+	///*GameState* DEMOSTATE = createGameState_ObjectInstance(Root);
+	//initializeGameState(DEMOSTATE, "DEMOSTATE", -1,
+	//	Demo_OnEnterState,
+	//	Demo_OnExitState,
+	//	Demo_OnPauseState,
+	//	Demo_OnResumeState,
+	//	Demo_Update,
+	//	Demo_Render,
+	//	Demo_Input);*/
 
 	/*FIRST STATE*/
 	GameState* TileEditor = createGameState_ObjectInstance(Root);

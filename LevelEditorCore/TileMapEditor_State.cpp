@@ -152,11 +152,12 @@ CHANGESTATE(TileMapEditor_OnEnter) {
 		std::cerr << SDL_GetError() << "\n";
 		abort();
 	}
-	//SDL_SetColorKey(Root->UserInterface_Display, SDL_TRUE, SDL_MapRGB(Root->UserInterface_Display->format,0xff,0x00,0xff));
-
 	
-		
+	/*SDL_SetColorKey(Root->UserInterface_Display, SDL_TRUE, SDL_MapRGB(Root->UserInterface_Display->format,0xff,0x00,0xff));
+	SDL_SetSurfaceBlendMode(Root->UserInterface_Display, SDL_BlendMode::SDL_BLENDMODE_BLEND);*/
+
 	Root->UserInterface_TextureDisplay = SDL_CreateTextureFromSurface(Root->Renderer, Root->UserInterface_Display);
+	//SDL_SetTextureBlendMode(Root->UserInterface_TextureDisplay, SDL_BlendMode::SDL_BLENDMODE_BLEND);
 	
 	Root->graphics->setTarget(Root->UserInterface_Display);
 
@@ -310,10 +311,13 @@ TOPROCESS(TileMapEditor_Input) {
 		{
 			registerCommand(Root, CMD_EXIT, TERMINATE_GAME);
 		}
+
+
 	}
 	//SDL_StopTextInput();
 	SDL_GetMouseState(&obj->MouseX, &obj->MouseY);
 }
+
 TOPROCESS(TileMapEditor_Render) {
 
 	SDL_Rect MapView = { 0,0,gTex_MapView.mWidth,gTex_MapView.mHeight };
@@ -328,7 +332,11 @@ TOPROCESS(TileMapEditor_Render) {
 	////
 	setAsRenderTarget(&gTex_MapView);
 	renderTileMap(&gMapViewTiles, Root->Renderer);
-	SDL_SetRenderTarget(Root->Renderer,NULL);
+
+	setAsRenderTarget(&gTex_TileView);
+	renderTileSheetView(&gMapViewTiles.Tilesets[0], Root->Renderer);
+
+	SDL_SetRenderTarget(Root->Renderer, NULL);
 	////
 
 	render(&gTex_MapView, 10, Root->Height*0.2,&MapView, 0, 0, SDL_FLIP_NONE);

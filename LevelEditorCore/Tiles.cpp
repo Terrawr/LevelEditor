@@ -307,9 +307,10 @@ TM_TileMap TM_InitializeTileMapFromJSON(const json& Map) {
 
 SDL_Rect getTileRect(TM_Tileset* Set,int ID) {
 	SDL_Rect tmp = { 0,0,Set->TileW,Set->TileH };
+	auto ratio = (Set->TilesetImage->width / Set->TileW);
 
-	tmp.y = std::floor((ID - 1) / (Set->TilesetImage->width / Set->TileW)) * Set->TileH;
-	tmp.x = (ID - 1) - ((Set->TilesetImage->width / Set->TileW)*tmp.y) * Set->TileW;
+	tmp.y = ( std::ceil( ((float)ID / (float)ratio) )-1) ;
+	tmp.x = ((ID ) - (ratio*tmp.y)-1);
 	return tmp;
 }
 
@@ -324,7 +325,7 @@ void renderTileMap(TM_TileMap* Map, SDL_Renderer* renderer)
 {
 	Texture t;
 	initilizeTexture(&t, renderer);
-	loadFromFile(&t, "../resources/demo_tiles.bmp");
+	loadFromFile(&t, "../resources/demo_tiles.bmp"); //TODO(Jojo): It's cheating what i am doing here
 
 	for (auto layer : Map->Layers)
 	{
@@ -338,6 +339,8 @@ void renderTileMap(TM_TileMap* Map, SDL_Renderer* renderer)
 					ID = layer.TileID.at(index++);
 				}
 				SDL_Rect source = getTileRect(&Map->Tilesets[0], ID);
+				source.x *= Map->Tilesets[0].TileW;
+				source.y *= Map->Tilesets[0].TileH;
 				SDL_Rect dest = { 0,0,source.w,source.h };
 
 				dest.x = j* Map->Tilesets[0].TileW;
@@ -351,7 +354,53 @@ void renderTileMap(TM_TileMap* Map, SDL_Renderer* renderer)
 
 
 	
-
 	destroyTexture(&t);
 	
+	
+}
+
+void renderTileSheetView(TM_Tileset* Set, SDL_Renderer* renderer) {
+
+	Texture t;
+	initilizeTexture(&t, renderer);
+	loadFromFile(&t, "../resources/demo_tiles.bmp");
+
+	 auto ratioW = (Set->TilesetImage->width / Set->TileW);
+	 auto ratioH = (Set->TilesetImage->height / Set->TileH);
+
+	 int MaxID = ratioW*ratioH;
+
+	 SDL_Rect prev = {0,0,0,0};
+
+	 int padding = 5;
+
+	 int ID = 0;
+	for( int m = 0; m < ratioH; m++)
+		for (int n = 0; n < ratioW; n++) {
+
+			
+			if (ID < MaxID)
+			{
+				ID++;
+			}
+
+			SDL_Rect source = getTileRect(Set, ID);
+			source.x *= Set->TileW;
+			source.y *= Set->TileH;
+
+			SDL_Rect dest = { 0,0,source.w-10,source.h-10 };
+			dest.x = n* Set->TileW;
+			dest.y = m* Set->TileH;
+
+			padding += 5;
+			SDL_RenderCopy(renderer, t.mTexture, &source, &dest);
+			prev = dest;
+		}
+
+	
+
+
+
+	destroyTexture(&t);
+
 }
