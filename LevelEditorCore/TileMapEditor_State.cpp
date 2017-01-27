@@ -9,6 +9,8 @@
 
 #include "guisan.hpp"
 #include "guisan\sdl.hpp"
+
+#include "LevelEditor.h"
 using namespace gcn;
 
 #pragma region "The HolyCommands"
@@ -52,6 +54,12 @@ gcn::Button*	gMenu_ExitAndSave_ButtonWidget;
 
 gcn::Image*		gPropertyView_ImageWidget;
 gcn::Icon*		gPropertyView_IconWidget; //<-- Needed to display an Image
+
+
+int gCurrentChosenTileID = 0;
+SDL_Rect Mouse = { 0,0,0,0 };
+
+std::fstream csv;
 
 enum TEXTBOXCONTENTTYPES{
 	TYPE,
@@ -137,6 +145,9 @@ CHANGESTATE(TileMapEditor_OnEnter) {
 	Root = obj;
 	This = Root->Collection[Root->CurrentStateIndex];
 	
+	//csv.open("data.csv", std::ios_base::in | std::ios_base::out | std::ios_base::app);
+	/*if (!csv.is_open())
+		abort();*/
 	auto map = TM_loadTileMapJSON("Test.json");
 	gMapViewTiles = TM_InitializeTileMapFromJSON(map);
 
@@ -262,9 +273,6 @@ CHANGESTATE(TileMapEditor_OnEnter) {
 	gMenu_ContainerWidget->add(gMenu_ExitAndSave_ButtonWidget);
 	gMenu_ContainerWidget->add(gMenu_Exit_ButtonWidget);
 
-	
-
-	
 
 	gMenu_SaveMap_ButtonWidget->setPosition(5, 5);
 	gMenu_ResetMap_ButtonWidget->setPosition(WidgetOffsetX(gMenu_SaveMap_ButtonWidget, gMenu_ResetMap_ButtonWidget), 5);
@@ -299,29 +307,102 @@ CHANGESTATE(TileMapEditor_OnResume) {
 
 TOPROCESS(TileMapEditor_Update) {
 	Root->UserInterface->logic();
+
+	SDL_Rect MapViewRect = { 10, Root->Height*0.2,gTex_MapView.mWidth,gTex_MapView.mHeight };
+
+	int gridsize = 50;
+
+	Mouse.x = gridsize * std::floor((float)((Root->MouseX / gridsize) + 0.5f)) + 10 ;
+	Mouse.y = gridsize * std::floor((float)((Root->MouseY / gridsize) + 0.5f)) - 10;
+	if (isMouseOverButton(Root, MapViewRect))
+	{
+
+		Mouse.x = gridsize * std::floor((float)((Root->MouseX / gridsize) + 0.5f)) +10;
+		Mouse.y = gridsize * std::floor((float)((Root->MouseY / gridsize) + 0.5f)) -10;
+
+		
+
+	}
 }
 TOPROCESS(TileMapEditor_Input) {
 	SDL_Event e;
+	SDL_Rect TileSheetViewRect = { gTex_MapView.mWidth + 50, (float)(Root->Height*0.2),gTex_TileView.mWidth + 15,gTex_TileView.mHeight };
+	
 	//SDL_StartTextInput();
 	while (SDL_PollEvent(&e))
 	{
 		//Forwarding Events to GUI
 		Root->input->pushInput(e);
-		if (e.type == SDL_QUIT || e.key.keysym.sym == SDLK_ESCAPE)
+		if (e.type == SDL_QUIT )
 		{
 			registerCommand(Root, CMD_EXIT, TERMINATE_GAME);
 		}
+		if (e.type == SDL_KEYDOWN) {
+			if(e.key.keysym.sym == SDLK_ESCAPE)
+				registerCommand(Root, CMD_EXIT, TERMINATE_GAME);
+		}
+		Mouse = { Root->MouseX ,Root->MouseY ,50,50 };
+		///////////////WARNING LOGIC SHOULD BE CONTAINED WITHIN THE UPDATE FUNCTION YOU IDIOT/////////////////////////////////
+		if (isMouseOverButton(Root, TileSheetViewRect))
+		{
+			int gridsize = 50;
+			auto TS_RatioW = TileSheetViewRect.w / gridsize; //WARNING TILE SIZE HARDCODED!!!!!!!!!!!!!!!!!
+			auto TS_RatioH = TileSheetViewRect.w / gridsize; //WARNING TILE SIZE HARDCODED!!!!!!!!!!!!!!!!!
+			
+			Mouse.x = gridsize * std::floor((float)((Root->MouseX / gridsize) + 0.5f)) + 10;
+			Mouse.y = gridsize * std::floor((float)((Root->MouseY / gridsize) + 0.5f)) - 10;
 
+			//std::cerr << "MouseRect: " << Mouse.x << " | " << Mouse.y << "----" << Mouse.w << " | " << Mouse.h << "\n";
+
+			int ID = 0;
+			for (int m = 0; m < TS_RatioH; m++, ID++)
+			{
+				for (int n = 0; n < TS_RatioW; n++, ID++) {
+
+
+
+					SDL_Rect dest = { 0,0,50 - 2, 5 - 2 };
+					dest.x = n * 50 + TileSheetViewRect.x; //Add offset relativ from the windows 0,0 COORD
+					dest.y = m * 50 + TileSheetViewRect.y; //Add offset relativ from the windows 0,0 COORD
+														   //std::cerr << "++DesRect: " << dest.x << " | " << dest.y << "-" << dest.w << "|" << dest.h << "\n";
+					
+
+					//std::cerr<< CurrentGID << ";" << CurrentID << "\n";
+					
+					
+
+					//std::cerr << "-------------Current TileView ID: " << CurrentID << "\n";
+					if (ID == TS_RatioW)
+					{
+						break;
+					}
+
+				}
+				if (ID == TS_RatioW)
+				{
+					break;
+				}
+			}
+				
+
+			
+		}
+		//////////////////////////////////////////////////////////IDIOT///////////////////////////////////////////////////////
 
 	}
+
+	auto CurrentGID = TM_getGlobalGridID(TileSheetViewRect, Mouse, 50);
+
+
+	auto CurrentID = TM_getGridID(TileSheetViewRect, Mouse, 50, 92);
 	//SDL_StopTextInput();
 	SDL_GetMouseState(&obj->MouseX, &obj->MouseY);
 }
 
 TOPROCESS(TileMapEditor_Render) {
 
-	SDL_Rect MapView = { 0,0,gTex_MapView.mWidth,gTex_MapView.mHeight };
-	SDL_Rect TileView = { 0,0,gTex_TileView.mWidth,gTex_TileView.mHeight-10 };
+	SDL_Rect MapView = { 0,0,gTex_MapView.mWidth-10,gTex_MapView.mHeight };
+	SDL_Rect TileView = { 0,0,gTex_TileView.mWidth + 15,gTex_TileView.mHeight };
 
 	Root->UserInterface->draw();
 	SDL_UpdateTexture(Root->UserInterface_TextureDisplay, NULL, Root->UserInterface_Display->pixels, Root->UserInterface_Display->pitch);
@@ -338,9 +419,23 @@ TOPROCESS(TileMapEditor_Render) {
 
 	SDL_SetRenderTarget(Root->Renderer, NULL);
 	////
+	
+	render(&gTex_MapView, 10, Root->Height*0.2,
+		&MapView, 0, 0, SDL_FLIP_NONE);
+	render(&gTex_TileView, gTex_MapView.mWidth+50, Root->Height*0.2,
+		&TileView, 0, 0, SDL_FLIP_NONE);
 
-	render(&gTex_MapView, 10, Root->Height*0.2,&MapView, 0, 0, SDL_FLIP_NONE);
-	render(&gTex_TileView, gTex_MapView.mWidth+20, Root->Height*0.2, NULL, 0, 0, SDL_FLIP_NONE);
+	/*for (int i = 0; i < Root->Height / 50; i++)
+		for (int j = 0; j < Root->Width / 50; j++)
+		{
+			SDL_Rect GridTile = { 50 * j+10, i * 50-10, 50,50 };
+			SDL_RenderDrawRect(Root->Renderer, &GridTile);
+		}*/
+
+
+	SDL_SetRenderDrawColor(Root->Renderer, 255, 255, 255, 255);
+	SDL_RenderDrawRect(Root->Renderer, &Mouse);
+
 	SDL_RenderPresent(Root->Renderer);
 }
 

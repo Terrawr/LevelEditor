@@ -14,7 +14,23 @@
   "layer": [
     {
       "name": "Background",
-      "width": 10,
+      "width": 19,
+      "height": 10,
+      "data": {
+        "tileID": [ 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4
+        ],
+        "ObjectGroup": [
+          {
+            "CollisionGroup1": [ 0, 0, 100, 100 ],
+            "CollisionGroup2": [ 100, 100, 100, 100 ]
+          }
+        ]
+      }
+    },
+	
+	{
+      "name": "Background",
+      "width": 19,
       "height": 10,
       "data": {
         "tileID": [ 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4
@@ -27,5 +43,40 @@
         ]
       }
     }
+  
+  
+  ,{
+      "name": "Background",
+      "width": 19,
+      "height": 10,
+      "data": {
+        "tileID": [ 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4
+        ],
+        "ObjectGroup": [
+          {
+            "CollisionGroup1": [ 0, 0, 100, 100 ],
+            "CollisionGroup2": [ 100, 100, 100, 100 ]
+          }
+        ]
+      }
+    }
+  
+  
+  ,{
+      "name": "Background",
+      "width": 19,
+      "height": 10,
+      "data": {
+        "tileID": [ 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4
+        ],
+        "ObjectGroup": [
+          {
+            "CollisionGroup1": [ 0, 0, 100, 100 ],
+            "CollisionGroup2": [ 100, 100, 100, 100 ]
+          }
+        ]
+      }
+    }
+  
   ]
 }

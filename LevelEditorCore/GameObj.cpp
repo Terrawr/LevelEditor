@@ -71,8 +71,8 @@ void initializeGameObj(GameObj* obj, char*Title,int width, int height) {
 	getScreenResolution();
 	obj->Height =  screenheight;
 	obj->Width =  screenwidth;
-	/*obj->Width = 1000;
-	obj->Height = 800;*/
+	//obj->Width = 1000;/*
+	//obj->Height = 800;*/
 
 	obj->Window = SDL_CreateWindow(Title, 50, 50, obj->Width, obj->Height, SDL_WINDOW_SHOWN/*| SDL_WINDOW_FULLSCREEN*/);
 	if (obj->Window == NULL){
