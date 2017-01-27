@@ -70,25 +70,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <CodeAnalysisRuleSet>BasicDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <IncludePath>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include\guisan;$(IncludePath)</IncludePath>
     <SourcePath>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <IncludePath>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include\guisan;$(IncludePath)</IncludePath>
     <SourcePath>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <IncludePath>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include\guisan;$(IncludePath)</IncludePath>
     <SourcePath>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <IncludePath>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include\guisan;$(IncludePath)</IncludePath>
     <SourcePath>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan;$(SourcePath)</SourcePath>
   </PropertyGroup>
@@ -98,7 +98,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include;D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include\guisan;D:\VisualStudio\VC\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <EnablePREfast>true</EnablePREfast>
+      <EnablePREfast>false</EnablePREfast>
     </ClCompile>
     <Link>
       <AdditionalDependencies>x86\SDL2main.lib;x86\SDL2.lib;x86\SDL2_image.lib;x86\SDL2_ttf.lib</AdditionalDependencies>
@@ -111,7 +111,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include;D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include\guisan;D:\VisualStudio\VC\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <EnablePREfast>true</EnablePREfast>
+      <EnablePREfast>false</EnablePREfast>
     </ClCompile>
     <Link>
       <AdditionalDependencies>x86\SDL2main.lib;x86\SDL2.lib;x86\SDL2_image.lib;x86\SDL2_ttf.lib</AdditionalDependencies>
@@ -126,7 +126,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include;D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include\guisan;D:\VisualStudio\VC\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <EnablePREfast>true</EnablePREfast>
+      <EnablePREfast>false</EnablePREfast>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -143,7 +143,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include;D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include\guisan;D:\VisualStudio\VC\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <EnablePREfast>true</EnablePREfast>
+      <EnablePREfast>false</EnablePREfast>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
