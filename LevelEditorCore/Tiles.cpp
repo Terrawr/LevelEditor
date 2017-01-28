@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 
-#include <SDL2/SDL_image.h>
+#include <SDL_image.h>
 
 #pragma region "old"
 
@@ -338,14 +338,14 @@ int TM_getGridID (SDL_Rect GridView, SDL_Rect Cursor,int gridsize,int firstGID) 
 	auto  ID =  TM_getGlobalGridID(GridView, Cursor, gridsize);
 	auto Ratio = (GridView.w / gridsize);
 
-	auto IDy = std::ceil((float)(ID / Ratio) - 1);
+	
 	auto y = std::ceil((float)(firstGID / Ratio) - 1);
 	auto x = firstGID - (Ratio * y) - 1;
 	std::cerr << "----------Col: " <<  x << " Row: " << y << "\n";
 	
 
-	auto alpha = (ID-IDy);
-	auto beta = ((y )*Ratio);
+	auto alpha = int(ID - x*y) % Ratio;
+	auto beta = (x+1)*y;
 	std::cerr	<< "Alpha: " << alpha 
 		<<" | " << "Beta: " << beta
 		<<" | " << "Ratio: "<<Ratio
