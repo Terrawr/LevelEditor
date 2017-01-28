@@ -76,7 +76,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <IncludePath>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include\guisan;$(IncludePath)</IncludePath>
     <SourcePath>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan;$(SourcePath)</SourcePath>
   </PropertyGroup>
@@ -88,7 +88,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <IncludePath>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include\guisan;$(IncludePath)</IncludePath>
     <SourcePath>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan;$(SourcePath)</SourcePath>
   </PropertyGroup>
@@ -97,13 +97,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include;D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include\guisan;C:\Users\Alexa\Documents\SDL\SDL2-2.0.5\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include;D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include\guisan;D:\VisualStudio\VC\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnablePREfast>false</EnablePREfast>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>x86\SDL2main.lib;x86\SDL2.lib;x86\SDL2_image.lib;x86\SDL2_ttf.lib</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>C:\Users\Alexa\Documents\SDL\SDL2-2.0.5\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -111,13 +110,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include;D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include\guisan;C:\Users\Alexa\Documents\SDL\SDL2-2.0.5\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include;D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include\guisan;D:\VisualStudio\VC\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnablePREfast>false</EnablePREfast>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_image.lib;SDL2_ttf.lib</AdditionalDependencies>
+      <AdditionalDependencies>x86\SDL2main.lib;x86\SDL2.lib;x86\SDL2_image.lib;x86\SDL2_ttf.lib</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>C:\Users\Alexa\Documents\SDL\SDL2-2.0.5\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -128,7 +126,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include;D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include\guisan;D:\VisualStudio\VC\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <EnablePREfast>true</EnablePREfast>
+      <EnablePREfast>false</EnablePREfast>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -145,7 +143,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include;D:\LevelEditor\LevelEditor\LevelEditorCore\guisan\include\guisan;D:\VisualStudio\VC\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <EnablePREfast>true</EnablePREfast>
+      <EnablePREfast>false</EnablePREfast>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
