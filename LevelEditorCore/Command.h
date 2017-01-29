@@ -23,12 +23,10 @@ typedef COMMAND_CALLBACK(CallBack);
 struct GameObj;
 
 struct Command {
-
 	int					Type;
 	CallBack*			action;
 
 };
-
 
 static inline Command* createCommand(CallBack* action, int type) {
 	Command* tmp = new Command;

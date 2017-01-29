@@ -1,5 +1,6 @@
 //Includes
 #include "GameState.h"
+
 #include "GameObject.h"
 #include "Texture.h"
 #include <SDL_image.h>
@@ -51,7 +52,7 @@ static Texture Fade;
 //Hier initialisierst du ALLE deine VARIABLEN
 //NUR HIER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-CHANGESTATE(IntroOnEnterState) {
+void IntroOnEnterState(GameObj* obj) {
 
 	obj->Collection[obj->CurrentStateIndex]->isInitialized = true;
 	SDL_SetRenderDrawColor(obj->Renderer, 0x00, 0x00, 0x00, SDL_ALPHA_OPAQUE);
@@ -203,7 +204,10 @@ int isMouseOverButton(GameObj* obj, SDL_Rect Button)
 	//Testing if Mouse is over Button
 	//Return 1 == true, Return 0 == false
 
-	if (obj->MouseX >= Button.x && obj->MouseX <= (Button.x + Button.w) && obj->MouseY >= Button.y && obj->MouseY <= (Button.y + Button.h))
+	if (   obj->MouseX >= Button.x
+		&& obj->MouseX <= (Button.x + Button.w) 
+		&& obj->MouseY >= Button.y 
+		&& obj->MouseY <= (Button.y + Button.h))
 	{
 		return 1;
 	}

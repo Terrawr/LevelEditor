@@ -3,6 +3,8 @@
 #include <fstream>
 #include <sstream>
 
+#include <SDL_image.h>
+
 #pragma region "old"
 
 Tile te_createTile(int x, int y, int w, int h, int index, int type) {
@@ -301,4 +303,119 @@ TM_TileMap TM_InitializeTileMapFromJSON(const json& Map) {
 	}
 
 	return World;
+}
+
+SDL_Rect TM_getTileRect(TM_Tileset* Set,int ID) {
+	SDL_Rect tmp = { 0,0,Set->TileW,Set->TileH };
+	auto ratio = (Set->TilesetImage->width / Set->TileW);
+
+	tmp.y = ( std::ceil( ((float)ID / (float)ratio) )-1) ;
+	tmp.x = ((ID ) - (ratio*tmp.y)-1);
+	return tmp;
+}
+
+SDL_Texture* TM_findAppropriateTileSheet(TM_TileMap* Map,int ID,SDL_Renderer* ren) {
+	
+	auto pic = IMG_Load(Map->Tilesets[0].TilesetImage->path.c_str());
+	auto tex = SDL_CreateTextureFromSurface(ren, pic);
+	return tex;
+}
+
+int TM_getGlobalGridID(SDL_Rect GridView, SDL_Rect Cursor, int gridsize) {
+	auto row = Cursor.y / gridsize;
+	auto col = Cursor.x / gridsize;
+		
+	auto Max = (float)(GridView.h / Cursor.h);
+	auto ID = col + (Max*row) + 1;
+
+	//std::cerr << "----------Col: " << col << " Row: " << row << "\n";
+	
+	return  ID;
+}
+
+int TM_getGridID (SDL_Rect GridView, SDL_Rect Cursor,int gridsize,int firstGID) {
+
+	auto  ID =  TM_getGlobalGridID(GridView, Cursor, gridsize);
+	auto Ratio = (GridView.w / gridsize);
+
+	
+	auto y = std::ceil((float)(firstGID / Ratio) - 1);
+	auto x = firstGID - (Ratio * y) - 1;
+	std::cerr << "----------Col: " <<  x << " Row: " << y << "\n";
+	
+
+	auto alpha = int(ID - x*y) % Ratio;
+	auto beta = (x+1)*y;
+	std::cerr	<< "Alpha: " << alpha 
+		<<" | " << "Beta: " << beta
+		<<" | " << "Ratio: "<<Ratio
+		<< " | " << "GID: " << ID
+		<<" | " << "ID: "<< alpha - beta<<"\n";
+
+	return  alpha - beta;
+
+};
+
+void renderTileMap(TM_TileMap* Map, SDL_Renderer* renderer)
+{
+	Texture t;
+	initilizeTexture(&t, renderer);
+	loadFromFile(&t, "../resources/demo_tiles.bmp"); //TODO(Jojo): It's cheating what i am doing here
+
+	for (auto layer : Map->Layers)
+	{
+		for (int i = 0, index = 0; i < layer.height; i++)
+		{
+			for (int j = 0; j < layer.width; j++)
+			{
+				int ID =0 ;
+				if (index < layer.TileID.size())
+				{
+					ID = layer.TileID.at(index++);
+				}
+				SDL_Rect source = TM_getTileRect(&Map->Tilesets[0], ID);
+				source.x *= Map->Tilesets[0].TileW;
+				source.y *= Map->Tilesets[0].TileH;
+
+
+				SDL_Rect dest = { 0,0,source.w,source.h };
+				dest.x = j* Map->Tilesets[0].TileW;
+				dest.y = i* Map->Tilesets[0].TileH;
+
+				SDL_RenderCopy(renderer, t.mTexture, &source, &dest);
+
+			}
+		}
+	}
+	destroyTexture(&t);
+}
+
+void renderTileSheetView(TM_Tileset* Set, SDL_Renderer* renderer) {
+
+	Texture t;
+	initilizeTexture(&t, renderer);
+	loadFromFile(&t, "../resources/demo_tiles.bmp");
+
+	auto ratioW = (Set->TilesetImage->width / Set->TileW);
+	auto ratioH = (Set->TilesetImage->height / Set->TileH);
+
+	int MaxID = ratioW*ratioH;
+
+	for( int m = 0, ID = 0; m < ratioH; m++)
+		for (int n = 0; n < ratioW; n++) {
+			if (ID < MaxID)
+				ID++;
+
+			SDL_Rect source = TM_getTileRect(Set, ID);
+			source.x *= Set->TileW;
+			source.y *= Set->TileH;
+
+			SDL_Rect dest = { 0,0,source.w,source.h };
+			dest.x = n* Set->TileW;
+			dest.y = m* Set->TileH;
+
+			SDL_RenderCopy(renderer, t.mTexture, &source, &dest);
+		}
+	destroyTexture(&t);
+
 }

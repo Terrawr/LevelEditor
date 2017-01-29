@@ -1,7 +1,9 @@
 #pragma once
 #include "GameState.h"
 
-CHANGESTATE(IntroOnEnterState);
+//CHANGESTATE(IntroOnEnterState);
+void IntroOnEnterState(GameObj* obj);
+
 CHANGESTATE(IntroOnExitState);
 CHANGESTATE(IntroOnPauseState);
 CHANGESTATE(IntroOnResumeState);
